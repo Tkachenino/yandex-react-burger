@@ -1,0 +1,26 @@
+.ingredients_wrapper {
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+  composes: mr-10 from global;
+}
+
+.tabs {
+  display: flex;
+  composes: mb-10 from global;
+}
+
+.ingredients_list {
+  overflow-y: scroll;
+  max-height: calc(100vh - 336px);
+}
+
+.ingredients_list::-webkit-scrollbar {
+  width: 8px;
+}
+.ingredients_list::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.ingredients_list::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}

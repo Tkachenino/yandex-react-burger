@@ -1,0 +1,43 @@
+.header {
+  background: #1c1c21;
+
+  box-shadow: 0px 24px 32px rgba(0, 0, 0, 0.04),
+    0px 16px 24px rgba(0, 0, 0, 0.04), 0px 4px 8px rgba(0, 0, 0, 0.04),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+}
+
+.header_wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  position: relative;
+  max-width: 1280px;
+  width: 100%;
+  height: 56px;
+  margin: 0 auto;
+}
+
+.logo {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.button_wrapper {
+  display: flex;
+}
+
+.button {
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  border-radius: 40px;
+
+  cursor: pointer;
+  border: none;
+  color: white;
+}
+
+.button_description {
+}

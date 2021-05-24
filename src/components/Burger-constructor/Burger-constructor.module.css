@@ -1,0 +1,35 @@
+.constructor {
+  max-width: 600px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.constructorList {
+  /* margin: auto; */
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  max-height: calc(100vh - 536px);
+  height: 100%;
+  composes: mb-4 from global !important;
+  composes: mt-4 from global !important;
+}
+
+.constructorList::-webkit-scrollbar {
+  width: 8px;
+}
+.constructorList::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.constructorList::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.constructorItem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
