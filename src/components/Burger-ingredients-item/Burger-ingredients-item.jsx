@@ -9,7 +9,7 @@ const BurgerIngredientsItem = ({ data }) => {
   return (
     <div className={style.wrapper}>
       <Counter count={1} size="default" />
-      <img src={data.image} />
+      <img className={style.image} src={data.image} />
       <div className={style.price_wrapper}>
         <p className="text text_type_digits-default mr-2">{data.price}</p>
         <CurrencyIcon type="primary" />

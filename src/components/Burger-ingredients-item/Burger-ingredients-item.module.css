@@ -6,11 +6,16 @@
   width: 272px;
 }
 
+.image {
+  composes: pl-4 pr-4 from global;
+}
+
 .price_wrapper {
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
+  composes: mt-1 mb-1 from global;
 }
 
 .description {
