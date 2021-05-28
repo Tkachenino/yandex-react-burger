@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../Modal-overlay";
+import Modal from "../Modal";
+import OrderDetails from "../Order-details";
 import {
   CurrencyIcon,
   Counter,
@@ -30,7 +32,11 @@ const BurgerIngredientsItem = ({ data }) => {
       </div>
       {showModal &&
         ReactDOM.createPortal(
-          <ModalOverlay onDestroyModal={() => setShowModal(false)} />,
+          <ModalOverlay onDestroyModal={() => setShowModal(false)}>
+            <Modal onDestroyModal={() => setShowModal(false)}>
+              <OrderDetails item={data} />
+            </Modal>
+          </ModalOverlay>,
           document.querySelector(".App")
         )}
     </>

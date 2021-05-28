@@ -25,7 +25,7 @@ const Modal = (props) => {
 
 Modal.propTypes = {
   onDestroyModal: PropTypes.func,
-  children: PropTypes.elementType,
+  children: PropTypes.element,
 };
 
 export default Modal;
