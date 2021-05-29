@@ -5,7 +5,7 @@ import BurgerConstructor from "../Burger-constructor";
 // import { getIngredients } from "../../utils/api";
 import "./App.css";
 
-const URL_ADRESS = "https://norma.nomoreparties.space/api/ingredients";
+const URL_ADRESS = "https://norma.nomoreparties.space/api";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
@@ -15,15 +15,17 @@ const App = () => {
   const getIngredients = async () => {
     setLoading(true);
     try {
-      const resp = await fetch(URL_ADRESS);
-      if (resp.ok) {
-        const answer = await resp.json();
-        if (answer.success) {
-          setIngredients(answer.data);
-        }
+      const resp = await fetch(`${URL_ADRESS}/ingredients`);
+      if (!resp.ok) {
+        throw new Error("Ответ сети не ok");
       }
+      const answer = await resp.json();
+      if (!answer.success) {
+        throw new Error("Не удачный запрос от сервера");
+      }
+      setIngredients(answer.data);
     } catch (error) {
-      setError("Error");
+      setError(error);
     } finally {
       setLoading(false);
     }
