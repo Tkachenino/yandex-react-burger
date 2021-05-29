@@ -15,7 +15,14 @@
   composes: pt-10 pr-10 pl-10 pb-15 from global;
 }
 
-.closeIcon {
+.header_wrapper {
+  height: 60px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.close_icon {
   position: absolute;
   top: 60px;
   right: 40px;

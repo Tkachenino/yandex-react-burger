@@ -5,17 +5,10 @@ import style from "./Modal.module.css";
 const Modal = ({ header = null, onDestroyModal, children }) => {
   return (
     <div className={style.modal} onClick={(e) => e.stopPropagation()}>
-      <div
-        style={{
-          height: "60px",
-          display: "flex",
-          justifyContent: "flex-start",
-          alignItems: "center",
-        }}
-      >
+      <div className={style.header_wrapper}>
         {header && <h2 className={"text text_type_main-large"}>{header}</h2>}
       </div>
-      <div className={style.closeIcon}>
+      <div className={style.close_icon}>
         <CloseIcon type="primary" onClick={onDestroyModal} />
       </div>
       {children}
