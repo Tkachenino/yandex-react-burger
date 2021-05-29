@@ -2,7 +2,7 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import style from "./Modal.module.css";
 
-const Modal = (props) => {
+const Modal = ({ header = null, onDestroyModal, children }) => {
   return (
     <div className={style.modal} onClick={(e) => e.stopPropagation()}>
       <div
@@ -13,12 +13,12 @@ const Modal = (props) => {
           alignItems: "center",
         }}
       >
-        <p className={"text text_type_main-large"}>Детали ингредиента</p>
+        {header && <h2 className={"text text_type_main-large"}>{header}</h2>}
       </div>
       <div className={style.closeIcon}>
-        <CloseIcon type="primary" onClick={props.onDestroyModal} />
+        <CloseIcon type="primary" onClick={onDestroyModal} />
       </div>
-      {props.children}
+      {children}
     </div>
   );
 };
@@ -26,6 +26,7 @@ const Modal = (props) => {
 Modal.propTypes = {
   onDestroyModal: PropTypes.func,
   children: PropTypes.element,
+  header: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Modal;

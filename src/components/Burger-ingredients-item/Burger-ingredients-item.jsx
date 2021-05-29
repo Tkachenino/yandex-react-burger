@@ -33,7 +33,10 @@ const BurgerIngredientsItem = ({ data }) => {
       {showModal &&
         ReactDOM.createPortal(
           <ModalOverlay onDestroyModal={() => setShowModal(false)}>
-            <Modal onDestroyModal={() => setShowModal(false)}>
+            <Modal
+              header="Детали ингредиента"
+              onDestroyModal={() => setShowModal(false)}
+            >
               <OrderDetails item={data} />
             </Modal>
           </ModalOverlay>,
