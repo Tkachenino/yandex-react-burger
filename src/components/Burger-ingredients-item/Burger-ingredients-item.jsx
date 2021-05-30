@@ -1,6 +1,4 @@
 import { useState } from "react";
-import ReactDOM from "react-dom";
-import ModalOverlay from "../Modal-overlay";
 import Modal from "../Modal";
 import IngredientDetails from "../Ingredient-details";
 import {
@@ -30,18 +28,14 @@ const BurgerIngredientsItem = ({ data }) => {
           {data.name}
         </p>
       </div>
-      {showModal &&
-        ReactDOM.createPortal(
-          <ModalOverlay onDestroyModal={() => setShowModal(false)}>
-            <Modal
-              header="Детали ингредиента"
-              onDestroyModal={() => setShowModal(false)}
-            >
-              <IngredientDetails item={data} />
-            </Modal>
-          </ModalOverlay>,
-          document.querySelector(".App")
-        )}
+      {showModal && (
+        <Modal
+          header="Детали ингредиента"
+          onDestroyModal={() => setShowModal(false)}
+        >
+          <IngredientDetails item={data} />
+        </Modal>
+      )}
     </>
   );
 };

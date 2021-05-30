@@ -1,6 +1,4 @@
 import { useState } from "react";
-import ReactDOM from "react-dom";
-import ModalOverlay from "../Modal-overlay";
 import Modal from "../Modal";
 import OrderDetails from "../Order-details";
 import {
@@ -21,15 +19,11 @@ const BurgerConstructorTotal = () => {
       <Button type="primary" size="large" onClick={() => setShowModal(true)}>
         Нажми на меня
       </Button>
-      {showModal &&
-        ReactDOM.createPortal(
-          <ModalOverlay onDestroyModal={() => setShowModal(false)}>
-            <Modal onDestroyModal={() => setShowModal(false)}>
-              <OrderDetails />
-            </Modal>
-          </ModalOverlay>,
-          document.querySelector(".App")
-        )}
+      {showModal && (
+        <Modal onDestroyModal={() => setShowModal(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };
