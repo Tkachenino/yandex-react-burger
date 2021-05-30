@@ -9,6 +9,7 @@ const URL_ADRESS = "https://norma.nomoreparties.space/api";
 
 const App = () => {
   const [ingredients, setIngredients] = useState([]);
+  const [constructorIngredients, setConstructorIngredients] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -35,6 +36,15 @@ const App = () => {
     getIngredients();
   }, []);
 
+  useEffect(() => {
+    if (ingredients.length) {
+      const constructorIngredients = ingredients.filter(
+        (i) => i.type !== "bun"
+      );
+      setConstructorIngredients(constructorIngredients);
+    }
+  }, [ingredients]);
+
   return (
     <div className="App">
       <AppHeader />
@@ -44,7 +54,7 @@ const App = () => {
           error={error}
           loading={loading}
         />
-        <BurgerConstructor />
+        <BurgerConstructor ingredients={constructorIngredients} />
       </main>
     </div>
   );

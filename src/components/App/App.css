@@ -6,3 +6,11 @@ main {
   display: flex;
   justify-content: center;
 }
+
+.constructor-element {
+  width: 100%;
+}
+
+.constructor-element__text {
+  flex-grow: 1;
+}
