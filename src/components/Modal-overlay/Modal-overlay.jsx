@@ -2,7 +2,7 @@ import { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
 import style from "./Modal-overlay.module.css";
 
-const ModalOverlay = ({ onDestroyModal, children }) => {
+const ModalOverlay = ({ onDestroyModal }) => {
   const destroyModalOnEsc = useCallback(
     (e) => {
       if (e.key === "Escape") {
@@ -19,16 +19,11 @@ const ModalOverlay = ({ onDestroyModal, children }) => {
     };
   }, [destroyModalOnEsc]);
 
-  return (
-    <div className={style.overlay} onClick={onDestroyModal}>
-      {children}
-    </div>
-  );
+  return <div className={style.overlay} onClick={onDestroyModal}></div>;
 };
 
 ModalOverlay.propTypes = {
   onDestroyModal: PropTypes.func,
-  children: PropTypes.element,
 };
 
 export default ModalOverlay;
