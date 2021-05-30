@@ -6,7 +6,7 @@
   width: 272px;
 }
 
-.wrapper:nth-child(n + 2) {
+.wrapper:nth-child(n + 3) {
   margin-top: 32px;
 }
 
