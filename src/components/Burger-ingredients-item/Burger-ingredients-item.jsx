@@ -2,7 +2,7 @@ import { useState } from "react";
 import ReactDOM from "react-dom";
 import ModalOverlay from "../Modal-overlay";
 import Modal from "../Modal";
-import OrderDetails from "../Order-details";
+import IngredientDetails from "../Ingredient-details";
 import {
   CurrencyIcon,
   Counter,
@@ -37,7 +37,7 @@ const BurgerIngredientsItem = ({ data }) => {
               header="Детали ингредиента"
               onDestroyModal={() => setShowModal(false)}
             >
-              <OrderDetails item={data} />
+              <IngredientDetails item={data} />
             </Modal>
           </ModalOverlay>,
           document.querySelector(".App")
