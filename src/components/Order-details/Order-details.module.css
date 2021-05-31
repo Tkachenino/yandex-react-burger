@@ -1,0 +1,37 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 520px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 20px 0 60px 0;
+}
+
+.header {
+  text-align: center;
+  composes: mt-8 from global;
+}
+
+.id {
+  order: -1;
+  text-shadow: 0px 4px 32px #3333ff80, 0px 0px 8px #3333ff40,
+    0px 0px 16px #3333ff40;
+}
+
+.svg {
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  composes: m-15 from global;
+
+  background-image: url("../../images/Indicator.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.info {
+  composes: mb-2 from global;
+}

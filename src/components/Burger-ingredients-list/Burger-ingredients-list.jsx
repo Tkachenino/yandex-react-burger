@@ -4,7 +4,7 @@ import PropTypes from "prop-types";
 
 const BurgerIngredientsList = ({ items, type, name }) => {
   return (
-    <div>
+    <div className={style.wrapper}>
       <h2 className={`${style.ingredients_header} text text_type_main-medium`}>
         {name}
       </h2>

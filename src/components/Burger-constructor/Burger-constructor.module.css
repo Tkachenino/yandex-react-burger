@@ -9,10 +9,10 @@
   list-style: none;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  overflow-y: scroll;
+  gap: 16px;
+  overflow-y: auto;
   max-height: calc(100vh - 536px);
-  height: 100%;
+  height: auto;
   composes: mb-4 from global;
   composes: mt-4 from global;
 }
@@ -29,6 +29,7 @@
 
 .constructorItem {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
+  gap: 8px;
   align-items: center;
 }

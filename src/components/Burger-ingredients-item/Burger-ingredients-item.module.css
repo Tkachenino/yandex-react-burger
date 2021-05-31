@@ -6,6 +6,10 @@
   width: 272px;
 }
 
+.wrapper:nth-child(n + 3) {
+  margin-top: 32px;
+}
+
 .image {
   composes: pl-4 pr-4 from global;
 }

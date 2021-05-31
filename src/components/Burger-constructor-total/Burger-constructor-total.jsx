@@ -1,3 +1,6 @@
+import { useState } from "react";
+import Modal from "../Modal";
+import OrderDetails from "../Order-details";
 import {
   CurrencyIcon,
   Button,
@@ -5,15 +8,22 @@ import {
 import style from "./Burger-constructor-total.module.css";
 
 const BurgerConstructorTotal = () => {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <div className={`${style.total_wrapper} mt-10 mb-13`}>
       <div className={`${style.price_wrapper} mr-10`}>
         <p className="text text_type_digits-medium mr-2">650</p>
         <CurrencyIcon type="primary" />
       </div>
-      <Button type="primary" size="large">
+      <Button type="primary" size="large" onClick={() => setShowModal(true)}>
         Нажми на меня
       </Button>
+      {showModal && (
+        <Modal onDestroyModal={() => setShowModal(false)}>
+          <OrderDetails />
+        </Modal>
+      )}
     </div>
   );
 };
