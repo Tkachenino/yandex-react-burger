@@ -2,9 +2,9 @@ import BurgerIngredientsItem from "../Burger-ingredients-item";
 import style from "./Burger-ingredients-list.module.css";
 import PropTypes from "prop-types";
 
-const BurgerIngredientsList = ({ items, type, name }) => {
+const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
   return (
-    <div className={style.wrapper}>
+    <div ref={propsRef} className={style.wrapper} id={type}>
       <h2 className={`${style.ingredients_header} text text_type_main-medium`}>
         {name}
       </h2>
@@ -29,6 +29,7 @@ BurgerIngredientsList.propTypes = {
   ),
   type: PropTypes.string,
   name: PropTypes.string,
+  propsRef: PropTypes.object,
 };
 
 export default BurgerIngredientsList;

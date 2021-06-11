@@ -1,12 +1,37 @@
-import { useState } from "react";
+import { useState, useCallback, useRef } from "react";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsList from "../Burger-ingredients-list";
 import style from "./Burger-ingredients.module.css";
-// import data from "../../utils/data.json";
 import PropTypes from "prop-types";
 
 const BurgerIngredients = ({ ingredients, error, loading }) => {
   const [current, setCurrent] = useState("bun");
+  const wrapperRef = useRef(null);
+  const bunRef = useRef(null);
+  const sauceRef = useRef(null);
+  const mainRef = useRef(null);
+
+  const hadnleTab = (value, ref) => () => {
+    setCurrent(value);
+    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+  };
+
+  const handlerScrollBar = useCallback(() => {
+    if (
+      Math.ceil(wrapperRef.current.scrollTop) <
+      bunRef.current.scrollHeight / 2
+    ) {
+      setCurrent("bun");
+    } else if (
+      Math.ceil(wrapperRef.current.scrollTop) <
+      bunRef.current.scrollHeight + sauceRef.current.scrollHeight / 2
+    ) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  }, []);
+
   return (
     <>
       {loading && !error && <div>Loading...</div>}
@@ -17,23 +42,36 @@ const BurgerIngredients = ({ ingredients, error, loading }) => {
             Соберить бургер
           </h1>
           <div className={style.tabs}>
-            <Tab value="bun" active={current === "bun"} onClick={setCurrent}>
+            <Tab
+              value="bun"
+              active={current === "bun"}
+              onClick={hadnleTab("bun", bunRef)}
+            >
               Булки
             </Tab>
             <Tab
               value="sauce"
               active={current === "sauce"}
-              onClick={setCurrent}
+              onClick={hadnleTab("sauce", sauceRef)}
             >
               Соусы
             </Tab>
-            <Tab value="main" active={current === "main"} onClick={setCurrent}>
+            <Tab
+              value="main"
+              active={current === "main"}
+              onClick={hadnleTab("main", mainRef)}
+            >
               Начинки
             </Tab>
           </div>
-          <div className={style.ingredients_list}>
+          <div
+            ref={wrapperRef}
+            className={style.ingredients_list}
+            onScroll={handlerScrollBar}
+          >
             {ingredients.some((i) => i.type === "bun") && (
               <BurgerIngredientsList
+                propsRef={bunRef}
                 items={ingredients}
                 type="bun"
                 name="Булки"
@@ -41,6 +79,7 @@ const BurgerIngredients = ({ ingredients, error, loading }) => {
             )}
             {ingredients.some((i) => i.type === "sauce") && (
               <BurgerIngredientsList
+                propsRef={sauceRef}
                 items={ingredients}
                 type="sauce"
                 name="Соусы"
@@ -48,6 +87,7 @@ const BurgerIngredients = ({ ingredients, error, loading }) => {
             )}
             {ingredients.some((i) => i.type === "main") && (
               <BurgerIngredientsList
+                propsRef={mainRef}
                 items={ingredients}
                 type="main"
                 name="Начинки"

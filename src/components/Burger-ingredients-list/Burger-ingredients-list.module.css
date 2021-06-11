@@ -1,5 +1,6 @@
 .wrapper {
   cursor: pointer;
+  composes: pb-10 from global;
 }
 
 .ingredients_header {
@@ -10,5 +11,5 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  composes: pl-4 pr-4 mb-10 from global;
+  composes: pl-4 pr-4 from global;
 }
