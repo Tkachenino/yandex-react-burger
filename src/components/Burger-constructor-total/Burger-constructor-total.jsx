@@ -37,7 +37,7 @@ const BurgerConstructorTotal = () => {
     if (!orderLoading) {
       try {
         dispatch({ type: SET_ORDER_REQUEST });
-        const resp = await fetch(`${URL_ADDRESS}/orders1`, {
+        const resp = await fetch(`${URL_ADDRESS}/orders`, {
           method: "POST",
           body: JSON.stringify({
             ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
