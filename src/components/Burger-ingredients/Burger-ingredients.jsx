@@ -15,7 +15,9 @@ const BurgerIngredients = () => {
 
   const hadnleTab = (value, ref) => () => {
     setCurrent(value);
-    ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+    if (bunRef.current && sauceRef.current && mainRef.current) {
+      ref.current.scrollIntoView({ block: "start", behavior: "smooth" });
+    }
   };
 
   const handlerScrollBar = useCallback(() => {
@@ -37,7 +39,7 @@ const BurgerIngredients = () => {
       {!loading && !!error && <div>{error}</div>}
       {!loading && !error && (
         <div className={style.ingredients_wrapper}>
-          <h1 className="text text_type_main-large mt-10 mb-5">Соберить бургер</h1>
+          <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
           <div className={style.tabs}>
             <Tab value="bun" active={current === "bun"} onClick={hadnleTab("bun", bunRef)}>
               Булки
@@ -49,6 +51,14 @@ const BurgerIngredients = () => {
               Начинки
             </Tab>
           </div>
+          {!ingredients.length && (
+            <div>
+              <p className="text text_type_main-default mt-10 mb-5">
+                Все ингредиенты кончились. Мы работаем над этой проблемой. Попробуйте обновить
+                страницу.
+              </p>
+            </div>
+          )}
           <div ref={wrapperRef} className={style.ingredients_list} onScroll={handlerScrollBar}>
             {ingredients.some((i) => i.type === "bun") && (
               <BurgerIngredientsList

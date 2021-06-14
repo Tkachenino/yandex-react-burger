@@ -27,9 +27,9 @@ export const reducer = (state = initState, action) => {
         ...state,
         loading: false,
         error: null,
-        ingredients: action.ingredients,
-        constructorIngredient: action.ingredients.filter((item) => item.type !== "bun"),
-        bun: action.ingredients.find((item) => item.type === "bun"),
+        // ingredients: action.ingredients,
+        // constructorIngredient: action.ingredients.filter((item) => item.type !== "bun"),
+        // bun: action.ingredients.find((item) => item.type === "bun"),
       };
     }
     case GET_ITEM_ERROR: {
