@@ -1,4 +1,4 @@
-import style from "./Order-details.module.css";
+import style from "./order-details.module.css";
 import PropTypes from "prop-types";
 
 const OrderDetails = ({ orderId }) => {

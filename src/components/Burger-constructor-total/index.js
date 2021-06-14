@@ -1,2 +1,2 @@
-import BurgerConstructorTotal from "./Burger-constructor-total";
+import BurgerConstructorTotal from "./burger-constructor-total";
 export default BurgerConstructorTotal;

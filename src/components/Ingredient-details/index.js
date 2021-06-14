@@ -1,2 +1,2 @@
-import IngredientDetails from "./Ingredient-details";
+import IngredientDetails from "./ingredient-details";
 export default IngredientDetails;

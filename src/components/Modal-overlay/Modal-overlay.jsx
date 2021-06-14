@@ -1,6 +1,6 @@
 import { useEffect, useCallback } from "react";
 import PropTypes from "prop-types";
-import style from "./Modal-overlay.module.css";
+import style from "./modal-overlay.module.css";
 
 const ModalOverlay = ({ onDestroyModal }) => {
   const destroyModalOnEsc = useCallback(

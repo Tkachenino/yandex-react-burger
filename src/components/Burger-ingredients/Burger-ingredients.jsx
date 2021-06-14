@@ -1,11 +1,11 @@
 import { useState, useCallback, useRef, useContext } from "react";
-import { IngredientContext } from "../../context/context";
+import { IngredientsContext } from "../../context/context";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import BurgerIngredientsList from "../Burger-ingredients-list";
-import style from "./Burger-ingredients.module.css";
+import BurgerIngredientsList from "../burger-ingredients-list";
+import style from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
-  const [{ ingredients, error, loading }] = useContext(IngredientContext);
+  const [{ ingredients, error, loading }] = useContext(IngredientsContext);
 
   const [current, setCurrent] = useState("bun");
   const wrapperRef = useRef(null);

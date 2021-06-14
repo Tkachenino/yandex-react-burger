@@ -1,13 +1,11 @@
-import BurgerIngredientsItem from "../Burger-ingredients-item";
-import style from "./Burger-ingredients-list.module.css";
+import BurgerIngredientsItem from "../burger-ingredients-item";
+import style from "./burger-ingredients-list.module.css";
 import PropTypes from "prop-types";
 
 const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
   return (
     <div ref={propsRef} className={style.wrapper} id={type}>
-      <h2 className={`${style.ingredients_header} text text_type_main-medium`}>
-        {name}
-      </h2>
+      <h2 className={`${style.ingredients_header} text text_type_main-medium`}>{name}</h2>
       <div className={`${style.ingredients_list}`}>
         {items
           .filter((i) => i.type === type)

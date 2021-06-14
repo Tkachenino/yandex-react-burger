@@ -1,12 +1,9 @@
 import { useState } from "react";
-import Modal from "../Modal";
-import IngredientDetails from "../Ingredient-details";
-import {
-  CurrencyIcon,
-  Counter,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import Modal from "../modal";
+import IngredientDetails from "../ingredient-details";
+import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
-import style from "./Burger-ingredients-item.module.css";
+import style from "./burger-ingredients-item.module.css";
 
 const BurgerIngredientsItem = ({ data }) => {
   const [showModal, setShowModal] = useState(false);
@@ -24,15 +21,10 @@ const BurgerIngredientsItem = ({ data }) => {
           <p className="text text_type_digits-default mr-2">{data.price}</p>
           <CurrencyIcon type="primary" />
         </div>
-        <p className={`${style.description} text text_type_main-default`}>
-          {data.name}
-        </p>
+        <p className={`${style.description} text text_type_main-default`}>{data.name}</p>
       </div>
       {showModal && (
-        <Modal
-          header="Детали ингредиента"
-          onDestroyModal={() => setShowModal(false)}
-        >
+        <Modal header="Детали ингредиента" onDestroyModal={() => setShowModal(false)}>
           <IngredientDetails item={data} />
         </Modal>
       )}
