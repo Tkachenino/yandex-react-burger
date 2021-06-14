@@ -25,7 +25,7 @@ export const reducer = (state = initState, action) => {
     case GET_ITEM_SUCCESS: {
       return {
         ...state,
-        loading: false,
+        loading: true,
         error: null,
         // ingredients: action.ingredients,
         // constructorIngredient: action.ingredients.filter((item) => item.type !== "bun"),

@@ -1,6 +1,7 @@
 import { useState, useCallback, useRef, useContext } from "react";
 import { IngredientsContext } from "../../context/context";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+import Loader from "../loader";
 import BurgerIngredientsList from "../burger-ingredients-list";
 import style from "./burger-ingredients.module.css";
 
@@ -34,23 +35,27 @@ const BurgerIngredients = () => {
   }, []);
 
   return (
-    <>
-      {loading && !error && <div>Loading...</div>}
+    <div className={style.ingredients_wrapper}>
+      <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
+      <div className={style.tabs}>
+        <Tab value="bun" active={current === "bun"} onClick={hadnleTab("bun", bunRef)}>
+          Булки
+        </Tab>
+        <Tab value="sauce" active={current === "sauce"} onClick={hadnleTab("sauce", sauceRef)}>
+          Соусы
+        </Tab>
+        <Tab value="main" active={current === "main"} onClick={hadnleTab("main", mainRef)}>
+          Начинки
+        </Tab>
+      </div>
+      {loading && !error && (
+        <div>
+          <Loader />
+        </div>
+      )}
       {!loading && !!error && <div>{error}</div>}
       {!loading && !error && (
-        <div className={style.ingredients_wrapper}>
-          <h1 className="text text_type_main-large mt-10 mb-5">Соберите бургер</h1>
-          <div className={style.tabs}>
-            <Tab value="bun" active={current === "bun"} onClick={hadnleTab("bun", bunRef)}>
-              Булки
-            </Tab>
-            <Tab value="sauce" active={current === "sauce"} onClick={hadnleTab("sauce", sauceRef)}>
-              Соусы
-            </Tab>
-            <Tab value="main" active={current === "main"} onClick={hadnleTab("main", mainRef)}>
-              Начинки
-            </Tab>
-          </div>
+        <>
           {!ingredients.length && (
             <div>
               <p className="text text_type_main-default mt-10 mb-5">
@@ -85,9 +90,9 @@ const BurgerIngredients = () => {
               />
             )}
           </div>
-        </div>
+        </>
       )}
-    </>
+    </div>
   );
 };
 
