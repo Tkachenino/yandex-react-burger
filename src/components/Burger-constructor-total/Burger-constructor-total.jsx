@@ -3,60 +3,87 @@ import Modal from "../modal";
 import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { IngredientsContext } from "../../context/context";
-import { SET_ORDER_COST, SET_ORDER_ID, GET_ITEM_ERROR } from "../../reducer";
+import {
+  SET_ORDER_REQUEST,
+  SET_ORDER_SUCCESS,
+  SET_ORDER_ERROR,
+  SET_ORDER_COST,
+  CLEAR_ORDER_ERROR,
+} from "../../reducer";
 import { URL_ADDRESS } from "../../utils/const";
 import style from "./burger-constructor-total.module.css";
 
 const BurgerConstructorTotal = () => {
   const [showModal, setShowModal] = useState(false);
-  const [{ constructorIngredient, bun, orderCost, orderId }, dispatch] =
+  const [{ constructorIngredient, bun, orderCost, orderId, orderLoading, orderError }, dispatch] =
     useContext(IngredientsContext);
 
   useEffect(() => {
     dispatch({ type: SET_ORDER_COST });
   }, [constructorIngredient, bun, dispatch]);
 
-  const setOrder = async () => {
-    try {
-      const resp = await fetch(`${URL_ADDRESS}/orders`, {
-        method: "POST",
-        body: JSON.stringify({
-          ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+  useEffect(() => {
+    if (orderError) {
+      let timeOut = setTimeout(() => {
+        dispatch({ type: CLEAR_ORDER_ERROR });
+      }, 5000);
+      return () => {
+        clearTimeout(timeOut);
+      };
+    }
+  }, [dispatch, orderError]);
 
-      if (!resp.ok) {
-        throw new Error("Ответ сети не ok");
+  const setOrder = async () => {
+    if (!orderLoading) {
+      try {
+        dispatch({ type: SET_ORDER_REQUEST });
+        const resp = await fetch(`${URL_ADDRESS}/orders1`, {
+          method: "POST",
+          body: JSON.stringify({
+            ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+
+        if (!resp.ok) {
+          throw new Error("Ответ сети не ok");
+        }
+        const answer = await resp.json();
+        if (!answer.success) {
+          throw new Error("Запрос завершился с отрицательным статусом");
+        }
+        dispatch({ type: SET_ORDER_SUCCESS, orderId: answer.order.number });
+        setShowModal(true);
+      } catch (error) {
+        dispatch({ type: SET_ORDER_ERROR, error: error.message });
       }
-      const answer = await resp.json();
-      if (!answer.success) {
-        throw new Error("Запрос завершился с отрицательным статусом");
-      }
-      dispatch({ type: SET_ORDER_ID, orderId: answer.order.number });
-      setShowModal(true);
-    } catch (error) {
-      dispatch({ type: GET_ITEM_ERROR, error });
     }
   };
 
   return (
-    <div className={`${style.total_wrapper} mt-10 mb-13`}>
-      <div className={`${style.price_wrapper} mr-10`}>
-        <p className="text text_type_digits-medium mr-2">{orderCost}</p>
-        <CurrencyIcon type="primary" />
+    <>
+      <div className={`${style.total_wrapper} mt-10 mb-13`}>
+        <div className={`${style.price_wrapper} mr-10`}>
+          <p className="text text_type_digits-medium mr-2">{orderCost}</p>
+          <CurrencyIcon type="primary" />
+        </div>
+
+        <Button type="primary" size="large" onClick={setOrder}>
+          {orderLoading ? "Идет запрос" : "Нажми на меня"}
+        </Button>
+
+        {showModal && (
+          <Modal onDestroyModal={() => setShowModal(false)}>
+            <OrderDetails orderId={orderId} />
+          </Modal>
+        )}
       </div>
-      <Button type="primary" size="large" onClick={setOrder}>
-        Нажми на меня
-      </Button>
-      {showModal && (
-        <Modal onDestroyModal={() => setShowModal(false)}>
-          <OrderDetails orderId={orderId} />
-        </Modal>
+      {!!orderError && (
+        <div className={`${style.errorMessage}  text text_type_main-small`}>{orderError}</div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -11,3 +11,9 @@
   justify-content: flex-end;
   align-items: center;
 }
+
+.errorMessage {
+  text-align: right;
+  padding: 10px;
+  color: #e52b1a;
+}
