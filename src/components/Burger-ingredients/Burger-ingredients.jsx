@@ -2,6 +2,7 @@ import { useState, useCallback, useRef, useContext } from "react";
 import { IngredientsContext } from "../../context/context";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Loader from "../loader";
+import ErrorBounder from "../error-bounder";
 import BurgerIngredientsList from "../burger-ingredients-list";
 import style from "./burger-ingredients.module.css";
 
@@ -48,12 +49,8 @@ const BurgerIngredients = () => {
           Начинки
         </Tab>
       </div>
-      {loading && !error && (
-        <div>
-          <Loader />
-        </div>
-      )}
-      {!loading && !!error && <div>{error}</div>}
+      {loading && !error && <Loader />}
+      {!loading && !!error && <ErrorBounder errorMessage={error} />}
       {!loading && !error && (
         <>
           {!ingredients.length && (
