@@ -31,11 +31,11 @@ const BurgerConstructor = () => {
 
         <ul className={`${style.constructorList}`}>
           {!constructorIngredient.length && (
-            <div className={`ml-8`}>
+            <li className={`ml-8`}>
               <p className={`${style.emptyConstructor}`}>
                 Кажется меж булочек ничего нет. Попробуй перетащить несколько ингредиентов
               </p>
-            </div>
+            </li>
           )}
           {constructorIngredient.map((i) => (
             <li key={i._id} className={`${style.constructorItem}`}>

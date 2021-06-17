@@ -34,31 +34,32 @@ const BurgerConstructorTotal = () => {
   }, [dispatch, orderError]);
 
   const setOrder = async () => {
-    if (!orderLoading) {
-      try {
-        dispatch({ type: SET_ORDER_REQUEST });
-        const resp = await fetch(`${URL_ADDRESS}/orders`, {
-          method: "POST",
-          body: JSON.stringify({
-            ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
+    if (orderLoading) {
+      return;
+    }
+    try {
+      dispatch({ type: SET_ORDER_REQUEST });
+      const resp = await fetch(`${URL_ADDRESS}/orders`, {
+        method: "POST",
+        body: JSON.stringify({
+          ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
-        if (!resp.ok) {
-          throw new Error("Ответ сети не ok");
-        }
-        const answer = await resp.json();
-        if (!answer.success) {
-          throw new Error("Запрос завершился с отрицательным статусом");
-        }
-        dispatch({ type: SET_ORDER_SUCCESS, orderId: answer.order.number });
-        setShowModal(true);
-      } catch (error) {
-        dispatch({ type: SET_ORDER_ERROR, error: error.message });
+      if (!resp.ok) {
+        throw new Error("Ответ сети не ok");
       }
+      const answer = await resp.json();
+      if (!answer.success) {
+        throw new Error("Запрос завершился с отрицательным статусом");
+      }
+      dispatch({ type: SET_ORDER_SUCCESS, orderId: answer.order.number });
+      setShowModal(true);
+    } catch (error) {
+      dispatch({ type: SET_ORDER_ERROR, error: error.message });
     }
   };
 

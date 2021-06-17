@@ -11,7 +11,7 @@ import {
   GET_ITEM_ERROR,
 } from "../../reducer";
 import { URL_ADDRESS } from "../../utils/const";
-import "./app.css";
+import "./app.module.css";
 
 const App = () => {
   const storeObject = useReducer(reducer, initState);

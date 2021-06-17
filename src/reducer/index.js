@@ -46,9 +46,10 @@ export const reducer = (state = initState, action) => {
       };
     }
     case SET_ORDER_COST: {
-      const ingredientsCost = state.constructorIngredient.length
-        ? state.constructorIngredient.reduce((acc, item) => (acc += Number(item.price)), 0)
-        : 0;
+      const ingredientsCost = state.constructorIngredient.reduce(
+        (acc, item) => (acc += Number(item.price)),
+        0
+      );
       const bunCost = state.bun !== null ? state.bun.price * 2 : 0;
       const orderCost = ingredientsCost + bunCost;
       return {
