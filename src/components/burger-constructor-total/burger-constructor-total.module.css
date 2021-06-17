@@ -1,0 +1,19 @@
+.total_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.price_wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.errorMessage {
+  text-align: right;
+  padding: 10px;
+  color: #e52b1a;
+}
