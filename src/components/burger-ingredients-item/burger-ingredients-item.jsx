@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useSelector } from "react-redux";
+import { useDrag } from "react-dnd";
 import Modal from "../modal";
 import IngredientDetails from "../ingredient-details";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -6,7 +8,22 @@ import PropTypes from "prop-types";
 import style from "./burger-ingredients-item.module.css";
 
 const BurgerIngredientsItem = ({ data }) => {
+  const { constructorIngredient, bun } = useSelector((state) => state.constructorIngredient);
+
+  const count = useMemo(() => {
+    if (data.type === "bun" && bun._id === data._id) {
+      return 2;
+    } else if (constructorIngredient.some((item) => item._id === data._id)) {
+      return constructorIngredient.filter((item) => item._id === data._id).length;
+    }
+    return 0;
+  }, [bun._id, constructorIngredient, data._id, data.type]);
+
   const [showModal, setShowModal] = useState(false);
+  const [, ref] = useDrag(() => ({
+    type: "ingredient",
+    item: data,
+  }));
   return (
     <>
       <div
@@ -15,8 +32,8 @@ const BurgerIngredientsItem = ({ data }) => {
           setShowModal(true);
         }}
       >
-        <Counter count={1} size="default" />
-        <img className={style.image} src={data.image} />
+        {!!count && <Counter count={count} size="default" />}
+        <img ref={ref} className={style.image} src={data.image} />
         <div className={style.price_wrapper}>
           <p className="text text_type_digits-default mr-2">{data.price}</p>
           <CurrencyIcon type="primary" />
@@ -37,6 +54,8 @@ BurgerIngredientsItem.propTypes = {
     image: PropTypes.string,
     price: PropTypes.number,
     name: PropTypes.string,
+    type: PropTypes.string,
+    _id: PropTypes.string,
   }),
 };
 

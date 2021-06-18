@@ -1,11 +1,23 @@
-import { useContext } from "react";
-import { IngredientsContext } from "../../context/context";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorTotal from "../burger-constructor-total";
 import style from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
-  const [{ bun, constructorIngredient }] = useContext(IngredientsContext);
+  const dispatch = useDispatch();
+  const { bun, constructorIngredient } = useSelector((store) => store.constructorIngredient);
+
+  const [, dropRef] = useDrop(() => ({
+    accept: "ingredient",
+    drop(item) {
+      if (item.type === "bun") {
+        dispatch({ type: "ADD_BUN", bun: item });
+      } else {
+        dispatch({ type: "ADD_INGREDIENT", ingredient: item });
+      }
+    },
+  }));
 
   return (
     <>
@@ -29,7 +41,7 @@ const BurgerConstructor = () => {
           </div>
         )}
 
-        <ul className={`${style.constructorList}`}>
+        <ul ref={dropRef} className={`${style.constructorList}`}>
           {!constructorIngredient.length && (
             <li className={`ml-8`}>
               <p className={`${style.emptyConstructor}`}>
@@ -38,9 +50,14 @@ const BurgerConstructor = () => {
             </li>
           )}
           {constructorIngredient.map((i) => (
-            <li key={i._id} className={`${style.constructorItem}`}>
+            <li key={i.constructorId} className={`${style.constructorItem}`}>
               <DragIcon type="primary" />
-              <ConstructorElement text={i.name} price={i.price} thumbnail={i.image} />
+              <ConstructorElement
+                text={i.name}
+                price={i.price}
+                thumbnail={i.image}
+                handleClose={() => dispatch({ type: "REMOVE_INGREDIENT", id: i.constructorId })}
+              />
             </li>
           ))}
         </ul>
