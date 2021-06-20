@@ -21,10 +21,10 @@ const BurgerIngredientsItem = ({ data }) => {
   }, [bun, constructorIngredient, data._id, data.type]);
 
   const [showModal, setShowModal] = useState(false);
-  const [, ref] = useDrag(() => ({
+  const [, ref] = useDrag({
     type: "ingredient",
     item: data,
-  }));
+  });
 
   return (
     <>

@@ -1,4 +1,3 @@
-import { useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import BurgerConstructorDragIngredient from "../burger-constructor-drag-ingredient";
 import { useDrop } from "react-dnd";
@@ -10,7 +9,7 @@ const BurgerConstructor = () => {
   const dispatch = useDispatch();
   const { bun, constructorIngredient } = useSelector((store) => store.constructorIngredient);
 
-  const [, dropRef] = useDrop(() => ({
+  const [, dropRef] = useDrop({
     accept: "ingredient",
     drop(item) {
       if (item.type === "bun") {
@@ -19,11 +18,7 @@ const BurgerConstructor = () => {
         dispatch({ type: "ADD_INGREDIENT", ingredient: item });
       }
     },
-  }));
-
-  const rebaseItems = useCallback((dragIndex, hoverIndex) => {
-    dispatch({ type: "REBASE_ITEMS", dragIndex, hoverIndex });
-  }, []);
+  });
 
   return (
     <>
@@ -61,7 +56,6 @@ const BurgerConstructor = () => {
               id={i.constructorId}
               item={i}
               index={index}
-              rebaseItems={rebaseItems}
             />
           ))}
         </ul>

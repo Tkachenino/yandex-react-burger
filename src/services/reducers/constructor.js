@@ -48,14 +48,6 @@ export const ConstructorReducer = (state = initState, action) => {
       const newList = state.constructorIngredient.slice();
       const dragItem = state.constructorIngredient.slice()[action.dragIndex];
       const hoverItem = state.constructorIngredient.slice()[action.hoverIndex];
-
-      // const dragItem = newList.find((item, index) => index === action.dragIndex);
-      // const newListing = newList.
-
-      // const newList = state.constructorIngredient.slice();
-
-      // const dragItem = newList.find((item, index) => index === action.dragIndex);
-      // const hoverItem = newList.find((item, index) => index === action.hoverIndex);
       newList[action.hoverIndex] = dragItem;
       newList[action.dragIndex] = hoverItem;
 
