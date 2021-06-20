@@ -17,3 +17,31 @@ export const getIngredients = () => async (dispatch) => {
     dispatch({ type: "GET_ITEM_ERROR", error: error.message });
   }
 };
+
+export const getOrder = (setShowModal) => async (dispatch, store) => {
+  const { bun, constructorIngredient } = store().constructorIngredient;
+  dispatch({ type: "SET_ORDER_REQUEST" });
+  try {
+    const resp = await fetch(`${URL_ADDRESS}/orders`, {
+      method: "POST",
+      body: JSON.stringify({
+        ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!resp.ok) {
+      throw new Error("Ответ сети не ok");
+    }
+    const answer = await resp.json();
+    if (!answer.success) {
+      throw new Error("Запрос завершился с отрицательным статусом");
+    }
+    dispatch({ type: "SET_ORDER_SUCCESS", orderId: answer.order.number });
+    setShowModal(true);
+  } catch (error) {
+    dispatch({ type: "SET_ORDER_ERROR", error: error.message });
+  }
+};

@@ -27,13 +27,6 @@
   background: #8585ad;
 }
 
-.constructorItem {
-  display: flex;
-  justify-content: flex-start;
-  gap: 8px;
-  align-items: center;
-}
-
 .emptyConstructor {
   width: 100%;
   padding: 16px 24px;

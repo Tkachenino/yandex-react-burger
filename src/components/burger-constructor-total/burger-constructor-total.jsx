@@ -3,8 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import Modal from "../modal";
 import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-
-import { URL_ADDRESS } from "../../utils/const";
+import { getOrder } from "../../services/effects";
 import style from "./burger-constructor-total.module.css";
 
 const BurgerConstructorTotal = () => {
@@ -32,34 +31,14 @@ const BurgerConstructorTotal = () => {
     }
   }, [dispatch, orderError]);
 
-  const setOrder = async () => {
+  const setOrder = () => {
     if (orderLoading) {
       return;
     }
-    try {
-      dispatch({ type: "SET_ORDER_REQUEST" });
-      const resp = await fetch(`${URL_ADDRESS}/orders`, {
-        method: "POST",
-        body: JSON.stringify({
-          ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    console.log(1);
 
-      if (!resp.ok) {
-        throw new Error("Ответ сети не ok");
-      }
-      const answer = await resp.json();
-      if (!answer.success) {
-        throw new Error("Запрос завершился с отрицательным статусом");
-      }
-      dispatch({ type: "SET_ORDER_SUCCESS", orderId: answer.order.number });
-      setShowModal(true);
-    } catch (error) {
-      dispatch({ type: "SET_ORDER_ERROR", error: error.message });
-    }
+    dispatch(getOrder(setShowModal));
+    // setShowModal(true);
   };
 
   return (
