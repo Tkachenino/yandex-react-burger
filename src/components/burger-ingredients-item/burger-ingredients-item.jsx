@@ -6,6 +6,7 @@ import IngredientDetails from "../ingredient-details";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
 import PropTypes from "prop-types";
 import style from "./burger-ingredients-item.module.css";
+import { setDetailInfo, deleteDetailInfo } from "../../services/action-creators/ingredient";
 
 const BurgerIngredientsItem = ({ data }) => {
   const dispatch = useDispatch();
@@ -31,7 +32,7 @@ const BurgerIngredientsItem = ({ data }) => {
       <div
         className={style.wrapper}
         onClick={() => {
-          dispatch({ type: "SET_DETAIL_INFO", ingredientDetail: data });
+          dispatch(setDetailInfo({ ingredientDetail: data }));
           setShowModal(true);
         }}
       >
@@ -47,7 +48,7 @@ const BurgerIngredientsItem = ({ data }) => {
         <Modal
           header="Детали ингредиента"
           onDestroyModal={() => {
-            dispatch({ type: "DELETE_DETAIL_INFO" });
+            dispatch(deleteDetailInfo());
             setShowModal(false);
           }}
         >

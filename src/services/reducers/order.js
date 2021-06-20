@@ -1,8 +1,9 @@
-export const SET_ORDER_COST = "SET_ORDER_COST";
-export const SET_ORDER_REQUEST = "SET_ORDER_REQUEST";
-export const SET_ORDER_SUCCESS = "SET_ORDER_SUCCESS";
-export const SET_ORDER_ERROR = "SET_ORDER_ERROR";
-export const CLEAR_ORDER_ERROR = "CLEAR_ORDER_ERROR";
+import {
+  SET_ORDER_REQUEST,
+  SET_ORDER_SUCCESS,
+  SET_ORDER_ERROR,
+  CLEAR_ORDER_ERROR,
+} from "../action-types/order";
 
 export const initState = {
   orderId: null,

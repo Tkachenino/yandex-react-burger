@@ -5,6 +5,8 @@ import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { getOrder } from "../../services/effects";
 import style from "./burger-constructor-total.module.css";
+import { calcTotalCost } from "../../services/action-creators/constructor";
+import { clearOrderError } from "../../services/action-creators/order";
 
 const BurgerConstructorTotal = () => {
   const dispatch = useDispatch();
@@ -17,13 +19,13 @@ const BurgerConstructorTotal = () => {
   );
 
   useEffect(() => {
-    dispatch({ type: "CALC_TOTAL_COST" });
+    dispatch(calcTotalCost());
   }, [constructorIngredient, bun, dispatch]);
 
   useEffect(() => {
     if (orderError) {
       let timeOut = setTimeout(() => {
-        dispatch({ type: "CLEAR_ORDER_ERROR" });
+        dispatch(clearOrderError());
       }, 5000);
       return () => {
         clearTimeout(timeOut);
@@ -35,10 +37,7 @@ const BurgerConstructorTotal = () => {
     if (orderLoading) {
       return;
     }
-    console.log(1);
-
     dispatch(getOrder(setShowModal));
-    // setShowModal(true);
   };
 
   return (

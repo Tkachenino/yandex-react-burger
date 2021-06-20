@@ -2,6 +2,7 @@ import { useRef } from "react";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop, useDrag } from "react-dnd";
 import { useDispatch } from "react-redux";
+import { rebaseItems, removeIngredient } from "../../services/action-creators/constructor";
 import style from "./burger-constructor-drag-ingredient.module.css";
 
 import PropTypes from "prop-types";
@@ -39,7 +40,7 @@ const BurgerConstructorDragIngredient = ({ id, item, index }) => {
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
         return;
       }
-      dispatch({ type: "REBASE_ITEMS", dragIndex, hoverIndex });
+      dispatch(rebaseItems({ dragIndex, hoverIndex }));
 
       item.index = hoverIndex;
     },
@@ -67,7 +68,7 @@ const BurgerConstructorDragIngredient = ({ id, item, index }) => {
         text={item.name}
         price={item.price}
         thumbnail={item.image}
-        handleClose={() => dispatch({ type: "REMOVE_INGREDIENT", id })}
+        handleClose={() => dispatch(removeIngredient({ id }))}
       />
     </li>
   );

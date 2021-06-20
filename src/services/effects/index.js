@@ -1,7 +1,9 @@
 import { URL_ADDRESS } from "../../utils/const";
+import { getItemError, getItemRequest, getItemSuccess } from "../action-creators/ingredients";
+import { setOrderError, setOrderRequest, setOrderSuccess } from "../action-creators/order";
 
 export const getIngredients = () => async (dispatch) => {
-  dispatch({ type: "GET_ITEM_REQUEST" });
+  dispatch(getItemRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/ingredients`);
     if (!resp.ok) {
@@ -11,16 +13,16 @@ export const getIngredients = () => async (dispatch) => {
     if (!answer.success) {
       throw new Error("Не удачный запрос от сервера");
     }
-    dispatch({ type: "GET_ITEM_SUCCESS", ingredients: answer.data });
+    dispatch(getItemSuccess({ ingredients: answer.data }));
   } catch (error) {
     console.log(error);
-    dispatch({ type: "GET_ITEM_ERROR", error: error.message });
+    dispatch(getItemError({ error: error.message }));
   }
 };
 
 export const getOrder = (setShowModal) => async (dispatch, store) => {
   const { bun, constructorIngredient } = store().constructorIngredient;
-  dispatch({ type: "SET_ORDER_REQUEST" });
+  dispatch(setOrderRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/orders`, {
       method: "POST",
@@ -39,9 +41,9 @@ export const getOrder = (setShowModal) => async (dispatch, store) => {
     if (!answer.success) {
       throw new Error("Запрос завершился с отрицательным статусом");
     }
-    dispatch({ type: "SET_ORDER_SUCCESS", orderId: answer.order.number });
+    dispatch(setOrderSuccess({ orderId: answer.order.number }));
     setShowModal(true);
   } catch (error) {
-    dispatch({ type: "SET_ORDER_ERROR", error: error.message });
+    dispatch(setOrderError({ error: error.message }));
   }
 };

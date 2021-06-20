@@ -1,0 +1,2 @@
+export const SET_DETAIL_INFO = "SET_DETAIL_INFO";
+export const DELETE_DETAIL_INFO = "DELETE_DETAIL_INFO";

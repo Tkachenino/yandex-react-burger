@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from "react-redux";
+import { addIngredient, addBun } from "../../services/action-creators/constructor";
 import BurgerConstructorDragIngredient from "../burger-constructor-drag-ingredient";
 import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -13,9 +14,9 @@ const BurgerConstructor = () => {
     accept: "ingredient",
     drop(item) {
       if (item.type === "bun") {
-        dispatch({ type: "ADD_BUN", bun: item });
+        dispatch(addBun({ bun: item }));
       } else {
-        dispatch({ type: "ADD_INGREDIENT", ingredient: item });
+        dispatch(addIngredient({ ingredient: item }));
       }
     },
   });
