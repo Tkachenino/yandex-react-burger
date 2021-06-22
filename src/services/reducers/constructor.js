@@ -14,7 +14,7 @@ export const initState = {
   totalCost: 0,
 };
 
-export const ConstructorReducer = (state = initState, action) => {
+export const constructorReducer = (state = initState, action) => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {

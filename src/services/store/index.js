@@ -1,16 +1,16 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
 
-import { OrderReducer } from "../reducers/order";
-import { ConstructorReducer } from "../reducers/constructor";
-import { IngredientReducer } from "../reducers/ingredient";
-import { IngredientsReducer } from "../reducers/ingredients";
+import { orderReducer } from "../reducers/order";
+import { constructorReducer } from "../reducers/constructor";
+import { ingredientReducer } from "../reducers/ingredient";
+import { ingredientsReducer } from "../reducers/ingredients";
 
 const reducer = combineReducers({
-  order: OrderReducer,
-  constructorIngredient: ConstructorReducer,
-  ingredient: IngredientReducer,
-  ingredients: IngredientsReducer,
+  order: orderReducer,
+  constructorIngredient: constructorReducer,
+  ingredient: ingredientReducer,
+  ingredients: ingredientsReducer,
 });
 
 const composeEnhancers =

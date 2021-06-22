@@ -48,8 +48,8 @@ const BurgerIngredientsItem = ({ data }) => {
         <Modal
           header="Детали ингредиента"
           onDestroyModal={() => {
-            dispatch(deleteDetailInfo());
             setShowModal(false);
+            dispatch(deleteDetailInfo());
           }}
         >
           <IngredientDetails />
