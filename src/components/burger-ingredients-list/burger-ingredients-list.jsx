@@ -1,8 +1,21 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import Modal from "../modal";
+import IngredientDetails from "../ingredient-details";
 import BurgerIngredientsItem from "../burger-ingredients-item";
+import { setDetailInfo, deleteDetailInfo } from "../../services/action-creators/ingredient";
 import style from "./burger-ingredients-list.module.css";
 import PropTypes from "prop-types";
 
 const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
+  const dispatch = useDispatch();
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = (ingredientDetail) => {
+    dispatch(setDetailInfo({ ingredientDetail }));
+    setShowModal(true);
+  };
+
   return (
     <div ref={propsRef} className={style.wrapper} id={type}>
       <h2 className={`${style.ingredients_header} text text_type_main-medium`}>{name}</h2>
@@ -10,9 +23,20 @@ const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
         {items
           .filter((i) => i.type === type)
           .map((i) => (
-            <BurgerIngredientsItem key={i._id} data={i} />
+            <BurgerIngredientsItem key={i._id} data={i} openModal={() => openModal(i)} />
           ))}
       </div>
+      {showModal && (
+        <Modal
+          header="Детали ингредиента"
+          onDestroyModal={() => {
+            setShowModal(false);
+            dispatch(deleteDetailInfo());
+          }}
+        >
+          <IngredientDetails />
+        </Modal>
+      )}
     </div>
   );
 };
