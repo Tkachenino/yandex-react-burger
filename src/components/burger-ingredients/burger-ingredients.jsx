@@ -1,5 +1,6 @@
-import { useState, useCallback, useRef, useContext } from "react";
-import { IngredientsContext } from "../../context/context";
+import { useState, useEffect, useCallback, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getIngredients } from "../../services/effects";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import Loader from "../loader";
 import ErrorBounder from "../error-bounder";
@@ -7,7 +8,12 @@ import BurgerIngredientsList from "../burger-ingredients-list";
 import style from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
-  const [{ ingredients, error, loading }] = useContext(IngredientsContext);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getIngredients());
+  }, [dispatch]);
+
+  const { ingredients, error, loading } = useSelector((store) => store.ingredients);
 
   const [current, setCurrent] = useState("bun");
   const wrapperRef = useRef(null);

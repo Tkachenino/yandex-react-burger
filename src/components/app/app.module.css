@@ -7,10 +7,10 @@ main {
   justify-content: center;
 }
 
-.constructor-element {
+:global(.constructor-element) {
   width: 100%;
 }
 
-.constructor-element__text {
+:global(.constructor-element__text) {
   flex-grow: 1;
 }

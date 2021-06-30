@@ -1,15 +1,29 @@
-import { useContext } from "react";
-import { IngredientsContext } from "../../context/context";
-import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector, useDispatch } from "react-redux";
+import { addIngredient, addBun } from "../../services/action-creators/constructor";
+import BurgerConstructorDragIngredient from "../burger-constructor-drag-ingredient";
+import { useDrop } from "react-dnd";
+import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorTotal from "../burger-constructor-total";
 import style from "./burger-constructor.module.css";
 
 const BurgerConstructor = () => {
-  const [{ bun, constructorIngredient }] = useContext(IngredientsContext);
+  const dispatch = useDispatch();
+  const { bun, constructorIngredient } = useSelector((store) => store.constructorIngredient);
+
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop(item) {
+      if (item.type === "bun") {
+        dispatch(addBun({ bun: item }));
+      } else {
+        dispatch(addIngredient({ ingredient: item }));
+      }
+    },
+  });
 
   return (
     <>
-      <section className={`${style.constructor} pl-4 pt-25 pb-13`}>
+      <section ref={dropRef} className={`${style.constructor} pl-4 pt-25 pb-13`}>
         {!bun && (
           <div className={`ml-8`}>
             <p className={`${style.emptyBut} ${style.emptyButTop}`}>
@@ -31,17 +45,19 @@ const BurgerConstructor = () => {
 
         <ul className={`${style.constructorList}`}>
           {!constructorIngredient.length && (
-            <div className={`ml-8`}>
+            <li className={`ml-8`}>
               <p className={`${style.emptyConstructor}`}>
                 Кажется меж булочек ничего нет. Попробуй перетащить несколько ингредиентов
               </p>
-            </div>
-          )}
-          {constructorIngredient.map((i) => (
-            <li key={i._id} className={`${style.constructorItem}`}>
-              <DragIcon type="primary" />
-              <ConstructorElement text={i.name} price={i.price} thumbnail={i.image} />
             </li>
+          )}
+          {constructorIngredient.map((i, index) => (
+            <BurgerConstructorDragIngredient
+              key={i.constructorId}
+              id={i.constructorId}
+              item={i}
+              index={index}
+            />
           ))}
         </ul>
         {!bun && (

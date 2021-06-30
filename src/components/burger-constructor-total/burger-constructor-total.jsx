@@ -1,31 +1,31 @@
-import { useState, useContext, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Modal from "../modal";
 import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientsContext } from "../../context/context";
-import {
-  SET_ORDER_REQUEST,
-  SET_ORDER_SUCCESS,
-  SET_ORDER_ERROR,
-  SET_ORDER_COST,
-  CLEAR_ORDER_ERROR,
-} from "../../reducer";
-import { URL_ADDRESS } from "../../utils/const";
+import { getOrder } from "../../services/effects";
 import style from "./burger-constructor-total.module.css";
+import { calcTotalCost } from "../../services/action-creators/constructor";
+import { clearOrderError } from "../../services/action-creators/order";
 
 const BurgerConstructorTotal = () => {
+  const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const [{ constructorIngredient, bun, orderCost, orderId, orderLoading, orderError }, dispatch] =
-    useContext(IngredientsContext);
+  const { constructorIngredient, bun, totalCost, orderId, orderLoading, orderError } = useSelector(
+    (store) => ({
+      ...store.order,
+      ...store.constructorIngredient,
+    })
+  );
 
   useEffect(() => {
-    dispatch({ type: SET_ORDER_COST });
+    dispatch(calcTotalCost());
   }, [constructorIngredient, bun, dispatch]);
 
   useEffect(() => {
     if (orderError) {
       let timeOut = setTimeout(() => {
-        dispatch({ type: CLEAR_ORDER_ERROR });
+        dispatch(clearOrderError());
       }, 5000);
       return () => {
         clearTimeout(timeOut);
@@ -33,40 +33,18 @@ const BurgerConstructorTotal = () => {
     }
   }, [dispatch, orderError]);
 
-  const setOrder = async () => {
-    if (!orderLoading) {
-      try {
-        dispatch({ type: SET_ORDER_REQUEST });
-        const resp = await fetch(`${URL_ADDRESS}/orders`, {
-          method: "POST",
-          body: JSON.stringify({
-            ingredients: [bun._id, ...constructorIngredient.map((item) => item._id)],
-          }),
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!resp.ok) {
-          throw new Error("Ответ сети не ok");
-        }
-        const answer = await resp.json();
-        if (!answer.success) {
-          throw new Error("Запрос завершился с отрицательным статусом");
-        }
-        dispatch({ type: SET_ORDER_SUCCESS, orderId: answer.order.number });
-        setShowModal(true);
-      } catch (error) {
-        dispatch({ type: SET_ORDER_ERROR, error: error.message });
-      }
+  const setOrder = () => {
+    if (orderLoading) {
+      return;
     }
+    dispatch(getOrder(setShowModal));
   };
 
   return (
     <>
       <div className={`${style.total_wrapper} mt-10 mb-13`}>
         <div className={`${style.price_wrapper} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">{orderCost}</p>
+          <p className="text text_type_digits-medium mr-2">{totalCost}</p>
           <CurrencyIcon type="primary" />
         </div>
 
