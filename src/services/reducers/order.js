@@ -11,7 +11,7 @@ export const initState = {
   orderError: null,
 };
 
-export const OrderReducer = (state = initState, action) => {
+export const orderReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_ORDER_REQUEST: {
       return {

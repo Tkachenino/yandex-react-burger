@@ -4,7 +4,7 @@ export const initState = {
   ingredientDetail: null,
 };
 
-export const IngredientReducer = (state = initState, action) => {
+export const ingredientReducer = (state = initState, action) => {
   switch (action.type) {
     case SET_DETAIL_INFO: {
       return {

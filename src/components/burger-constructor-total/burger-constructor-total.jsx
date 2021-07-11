@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import Modal from "../modal";
 import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -9,14 +10,15 @@ import { calcTotalCost } from "../../services/action-creators/constructor";
 import { clearOrderError } from "../../services/action-creators/order";
 
 const BurgerConstructorTotal = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
-  const { constructorIngredient, bun, totalCost, orderId, orderLoading, orderError } = useSelector(
-    (store) => ({
+  const { constructorIngredient, bun, totalCost, orderId, orderLoading, orderError, isAuth } =
+    useSelector((store) => ({
       ...store.order,
       ...store.constructorIngredient,
-    })
-  );
+      ...store.profile,
+    }));
 
   useEffect(() => {
     dispatch(calcTotalCost());
@@ -34,6 +36,10 @@ const BurgerConstructorTotal = () => {
   }, [dispatch, orderError]);
 
   const setOrder = () => {
+    if (!isAuth) {
+      history.push("/login");
+      return;
+    }
     if (orderLoading) {
       return;
     }
