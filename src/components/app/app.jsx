@@ -8,6 +8,8 @@ import Register from "../../pages/register";
 import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
+import Orders from "../../pages/orders";
+
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppHeader from "../app-header";
 import BurgerIngredients from "../burger-ingredients";
@@ -24,6 +26,9 @@ const App = () => {
           <Switch>
             <ProtectedRoute exact={true} path="/profile">
               <Profile />
+            </ProtectedRoute>
+            <ProtectedRoute exact={true} path="/profile/orders">
+              <Orders />
             </ProtectedRoute>
             <RegisterRoute exact={true} path="/reset-password">
               <ResetPassword />

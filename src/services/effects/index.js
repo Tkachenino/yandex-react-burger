@@ -17,7 +17,8 @@ import {
 
 const setToken = ({ accessToken, refreshToken }) => {
   // const preparedToken = accessToken.split(" ")[1];
-  Cookies.set("token", accessToken);
+  const inTwentyMinutes = new Date(new Date().getTime() + 20 * 60 * 1000);
+  Cookies.set("token", accessToken, { expires: inTwentyMinutes });
   localStorage.setItem("refresh", refreshToken);
 };
 
@@ -26,7 +27,7 @@ const clearToken = () => {
   localStorage.removeItem("refresh");
 };
 
-const refreshToken = async (cb, ...params) => {
+const refreshToken = async (cb = null, ...params) => {
   try {
     const resp = await fetch(`${URL_ADDRESS}/auth/token`, {
       method: "POST",
@@ -46,7 +47,9 @@ const refreshToken = async (cb, ...params) => {
     }
 
     setToken({ accessToken: answer.accessToken, refreshToken: answer.refreshToken });
-    cb(...params);
+    if (cb) {
+      cb(...params);
+    }
   } catch (error) {
     console.log(error);
   }
@@ -131,6 +134,9 @@ export const createNewProfile =
   };
 
 export const getProfile = () => async (dispatch) => {
+  if (!Cookies.get("token")) {
+    await refreshToken();
+  }
   dispatch(getProfileReguest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/auth/user`, {
@@ -164,6 +170,9 @@ export const getProfile = () => async (dispatch) => {
 export const updateProfile =
   ({ email, name }) =>
   async (dispatch) => {
+    if (!Cookies.get("token")) {
+      await refreshToken();
+    }
     dispatch(getProfileReguest());
     try {
       const resp = await fetch(`${URL_ADDRESS}/auth/user`, {

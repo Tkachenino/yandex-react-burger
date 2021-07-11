@@ -83,34 +83,35 @@ const Profile = () => {
         </p>
       </div>
 
-      <form className={style.form} onSubmit={handlerSubmit}>
-        <Input
-          type={"text"}
-          placeholder={"Имя"}
-          onChange={(e) => setName(e.target.value)}
-          value={name}
-          name={"name"}
-          error={false}
-          ref={nameRef}
-          icon={"EditIcon"}
-          // onIconClick={onIconClick}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        <Input
-          type={"text"}
-          placeholder={"Логин"}
-          onChange={(e) => setEmail(e.target.value)}
-          value={email}
-          name={"email"}
-          error={false}
-          ref={emailRef}
-          icon={"EditIcon"}
-          // onIconClick={onIconClick}
-          errorText={"Ошибка"}
-          size={"default"}
-        />
-        {/* <Input
+      <div className={style.contentWrapper}>
+        <form className={style.form} onSubmit={handlerSubmit}>
+          <Input
+            type={"text"}
+            placeholder={"Имя"}
+            onChange={(e) => setName(e.target.value)}
+            value={name}
+            name={"name"}
+            error={false}
+            ref={nameRef}
+            icon={"EditIcon"}
+            // onIconClick={onIconClick}
+            errorText={"Ошибка"}
+            size={"default"}
+          />
+          <Input
+            type={"text"}
+            placeholder={"Логин"}
+            onChange={(e) => setEmail(e.target.value)}
+            value={email}
+            name={"email"}
+            error={false}
+            ref={emailRef}
+            icon={"EditIcon"}
+            // onIconClick={onIconClick}
+            errorText={"Ошибка"}
+            size={"default"}
+          />
+          {/* <Input
           type={"text"}
           placeholder={"Пароль"}
           onChange={(e) => setPassword(e.target.value)}
@@ -123,6 +124,7 @@ const Profile = () => {
           errorText={"Ошибка"}
           size={"default"}
         /> */}
+        </form>
         <div>
           <Button type="secondary" size="medium" onClick={handlerCancel}>
             Отмена
@@ -131,7 +133,7 @@ const Profile = () => {
             Сохранить
           </Button>
         </div>
-      </form>
+      </div>
     </div>
   );
 };
