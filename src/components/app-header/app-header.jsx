@@ -14,7 +14,7 @@ const AppHeader = () => {
   };
 
   const handlerOrderList = () => {
-    history.push("/profile");
+    history.push("/feed");
   };
 
   const handlerProfile = () => {

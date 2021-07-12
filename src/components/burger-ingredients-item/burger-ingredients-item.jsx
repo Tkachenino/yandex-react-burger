@@ -32,6 +32,7 @@ const BurgerIngredientsItem = ({ data }) => {
       <div
         className={style.wrapper}
         onClick={() => {
+          window.history.replaceState(null, null, `/ingredients/${data._id}`);
           dispatch(setDetailInfo({ ingredientDetail: data }));
           setShowModal(true);
         }}
@@ -48,6 +49,7 @@ const BurgerIngredientsItem = ({ data }) => {
         <Modal
           header="Детали ингредиента"
           onDestroyModal={() => {
+            window.history.replaceState(null, null, "/");
             dispatch(deleteDetailInfo());
             setShowModal(false);
           }}

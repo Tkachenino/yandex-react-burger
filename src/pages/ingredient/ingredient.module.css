@@ -1,0 +1,36 @@
+.wrapper {
+  display: flex;
+  max-width: 520px;
+  width: 100%;
+  padding-top: 120px;
+  margin: 0 auto;
+  flex-direction: column;
+  align-items: center;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+}
+
+.info_list {
+  display: flex;
+  width: 100%;
+  min-height: 56px;
+
+  gap: 20px;
+  justify-content: space-between;
+}
+
+.info_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  flex-grow: 1;
+}

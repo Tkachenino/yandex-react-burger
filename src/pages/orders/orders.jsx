@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import OrderCard from "src/components/order-card";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { logout } from "src/services/effects";
@@ -100,37 +100,7 @@ const Orders = () => {
 
       <div className={style.ordersList}>
         {fakeData.map((i) => (
-          <div className={style.ordersItem} key={i.id}>
-            <div className={style.orderInfo}>
-              <p className="text text_type_digits-default">#{i.id}</p>
-              <p className="text text_type_main-default text_color_inactive">{i.date}</p>
-            </div>
-            <h2 className="text text_type_main-medium">{i.name}</h2>
-            <p
-              className={`text text_type_main-default ${i.status === "Выполнен" ? style.done : ""}`}
-            >
-              {i.status}
-            </p>
-            <div className={style.ingredientsInfo}>
-              <div className={style.ingredientsList}>
-                {i.ingredients.map((ingredient, idx) => (
-                  <div
-                    className={style.ingredientWrapper}
-                    key={ingredient.id}
-                    style={{ zIndex: `${i.ingredients.length - idx}` }}
-                  >
-                    <div className={style.ingredient}>
-                      <img src={ingredient.img} width="64" />
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className={style.ingredientsCost}>
-                <p className="text text_type_digits-default">510</p>
-                <CurrencyIcon type="primary" />
-              </div>
-            </div>
-          </div>
+          <OrderCard key={i.id} order={i} />
         ))}
       </div>
     </div>

@@ -9,7 +9,10 @@ import ForgotPassword from "../../pages/forgot-password";
 import ResetPassword from "../../pages/reset-password";
 import Profile from "../../pages/profile";
 import Orders from "../../pages/orders";
+import Ingredient from "../../pages/ingredient";
+import Feed from "../../pages/feed";
 
+import NotFoundPage from "../../pages/not-found-page";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppHeader from "../app-header";
 import BurgerIngredients from "../burger-ingredients";
@@ -24,6 +27,12 @@ const App = () => {
         <AppHeader history={history} />
         <main>
           <Switch>
+            <ProtectedRoute exact={true} path="/feed">
+              <Feed />
+            </ProtectedRoute>
+            <ProtectedRoute exact={true} path="/ingredients/:id">
+              <Ingredient />
+            </ProtectedRoute>
             <ProtectedRoute exact={true} path="/profile">
               <Profile />
             </ProtectedRoute>
@@ -48,6 +57,8 @@ const App = () => {
                 <BurgerConstructor />
               </DndProvider>
             </Route>
+            <NotFoundPage />
+            <Route />
           </Switch>
         </main>
       </Router>
