@@ -1,19 +1,29 @@
 import { Link } from "react-router-dom";
 import { Logo, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setPasswordReset } from "../../services/effects";
 import style from "./reset-password.module.css";
 
 const ResetPassword = () => {
+  const dispatch = useDispatch();
+  const history = useHistory();
   const passwordRef = useRef(null);
-  const codeRef = useRef(null);
-  const [code, setCode] = useState("");
+  const tokenRef = useRef(null);
+  const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    dispatch(setPasswordReset({ password, token }, history));
+  };
 
   return (
     <div className={style.wrapper}>
       <div className={style.conentWrapper}>
         <Logo />
-        <form className={style.form}>
+        <form className={style.form} onSubmit={onSubmit}>
           <h2 className="text text_type_main-medium">Восстановление пароля</h2>
           <Input
             type={"text"}
@@ -31,11 +41,11 @@ const ResetPassword = () => {
           <Input
             type={"text"}
             placeholder={"Введите код из письма"}
-            onChange={(e) => setCode(e.target.value)}
-            value={code}
-            name={"code"}
+            onChange={(e) => setToken(e.target.value)}
+            value={token}
+            name={"token"}
             error={false}
-            ref={codeRef}
+            ref={tokenRef}
             errorText={"Ошибка"}
             size={"default"}
           />

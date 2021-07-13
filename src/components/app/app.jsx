@@ -11,6 +11,7 @@ import Profile from "../../pages/profile";
 import Orders from "../../pages/orders";
 import Ingredient from "../../pages/ingredient";
 import Feed from "../../pages/feed";
+import FeedId from "../../pages/feed-id";
 
 import NotFoundPage from "../../pages/not-found-page";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -27,6 +28,9 @@ const App = () => {
         <AppHeader history={history} />
         <main>
           <Switch>
+            <ProtectedRoute exact={true} path="/feed/:id">
+              <FeedId />
+            </ProtectedRoute>
             <ProtectedRoute exact={true} path="/feed">
               <Feed />
             </ProtectedRoute>

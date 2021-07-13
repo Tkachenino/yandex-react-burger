@@ -295,31 +295,34 @@ export const checkEmail = (email, history) => async () => {
   }
 };
 
-export const setPasswordReset = (email, history) => async () => {
-  // dispatch(getItemRequest());
-  try {
-    const resp = await fetch(`${URL_ADDRESS}/password-reset/reset`, {
-      method: "POST",
-      body: JSON.stringify({
-        email,
-      }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    if (!resp.ok) {
-      throw new Error("Ответ сети не ok");
-    }
-    const answer = await resp.json();
-    if (!answer.success) {
-      throw new Error("Не удачный запрос от сервера");
-    }
+export const setPasswordReset =
+  ({ password, token }, history) =>
+  async () => {
+    // dispatch(getItemRequest());
+    try {
+      const resp = await fetch(`${URL_ADDRESS}/password-reset/reset`, {
+        method: "POST",
+        body: JSON.stringify({
+          password,
+          token,
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      if (!resp.ok) {
+        throw new Error("Ответ сети не ok");
+      }
+      const answer = await resp.json();
+      if (!answer.success) {
+        throw new Error("Не удачный запрос от сервера");
+      }
 
-    console.log(answer);
-    history.push("/login");
-    // dispatch(getItemSuccess({ ingredients: answer.data }));
-  } catch (error) {
-    console.log(error);
-    // dispatch(getItemError({ error: error.message }));
-  }
-};
+      console.log(answer);
+      history.push("/login");
+      // dispatch(getItemSuccess({ ingredients: answer.data }));
+    } catch (error) {
+      console.log(error);
+      // dispatch(getItemError({ error: error.message }));
+    }
+  };
