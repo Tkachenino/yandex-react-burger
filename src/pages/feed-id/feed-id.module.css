@@ -5,11 +5,11 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 }
 
 .orderId {
   margin-bottom: 40px;
+  text-align: center;
 }
 
 .ordersItem {
@@ -31,14 +31,12 @@
   justify-content: space-between;
 }
 
-.done {
-  color: rgba(0, 204, 204, 1);
+.status {
+  margin: 12px 0 60px;
 }
 
-.ingredientsInfo {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.done {
+  color: rgba(0, 204, 204, 1);
 }
 
 .ingredientsCost {
@@ -49,6 +47,28 @@
 
 .ingredientsList {
   display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 24px 0 40px;
+  max-height: 312px;
+  overflow-y: auto;
+}
+
+.ingredientsList::-webkit-scrollbar {
+  width: 8px;
+}
+.ingredientsList::-webkit-scrollbar-track {
+  background: #2f2f37;
+}
+.ingredientsList::-webkit-scrollbar-thumb {
+  background: #8585ad;
+}
+
+.ingredientWrapper {
+  display: flex;
+  width: 100%;
+  gap: 16px;
+  align-items: center;
 }
 
 .imgWrapper {
@@ -60,10 +80,6 @@
   background: linear-gradient(63.18deg, #801ab3 0%, #4c4cff 100%);
 }
 
-.imgWrapper:not(:first-child) {
-  margin-left: -16px;
-}
-
 .img {
   width: 64px;
   height: 64px;
@@ -71,4 +87,20 @@
   place-content: center;
   border-radius: 50%;
   background: #131316;
+}
+
+.name {
+  flex-grow: 1;
+}
+
+.ingredientCost {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.ingredientsFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }

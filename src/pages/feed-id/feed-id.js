@@ -30,39 +30,39 @@ const FeedId = () => {
       <p className={`text text_type_digits-default ${style.orderId}`}>#{fakeData.id}</p>
       <h2 className="text text_type_main-medium">{fakeData.name}</h2>
       <p
-        className={`text text_type_main-default ${
+        className={`text text_type_main-default ${style.status} ${
           fakeData.status === "Выполнен" ? style.done : ""
         }`}
       >
         {fakeData.status}
       </p>
-      <div className={style.ingredientsInfo}>
-        <h2 className="text text_type_main-medium">Состав:</h2>
-        <div className={style.ingredientsList}>
-          {fakeData.ingredients.map((ingredient, idx) => (
-            <div className={style.ingredientWrapper} key={ingredient.id}>
-              <div
-                className={style.imgWrapper}
-                style={{ zIndex: `${fakeData.ingredients.length - idx}` }}
-              >
-                <div className={style.img}>
-                  <img src={ingredient.img} width="64" />
-                </div>
-              </div>
-              <p>{ingredient.name}</p>
-              <div>
-                <p>{Math.round(Math.random() * 5) + 1} x 50</p>
-                <CurrencyIcon type="primary" />
+      <h2 className="text text_type_main-medium">Состав:</h2>
+      <div className={style.ingredientsList}>
+        {fakeData.ingredients.map((ingredient, idx) => (
+          <div className={style.ingredientWrapper} key={ingredient.id}>
+            <div
+              className={style.imgWrapper}
+              style={{ zIndex: `${fakeData.ingredients.length - idx}` }}
+            >
+              <div className={style.img}>
+                <img src={ingredient.img} width="64" />
               </div>
             </div>
-          ))}
-        </div>
-        <div className={style.ingredientsCost}>
-          <p className="text text_type_main-default text_color_inactive">{fakeData.date}</p>
-          <div>
-            <p className="text text_type_digits-default">510</p>
-            <CurrencyIcon type="primary" />
+            <p className={`text text_type_main-default ${style.name}`}>{ingredient.name}</p>
+            <div className={style.ingredientCost}>
+              <p className="text text_type_digits-default">
+                {Math.round(Math.random() * 5) + 1} x 50
+              </p>
+              <CurrencyIcon type="primary" />
+            </div>
           </div>
+        ))}
+      </div>
+      <div className={style.ingredientsFooter}>
+        <p className="text text_type_main-default text_color_inactive">{fakeData.date}</p>
+        <div className={style.ingredientCost}>
+          <p className="text text_type_digits-default">510</p>
+          <CurrencyIcon type="primary" />
         </div>
       </div>
     </div>
