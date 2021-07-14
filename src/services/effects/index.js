@@ -16,7 +16,6 @@ import {
 } from "../action-creators/profile";
 
 const setToken = ({ accessToken, refreshToken }) => {
-  // const preparedToken = accessToken.split(" ")[1];
   const inTwentyMinutes = new Date(new Date().getTime() + 20 * 60 * 1000);
   Cookies.set("token", accessToken, { expires: inTwentyMinutes });
   localStorage.setItem("refresh", refreshToken);
@@ -267,7 +266,6 @@ export const logout = (history) => async (dispatch) => {
 };
 
 export const checkEmail = (email, history) => async () => {
-  // dispatch(getItemRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/password-reset`, {
       method: "POST",
@@ -288,17 +286,14 @@ export const checkEmail = (email, history) => async () => {
 
     console.log(answer);
     history.push("/reset-password");
-    // dispatch(getItemSuccess({ ingredients: answer.data }));
   } catch (error) {
     console.log(error);
-    // dispatch(getItemError({ error: error.message }));
   }
 };
 
 export const setPasswordReset =
   ({ password, token }, history) =>
   async () => {
-    // dispatch(getItemRequest());
     try {
       const resp = await fetch(`${URL_ADDRESS}/password-reset/reset`, {
         method: "POST",
@@ -318,11 +313,8 @@ export const setPasswordReset =
         throw new Error("Не удачный запрос от сервера");
       }
 
-      console.log(answer);
       history.push("/login");
-      // dispatch(getItemSuccess({ ingredients: answer.data }));
     } catch (error) {
       console.log(error);
-      // dispatch(getItemError({ error: error.message }));
     }
   };
