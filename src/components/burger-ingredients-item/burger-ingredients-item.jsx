@@ -50,8 +50,8 @@ const BurgerIngredientsItem = ({ data }) => {
           header="Детали ингредиента"
           onDestroyModal={() => {
             window.history.replaceState(null, null, "/");
-            dispatch(deleteDetailInfo());
             setShowModal(false);
+            dispatch(deleteDetailInfo());
           }}
         >
           <IngredientDetails />

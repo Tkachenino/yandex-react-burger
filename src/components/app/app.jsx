@@ -28,15 +28,15 @@ const App = () => {
         <AppHeader history={history} />
         <main>
           <Switch>
-            <ProtectedRoute exact={true} path="/feed/:id">
+            <Route exact={true} path="/feed/:id">
               <FeedId />
-            </ProtectedRoute>
-            <ProtectedRoute exact={true} path="/feed">
+            </Route>
+            <Route exact={true} path="/feed">
               <Feed />
-            </ProtectedRoute>
-            <ProtectedRoute exact={true} path="/ingredients/:id">
+            </Route>
+            <Route exact={true} path="/ingredients/:id">
               <Ingredient />
-            </ProtectedRoute>
+            </Route>
             <ProtectedRoute exact={true} path="/profile">
               <Profile />
             </ProtectedRoute>

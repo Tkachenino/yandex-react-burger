@@ -207,7 +207,7 @@ export const updateProfile =
   };
 
 export const login =
-  ({ email, password }, history) =>
+  ({ email, password }, history, path) =>
   async (dispatch) => {
     dispatch(getAuthReguest());
     try {
@@ -231,7 +231,12 @@ export const login =
 
       setToken({ accessToken: answer.accessToken, refreshToken: answer.refreshToken });
       dispatch(getAuthSuccess({ email: answer.user.email, name: answer.user.name }));
-      history.replace("/");
+
+      if (path) {
+        history.push({ pathname: path });
+      } else {
+        history.push("/");
+      }
     } catch (error) {
       dispatch(getAuthError({ error: error.message }));
     }
@@ -284,8 +289,10 @@ export const checkEmail = (email, history) => async () => {
       throw new Error("Не удачный запрос от сервера");
     }
 
-    console.log(answer);
-    history.push("/reset-password");
+    history.push({
+      pathname: "/reset-password",
+      state: { reset: true },
+    });
   } catch (error) {
     console.log(error);
   }

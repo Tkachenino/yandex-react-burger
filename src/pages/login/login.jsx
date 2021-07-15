@@ -13,10 +13,12 @@ const Login = () => {
   const inputRef = useRef(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  console.log(history);
 
   const onSubmit = (e) => {
     e.preventDefault();
-    dispatch(login({ email, password }, history));
+    const path = history.location?.state?.from?.pathname;
+    dispatch(login({ email, password }, history, path));
   };
 
   return (

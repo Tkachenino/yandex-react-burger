@@ -1,12 +1,13 @@
 import { Link } from "react-router-dom";
 import { Logo, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation, Redirect } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { setPasswordReset } from "../../services/effects";
 import style from "./reset-password.module.css";
 
 const ResetPassword = () => {
+  const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
   const passwordRef = useRef(null);
@@ -19,7 +20,7 @@ const ResetPassword = () => {
     dispatch(setPasswordReset({ password, token }, history));
   };
 
-  return (
+  return location.state?.reset && history.action === "PUSH" ? (
     <div className={style.wrapper}>
       <div className={style.conentWrapper}>
         <Logo />
@@ -63,6 +64,8 @@ const ResetPassword = () => {
         </div>
       </div>
     </div>
+  ) : (
+    <Redirect to="/login" />
   );
 };
 
