@@ -1,0 +1,31 @@
+.wrapper {
+  padding-top: 120px;
+  margin: 0 auto;
+  max-width: 650px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 50px;
+  align-items: center;
+}
+
+.image {
+  animation: rotate 5s linear 0s infinite;
+}
+
+.text {
+  text-align: center;
+}
+
+.link {
+  text-decoration: none;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}

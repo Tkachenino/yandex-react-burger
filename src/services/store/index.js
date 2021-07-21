@@ -1,7 +1,9 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
+profileReducer;
 
 import { orderReducer } from "../reducers/order";
+import { profileReducer } from "../reducers/profile";
 import { constructorReducer } from "../reducers/constructor";
 import { ingredientReducer } from "../reducers/ingredient";
 import { ingredientsReducer } from "../reducers/ingredients";
@@ -11,6 +13,7 @@ const reducer = combineReducers({
   constructorIngredient: constructorReducer,
   ingredient: ingredientReducer,
   ingredients: ingredientsReducer,
+  profile: profileReducer,
 });
 
 const composeEnhancers =
