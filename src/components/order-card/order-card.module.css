@@ -11,6 +11,12 @@
   gap: 24px;
 }
 
+.id {
+  max-width: 200px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .orderInfo {
   display: flex;
   align-items: center;
@@ -35,6 +41,7 @@
 
 .ingredientsList {
   display: flex;
+  flex-wrap: wrap;
 }
 
 .ingredientWrapper {

@@ -24,6 +24,7 @@ const fakeData = {
     },
   ],
 };
+
 const FeedId = () => {
   return (
     <div className={style.feedIdWrapper}>

@@ -1,3 +1,5 @@
+// import { useEffect } from "react";
+// import { useDispatch } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import ProtectedRoute from "../protected-route";
@@ -22,6 +24,11 @@ import BurgerConstructor from "../burger-constructor";
 import "./app.module.css";
 
 const App = () => {
+  // const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch({ type: "WS_CONNECTION_START" });
+  // }, []);
+
   return (
     <div className="App">
       <Router>

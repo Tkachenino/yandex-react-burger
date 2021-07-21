@@ -49,6 +49,10 @@
 .list {
   margin: 0;
   padding: 0;
+  display: flex;
+  max-height: calc(24px * 10);
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .listItem {

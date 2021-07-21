@@ -12,12 +12,13 @@ const Ingredient = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const { id } = useParams();
+  const { ingredients, loading, error } = useSelector((store) => store.ingredients);
 
   useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
-  const { ingredients, loading, error } = useSelector((store) => store.ingredients);
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [ingredients, dispatch]);
 
   const currentIngredient = useMemo(() => {
     return ingredients.find((i) => i._id === id) || null;

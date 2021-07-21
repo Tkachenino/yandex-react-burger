@@ -1,0 +1,115 @@
+export const socketMiddleware = (wsUrl) => {
+  return (store) => {
+    let socket = null;
+
+    return (next) => (action) => {
+      const { dispatch } = store;
+      const { type, payload } = action;
+
+      if (type === "WS_CONNECTION_START") {
+        // объект класса WebSocket
+        socket = new WebSocket(wsUrl);
+      }
+
+      if (type === "WS_CONNECTION_USER_CLOSE") {
+        // объект класса WebSocket
+        socket.close(1000, "Юзер покинул страницу");
+      }
+      if (socket) {
+        // функция, которая вызывается при открытии сокета
+        socket.onopen = (event) => {
+          dispatch({ type: "WS_CONNECTION_SUCCESS", payload: event });
+        };
+
+        // функция, которая вызывается при ошибке соединения
+        socket.onerror = (event) => {
+          dispatch({ type: "WS_CONNECTION_ERROR", payload: event });
+        };
+
+        // функция, которая вызывается при получения события от сервера
+        socket.onmessage = (event) => {
+          const { data } = event;
+          const messeges = JSON.parse(data);
+          dispatch({
+            type: "WS_GET_MESSAGE",
+            payload: {
+              orders: messeges.orders,
+              total: messeges.total,
+              totalToday: messeges.totalToday,
+            },
+          });
+        };
+        // функция, которая вызывается при закрытии соединения
+        socket.onclose = (event) => {
+          dispatch({ type: "WS_CONNECTION_CLOSED", payload: event });
+        };
+
+        if (type === "WS_SEND_MESSAGE") {
+          const message = payload;
+          // функция для отправки сообщения на сервер
+          socket.send(JSON.stringify(message));
+        }
+      }
+
+      next(action);
+    };
+  };
+};
+
+export const socketMiddlewareOwn = (wsUrl) => {
+  return (store) => {
+    let socket = null;
+
+    return (next) => (action) => {
+      const { dispatch } = store;
+      const { type, payload } = action;
+
+      if (type === "WS_CONNECTION_START_OWN") {
+        // объект класса WebSocket
+        socket = new WebSocket(wsUrl);
+      }
+
+      if (type === "WS_CONNECTION_USER_CLOSE_OWN") {
+        // объект класса WebSocket
+        socket.close(1000, "Юзер покинул страницу");
+      }
+      if (socket) {
+        // функция, которая вызывается при открытии сокета
+        socket.onopen = (event) => {
+          dispatch({ type: "WS_CONNECTION_SUCCESS_OWN", payload: event });
+        };
+
+        // функция, которая вызывается при ошибке соединения
+        socket.onerror = (event) => {
+          dispatch({ type: "WS_CONNECTION_ERROR_OWN", payload: event });
+        };
+
+        // функция, которая вызывается при получения события от сервера
+        socket.onmessage = (event) => {
+          const { data } = event;
+          const messeges = JSON.parse(data);
+          dispatch({
+            type: "WS_GET_MESSAGE_OWN",
+            payload: {
+              orders: messeges.orders,
+              total: messeges.total,
+              totalToday: messeges.totalToday,
+            },
+          });
+        };
+        // функция, которая вызывается при закрытии соединения
+        socket.onclose = (event) => {
+          dispatch({ type: "WS_CONNECTION_CLOSED_OWN", payload: event });
+        };
+
+        if (type === "WS_SEND_MESSAGE_OWN") {
+          const message = payload;
+          // функция для отправки сообщения на сервер
+          socket.send(JSON.stringify(message));
+        }
+      }
+
+      next(action);
+    };
+  };
+};
