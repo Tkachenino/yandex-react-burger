@@ -1,71 +1,97 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useEffect, useMemo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { getOrder, getIngredients } from "../../services/effects";
+import dayjs from "dayjs";
 import style from "./feed-id.module.css";
 
-const fakeData = {
-  id: 123454,
-  name: "Death Star Starship Main бургер",
-  status: "Выполнен",
-  date: "01.02.1991",
-  ingredients: [
-    {
-      id: "60d3b41abdacab0026a733c6",
-      img: "https://code.s3.yandex.net/react/code/bun-02.png",
-      name: "Флюоресцентная булка R2-D3",
-    },
-    {
-      id: "60d3b41abdacab0026a733ca",
-      img: "https://code.s3.yandex.net/react/code/meat-04.png",
-      name: "Филе Люминесцентного тетраодонтимформа",
-    },
-    {
-      id: "60d3b41abdacab0026a733d2",
-      img: "https://code.s3.yandex.net/react/code/core.png",
-      name: "Соус традиционный галактический",
-    },
-  ],
+const statusDictionary = {
+  done: "Выполнен",
+  pending: "Готовиться",
+  createв: "Создан",
 };
 
 const FeedId = () => {
+  const dispatch = useDispatch();
+  const { id } = useParams();
+  const { ingredients } = useSelector((store) => store.ingredients);
+  const { order } = useSelector((store) => store.order);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [ingredients, dispatch]);
+
+  useEffect(() => {
+    dispatch(getOrder(id));
+  }, [dispatch, id]);
+
+  const currentIngredients = useMemo(() => {
+    if (order !== null) {
+      return order.ingredients.map((i) => {
+        return ingredients.find((ingredient) => {
+          return ingredient._id === i;
+        });
+      });
+    } else {
+      return [];
+    }
+  }, [order, ingredients]);
+
+  const orderTotalCost = useMemo(() => {
+    return currentIngredients.reduce((acc, item) => {
+      return (acc += item.price);
+    }, 0);
+  }, [currentIngredients]);
+
   return (
     <div className={style.feedIdWrapper}>
-      <p className={`text text_type_digits-default ${style.orderId}`}>#{fakeData.id}</p>
-      <h2 className="text text_type_main-medium">{fakeData.name}</h2>
-      <p
-        className={`text text_type_main-default ${style.status} ${
-          fakeData.status === "Выполнен" ? style.done : ""
-        }`}
-      >
-        {fakeData.status}
-      </p>
-      <h2 className="text text_type_main-medium">Состав:</h2>
-      <div className={style.ingredientsList}>
-        {fakeData.ingredients.map((ingredient, idx) => (
-          <div className={style.ingredientWrapper} key={ingredient.id}>
-            <div
-              className={style.imgWrapper}
-              style={{ zIndex: `${fakeData.ingredients.length - idx}` }}
-            >
-              <div className={style.img}>
-                <img src={ingredient.img} width="64" />
+      {order !== null && (
+        <>
+          <p className={`text text_type_digits-default ${style.orderId}`}>#{order.number}</p>
+          <h2 className="text text_type_main-medium">{order.name}</h2>
+          <p
+            className={`text text_type_main-default ${style.status} ${
+              order.status === "done" ? style.done : ""
+            }`}
+          >
+            {statusDictionary[order.status]}
+          </p>
+          <h2 className="text text_type_main-medium">Состав:</h2>
+          <div className={style.ingredientsList}>
+            {currentIngredients.map((ingredient, idx) => (
+              <div className={style.ingredientWrapper} key={idx}>
+                <div
+                  className={style.imgWrapper}
+                  style={{ zIndex: `${currentIngredients.length - idx}` }}
+                >
+                  <div className={style.img}>
+                    <img src={ingredient.image_mobile} width="64" />
+                  </div>
+                </div>
+                <p className={`text text_type_main-default ${style.name}`}>{ingredient.name}</p>
+                <div className={style.ingredientCost}>
+                  <p className="text text_type_digits-default">{ingredient.price}</p>
+                  <CurrencyIcon type="primary" />
+                </div>
               </div>
-            </div>
-            <p className={`text text_type_main-default ${style.name}`}>{ingredient.name}</p>
+            ))}
+          </div>
+          <div className={style.ingredientsFooter}>
+            <p className="text text_type_main-default text_color_inactive">
+              {dayjs(new Date(order.createdAt)).fromNow()},{" "}
+              {dayjs(new Date(order.createdAt)).format("HH:mm")} i-GMT
+              {dayjs(new Date(order.createdAt)).format("Z").split(":")[0]}
+            </p>
             <div className={style.ingredientCost}>
-              <p className="text text_type_digits-default">
-                {Math.round(Math.random() * 5) + 1} x 50
-              </p>
+              <p className="text text_type_digits-default">{orderTotalCost}</p>
               <CurrencyIcon type="primary" />
             </div>
           </div>
-        ))}
-      </div>
-      <div className={style.ingredientsFooter}>
-        <p className="text text_type_main-default text_color_inactive">{fakeData.date}</p>
-        <div className={style.ingredientCost}>
-          <p className="text text_type_digits-default">510</p>
-          <CurrencyIcon type="primary" />
-        </div>
-      </div>
+        </>
+      )}
     </div>
   );
 };

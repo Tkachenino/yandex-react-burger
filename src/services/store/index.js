@@ -9,6 +9,17 @@ import { ingredientReducer } from "../reducers/ingredient";
 import { ingredientsReducer } from "../reducers/ingredients";
 import { wsReducer } from "../reducers/websocket";
 import { wsOwnReducer } from "../reducers/websocket-own";
+import { refreshToken } from "../effects";
+
+const checkToken = async () => {
+  const isToken = Cookies.get("token") || null;
+
+  if (isToken === null) {
+    await refreshToken();
+  }
+};
+
+checkToken();
 
 const accessToken = Cookies.get("token").split(" ")[1];
 

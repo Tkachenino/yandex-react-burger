@@ -1,10 +1,10 @@
 import { useMemo } from "react";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import dayjs from "dayjs";
-import "dayjs/locale/ru";
-import relativeTime from "dayjs/plugin/relativeTime";
-dayjs.extend(relativeTime);
-dayjs.locale("ru");
+// import "dayjs/locale/ru";
+// import relativeTime from "dayjs/plugin/relativeTime";
+// dayjs.extend(relativeTime);
+// dayjs.locale("ru");
 import style from "./order-card.module.css";
 import PropTypes from "prop-types";
 

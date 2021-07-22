@@ -1,5 +1,3 @@
-// import { useEffect } from "react";
-// import { useDispatch } from "react-redux";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import { DndProvider } from "react-dnd";
 import ProtectedRoute from "../protected-route";
@@ -21,14 +19,15 @@ import AppHeader from "../app-header";
 import BurgerIngredients from "../burger-ingredients";
 import BurgerConstructor from "../burger-constructor";
 
+import dayjs from "dayjs";
+import "dayjs/locale/ru";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+dayjs.locale("ru");
+
 import "./app.module.css";
 
 const App = () => {
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   dispatch({ type: "WS_CONNECTION_START" });
-  // }, []);
-
   return (
     <div className="App">
       <Router>
