@@ -3,9 +3,9 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { getOrder, getIngredients } from "../../services/effects";
-import style from "./feed-id.module.css";
+import style from "./order.module.css";
 
-const FeedId = () => {
+const Order = () => {
   const dispatch = useDispatch();
   const { id } = useParams();
   const { ingredients } = useSelector((store) => store.ingredients);
@@ -33,4 +33,4 @@ const FeedId = () => {
   );
 };
 
-export default FeedId;
+export default Order;

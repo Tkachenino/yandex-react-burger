@@ -12,6 +12,7 @@ import Orders from "../../pages/orders";
 import Ingredient from "../../pages/ingredient";
 import Feed from "../../pages/feed";
 import FeedId from "../../pages/feed-id";
+import Order from "../../pages/order";
 
 import NotFoundPage from "../../pages/not-found-page";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
@@ -34,6 +35,9 @@ const App = () => {
         <AppHeader history={history} />
         <main>
           <Switch>
+            <Route exact={true} path="/profile/orders/:id">
+              <Order />
+            </Route>
             <Route exact={true} path="/feed/:id">
               <FeedId />
             </Route>

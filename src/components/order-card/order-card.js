@@ -1,10 +1,9 @@
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
+import { useLocation } from "react-router-dom";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import OrderDetail from "../order-detail";
+import Modal from "../modal";
 import dayjs from "dayjs";
-// import "dayjs/locale/ru";
-// import relativeTime from "dayjs/plugin/relativeTime";
-// dayjs.extend(relativeTime);
-// dayjs.locale("ru");
 import style from "./order-card.module.css";
 import PropTypes from "prop-types";
 
@@ -15,6 +14,16 @@ const statusDictionary = {
 };
 
 const OrderCard = ({ order, ingredients }) => {
+  const location = useLocation();
+  console.log(location);
+
+  const [showModal, setShowModal] = useState(false);
+
+  const openModal = () => {
+    window.history.replaceState(null, null, `${location.pathname}/${order.number}`);
+    setShowModal(true);
+  };
+
   const currentIngredients = useMemo(() => {
     return order.ingredients.map((i) => {
       return ingredients.find((ingredient) => {
@@ -30,39 +39,53 @@ const OrderCard = ({ order, ingredients }) => {
   }, [currentIngredients]);
 
   return (
-    <div className={style.ordersItem}>
-      <div className={style.orderInfo}>
-        <p className={`text text_type_digits-default ${style.id}`}>#{order.number}</p>
-        <p className="text text_type_main-default text_color_inactive">
-          {dayjs(new Date(order.createdAt)).fromNow()},{" "}
-          {dayjs(new Date(order.createdAt)).format("HH:mm")} i-GMT
-          {dayjs(new Date(order.createdAt)).format("Z").split(":")[0]}
+    <>
+      <div className={style.ordersItem} onClick={openModal}>
+        <div className={style.orderInfo}>
+          <p className={`text text_type_digits-default ${style.id}`}>#{order.number}</p>
+          <p className="text text_type_main-default text_color_inactive">
+            {dayjs(new Date(order.createdAt)).fromNow()},{" "}
+            {dayjs(new Date(order.createdAt)).format("HH:mm")} i-GMT
+            {dayjs(new Date(order.createdAt)).format("Z").split(":")[0]}
+          </p>
+        </div>
+        <h2 className="text text_type_main-medium">{order.name}</h2>
+        <p className={`text text_type_main-default ${order.status === "done" ? style.done : ""}`}>
+          {statusDictionary[order.status]}
         </p>
-      </div>
-      <h2 className="text text_type_main-medium">{order.name}</h2>
-      <p className={`text text_type_main-default ${order.status === "done" ? style.done : ""}`}>
-        {statusDictionary[order.status]}
-      </p>
-      <div className={style.ingredientsInfo}>
-        <div className={style.ingredientsList}>
-          {currentIngredients.map((ingredient, idx) => (
-            <div
-              className={style.ingredientWrapper}
-              key={idx}
-              style={{ zIndex: `${currentIngredients.length - idx}` }}
-            >
-              <div className={style.ingredient}>
-                <img src={ingredient.image_mobile} width="64" />
+        <div className={style.ingredientsInfo}>
+          <div className={style.ingredientsList}>
+            {currentIngredients.map((ingredient, idx) => (
+              <div
+                className={style.ingredientWrapper}
+                key={idx}
+                style={{ zIndex: `${currentIngredients.length - idx}` }}
+              >
+                <div className={style.ingredient}>
+                  <img src={ingredient.image_mobile} width="64" />
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
-        <div className={style.ingredientsCost}>
-          <p className="text text_type_digits-default">{orderTotalCost}</p>
-          <CurrencyIcon type="primary" />
+            ))}
+          </div>
+          <div className={style.ingredientsCost}>
+            <p className="text text_type_digits-default">{orderTotalCost}</p>
+            <CurrencyIcon type="primary" />
+          </div>
         </div>
       </div>
-    </div>
+
+      {showModal && (
+        <Modal
+          header={`#${order.number}`}
+          onDestroyModal={() => {
+            window.history.replaceState(null, null, `${location.pathname}`);
+            setShowModal(false);
+          }}
+        >
+          <OrderDetail order={order} ingredients={ingredients} />
+        </Modal>
+      )}
+    </>
   );
 };
 

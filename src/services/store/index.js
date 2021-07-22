@@ -1,5 +1,5 @@
 import { createStore, combineReducers, compose, applyMiddleware } from "redux";
-import { socketMiddleware, socketMiddlewareOwn } from "../../midleware";
+import { socketMiddleware, socketMiddlewareOwn } from "../../middleware";
 import Cookies from "js-cookie";
 import thunk from "redux-thunk";
 import { orderReducer } from "../reducers/order";
@@ -9,19 +9,9 @@ import { ingredientReducer } from "../reducers/ingredient";
 import { ingredientsReducer } from "../reducers/ingredients";
 import { wsReducer } from "../reducers/websocket";
 import { wsOwnReducer } from "../reducers/websocket-own";
-import { refreshToken } from "../effects";
 
-const checkToken = async () => {
-  const isToken = Cookies.get("token") || null;
-
-  if (isToken === null) {
-    await refreshToken();
-  }
-};
-
-checkToken();
-
-const accessToken = Cookies.get("token").split(" ")[1];
+let token = Cookies.get("token") || null;
+const accessToken = token === null ? null : token.split(" ")[1];
 
 const reducer = combineReducers({
   order: orderReducer,

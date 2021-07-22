@@ -1,3 +1,6 @@
+import { refreshToken } from "src/services/effects";
+import Cookies from "js-cookie";
+
 export const socketMiddleware = (wsUrl) => {
   return (store) => {
     let socket = null;
@@ -66,11 +69,17 @@ export const socketMiddlewareOwn = (wsUrl) => {
 
       if (type === "WS_CONNECTION_START_OWN") {
         // объект класса WebSocket
-        socket = new WebSocket(wsUrl);
+        console.log(payload);
+        if (payload?.wsUrl !== undefined) {
+          socket = new WebSocket(payload.wsUrl);
+        } else {
+          socket = new WebSocket(wsUrl);
+        }
       }
 
       if (type === "WS_CONNECTION_USER_CLOSE_OWN") {
         // объект класса WebSocket
+
         socket.close(1000, "Юзер покинул страницу");
       }
       if (socket) {
@@ -88,14 +97,23 @@ export const socketMiddlewareOwn = (wsUrl) => {
         socket.onmessage = (event) => {
           const { data } = event;
           const messeges = JSON.parse(data);
-          dispatch({
-            type: "WS_GET_MESSAGE_OWN",
-            payload: {
-              orders: messeges.orders,
-              total: messeges.total,
-              totalToday: messeges.totalToday,
-            },
-          });
+
+          if (messeges.message && messeges.message === "Invalid or missing token") {
+            refreshToken().then(() => {
+              let accessToken = Cookies.get("token").split(" ")[1];
+              const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
+              dispatch({ type: "WS_CONNECTION_START_OWN", payload: { wsUrl } });
+            });
+          } else if (messeges.success) {
+            dispatch({
+              type: "WS_GET_MESSAGE_OWN",
+              payload: {
+                orders: messeges.orders,
+                total: messeges.total,
+                totalToday: messeges.totalToday,
+              },
+            });
+          }
         };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = (event) => {
