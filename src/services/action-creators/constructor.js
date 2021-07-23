@@ -3,6 +3,7 @@ import {
   REMOVE_INGREDIENT,
   ADD_BUN,
   REMOVE_BUN,
+  CLEAR_INGREDIENTS,
   REBASE_ITEMS,
   CALC_TOTAL_COST,
 } from "../action-types/constructor";
@@ -15,6 +16,10 @@ export const addIngredient = ({ ingredient }) => ({
 export const removeIngredient = ({ id }) => ({
   type: REMOVE_INGREDIENT,
   id,
+});
+
+export const clearIngredients = () => ({
+  type: CLEAR_INGREDIENTS,
 });
 
 export const addBun = ({ bun }) => ({

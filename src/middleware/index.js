@@ -1,3 +1,22 @@
+import {
+  WS_CONNECTION_START_OWN,
+  WS_CONNECTION_SUCCESS_OWN,
+  WS_CONNECTION_ERROR_OWN,
+  WS_CONNECTION_CLOSED_OWN,
+  WS_CONNECTION_USER_CLOSE_OWN,
+  WS_GET_MESSAGE_OWN,
+  WS_SEND_MESSAGE_OWN,
+} from "../services/action-types/websocket-own";
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSED,
+  WS_CONNECTION_USER_CLOSE,
+  WS_GET_MESSAGE,
+  WS_SEND_MESSAGE,
+} from "../services/action-types/websocket";
+
 import { refreshToken } from "src/services/effects";
 import Cookies from "js-cookie";
 
@@ -9,24 +28,24 @@ export const socketMiddleware = (wsUrl) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
-      if (type === "WS_CONNECTION_START") {
+      if (type === WS_CONNECTION_START) {
         // объект класса WebSocket
         socket = new WebSocket(wsUrl);
       }
 
-      if (type === "WS_CONNECTION_USER_CLOSE") {
+      if (type === WS_CONNECTION_USER_CLOSE) {
         // объект класса WebSocket
         socket.close(1000, "Юзер покинул страницу");
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
         socket.onopen = (event) => {
-          dispatch({ type: "WS_CONNECTION_SUCCESS", payload: event });
+          dispatch({ type: WS_CONNECTION_SUCCESS, payload: event });
         };
 
         // функция, которая вызывается при ошибке соединения
         socket.onerror = (event) => {
-          dispatch({ type: "WS_CONNECTION_ERROR", payload: event });
+          dispatch({ type: WS_CONNECTION_ERROR, payload: event });
         };
 
         // функция, которая вызывается при получения события от сервера
@@ -34,7 +53,7 @@ export const socketMiddleware = (wsUrl) => {
           const { data } = event;
           const messeges = JSON.parse(data);
           dispatch({
-            type: "WS_GET_MESSAGE",
+            type: WS_GET_MESSAGE,
             payload: {
               orders: messeges.orders,
               total: messeges.total,
@@ -44,10 +63,10 @@ export const socketMiddleware = (wsUrl) => {
         };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = (event) => {
-          dispatch({ type: "WS_CONNECTION_CLOSED", payload: event });
+          dispatch({ type: WS_CONNECTION_CLOSED, payload: event });
         };
 
-        if (type === "WS_SEND_MESSAGE") {
+        if (type === WS_SEND_MESSAGE) {
           const message = payload;
           // функция для отправки сообщения на сервер
           socket.send(JSON.stringify(message));
@@ -67,7 +86,7 @@ export const socketMiddlewareOwn = (wsUrl) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
-      if (type === "WS_CONNECTION_START_OWN") {
+      if (type === WS_CONNECTION_START_OWN) {
         // объект класса WebSocket
         console.log(payload);
         if (payload?.wsUrl !== undefined) {
@@ -77,7 +96,7 @@ export const socketMiddlewareOwn = (wsUrl) => {
         }
       }
 
-      if (type === "WS_CONNECTION_USER_CLOSE_OWN") {
+      if (type === WS_CONNECTION_USER_CLOSE_OWN) {
         // объект класса WebSocket
 
         socket.close(1000, "Юзер покинул страницу");
@@ -85,12 +104,12 @@ export const socketMiddlewareOwn = (wsUrl) => {
       if (socket) {
         // функция, которая вызывается при открытии сокета
         socket.onopen = (event) => {
-          dispatch({ type: "WS_CONNECTION_SUCCESS_OWN", payload: event });
+          dispatch({ type: WS_CONNECTION_SUCCESS_OWN, payload: event });
         };
 
         // функция, которая вызывается при ошибке соединения
         socket.onerror = (event) => {
-          dispatch({ type: "WS_CONNECTION_ERROR_OWN", payload: event });
+          dispatch({ type: WS_CONNECTION_ERROR_OWN, payload: event });
         };
 
         // функция, которая вызывается при получения события от сервера
@@ -102,11 +121,11 @@ export const socketMiddlewareOwn = (wsUrl) => {
             refreshToken().then(() => {
               let accessToken = Cookies.get("token").split(" ")[1];
               const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
-              dispatch({ type: "WS_CONNECTION_START_OWN", payload: { wsUrl } });
+              dispatch({ type: WS_CONNECTION_START_OWN, payload: { wsUrl } });
             });
           } else if (messeges.success) {
             dispatch({
-              type: "WS_GET_MESSAGE_OWN",
+              type: WS_GET_MESSAGE_OWN,
               payload: {
                 orders: messeges.orders,
                 total: messeges.total,
@@ -117,10 +136,10 @@ export const socketMiddlewareOwn = (wsUrl) => {
         };
         // функция, которая вызывается при закрытии соединения
         socket.onclose = (event) => {
-          dispatch({ type: "WS_CONNECTION_CLOSED_OWN", payload: event });
+          dispatch({ type: WS_CONNECTION_CLOSED_OWN, payload: event });
         };
 
-        if (type === "WS_SEND_MESSAGE_OWN") {
+        if (type === WS_SEND_MESSAGE_OWN) {
           const message = payload;
           // функция для отправки сообщения на сервер
           socket.send(JSON.stringify(message));

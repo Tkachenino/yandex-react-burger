@@ -6,7 +6,7 @@ import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
 import { setOrder } from "../../services/effects";
 import style from "./burger-constructor-total.module.css";
-import { calcTotalCost } from "../../services/action-creators/constructor";
+import { calcTotalCost, clearIngredients } from "../../services/action-creators/constructor";
 import { clearOrderError } from "../../services/action-creators/order";
 
 const BurgerConstructorTotal = () => {
@@ -59,7 +59,12 @@ const BurgerConstructorTotal = () => {
         </Button>
 
         {showModal && (
-          <Modal onDestroyModal={() => setShowModal(false)}>
+          <Modal
+            onDestroyModal={() => {
+              setShowModal(false);
+              dispatch(clearIngredients());
+            }}
+          >
             <OrderDetails orderId={orderId} />
           </Modal>
         )}

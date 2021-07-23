@@ -2,6 +2,10 @@ import { useEffect, useMemo } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getIngredients } from "../../services/effects";
 import OrderCard from "src/components/order-card";
+import {
+  WS_CONNECTION_START,
+  WS_CONNECTION_USER_CLOSE,
+} from "../../services/action-types/websocket";
 import style from "./feed.module.css";
 
 const Feed = () => {
@@ -10,11 +14,11 @@ const Feed = () => {
   const { ingredients } = useSelector((store) => store.ingredients);
 
   useEffect(() => {
-    dispatch({ type: "WS_CONNECTION_START" });
+    dispatch({ type: WS_CONNECTION_START });
     return () => {
-      dispatch({ type: "WS_CONNECTION_USER_CLOSE" });
+      dispatch({ type: WS_CONNECTION_USER_CLOSE });
     };
-  }, []);
+  }, [dispatch]);
 
   const doneOrders = useMemo(() => {
     return orders.filter((order) => {
@@ -43,7 +47,7 @@ const Feed = () => {
           Кажется стабильная работа нарушена, давайте презеагрузим роутер
         </p>
       )}
-      {wsConnected && (
+      {wsConnected && !!ingredients.length && !!orders.length && (
         <div className={style.contentWrapper}>
           <div className={style.orderList}>
             {orders.map((i) => (

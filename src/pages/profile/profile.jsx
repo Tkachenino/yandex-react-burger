@@ -24,10 +24,8 @@ const Profile = () => {
 
   const nameRef = useRef(null);
   const emailRef = useRef(null);
-  // const passwordRef = useRef(null);
   const [name, setName] = useState(globalName);
   const [email, setEmail] = useState(globalEmail);
-  // const [password, setPassword] = useState("");
 
   const handlerLogout = () => {
     dispatch(logout(history));
@@ -111,19 +109,6 @@ const Profile = () => {
             errorText={"Ошибка"}
             size={"default"}
           />
-          {/* <Input
-          type={"text"}
-          placeholder={"Пароль"}
-          onChange={(e) => setPassword(e.target.value)}
-          icon={"EditIcon"}
-          value={password}
-          name={"password"}
-          error={false}
-          ref={passwordRef}
-          // onIconClick={onIconClick}
-          errorText={"Ошибка"}
-          size={"default"}
-        /> */}
         </form>
         <div>
           <Button type="secondary" size="medium" onClick={handlerCancel}>

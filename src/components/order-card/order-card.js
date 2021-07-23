@@ -15,7 +15,6 @@ const statusDictionary = {
 
 const OrderCard = ({ order, ingredients }) => {
   const location = useLocation();
-  console.log(location);
 
   const [showModal, setShowModal] = useState(false);
 
@@ -25,11 +24,23 @@ const OrderCard = ({ order, ingredients }) => {
   };
 
   const currentIngredients = useMemo(() => {
-    return order.ingredients.map((i) => {
+    const infoArray = order.ingredients.map((i) => {
       return ingredients.find((ingredient) => {
         return ingredient._id === i;
       });
     });
+
+    let uniqInfoArray = [];
+    infoArray.forEach((infoItem) => {
+      if (uniqInfoArray.some((uniqItem) => uniqItem._id === infoItem._id)) {
+        const idx = uniqInfoArray.findIndex((i) => i._id === infoItem._id);
+        uniqInfoArray[idx] = { ...uniqInfoArray[idx], count: ++uniqInfoArray[idx].count };
+      } else {
+        uniqInfoArray.push({ ...infoItem, count: 1 });
+      }
+    });
+
+    return uniqInfoArray;
   }, [order, ingredients]);
 
   const orderTotalCost = useMemo(() => {
@@ -63,6 +74,11 @@ const OrderCard = ({ order, ingredients }) => {
               >
                 <div className={style.ingredient}>
                   <img src={ingredient.image_mobile} width="64" />
+                  {ingredient.count > 1 && (
+                    <div className={style.countWrapper}>
+                      <p className="text text_type_main-default">+{ingredient.count - 1}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}

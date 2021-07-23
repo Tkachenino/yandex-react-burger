@@ -5,6 +5,7 @@ import {
   ADD_BUN,
   REMOVE_BUN,
   REBASE_ITEMS,
+  CLEAR_INGREDIENTS,
   CALC_TOTAL_COST,
 } from "../action-types/constructor";
 
@@ -31,6 +32,13 @@ export const constructorReducer = (state = initState, action) => {
         constructorIngredient: state.constructorIngredient.filter(
           (item) => item.constructorId !== action.id
         ),
+      };
+    }
+    case CLEAR_INGREDIENTS: {
+      return {
+        ...state,
+        constructorIngredient: [],
+        bun: null,
       };
     }
     case ADD_BUN: {

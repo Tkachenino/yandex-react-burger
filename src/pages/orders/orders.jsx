@@ -4,13 +4,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import { logout, getIngredients } from "src/services/effects";
-
+import {
+  WS_CONNECTION_START_OWN,
+  WS_CONNECTION_USER_CLOSE_OWN,
+} from "../../services/action-types/websocket-own";
 import style from "./orders.module.css";
 
 const Orders = () => {
   const { ingredients } = useSelector((store) => store.ingredients);
   const {
-    //  wsConnected,
+    wsConnected,
     orders,
     //  error, total, totalToday
   } = useSelector((store) => store.wsOwn);
@@ -19,11 +22,11 @@ const Orders = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch({ type: "WS_CONNECTION_START_OWN" });
+    dispatch({ type: WS_CONNECTION_START_OWN });
     return () => {
-      dispatch({ type: "WS_CONNECTION_USER_CLOSE_OWN" });
+      dispatch({ type: WS_CONNECTION_USER_CLOSE_OWN });
     };
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!ingredients.length) {
@@ -74,9 +77,10 @@ const Orders = () => {
       </div>
 
       <div className={style.ordersList}>
-        {orders.map((i) => (
-          <OrderCard key={i._id} order={i} ingredients={ingredients} />
-        ))}
+        {wsConnected &&
+          !!ingredients.length &&
+          !!orders.length &&
+          orders.map((i) => <OrderCard key={i._id} order={i} ingredients={ingredients} />)}
       </div>
     </div>
   );

@@ -1,10 +1,8 @@
 import {
-  // WS_CONNECTION_START,
   WS_CONNECTION_SUCCESS_OWN,
   WS_CONNECTION_ERROR_OWN,
   WS_CONNECTION_CLOSED_OWN,
   WS_GET_MESSAGE_OWN,
-  // WS_SEND_MESSAGE,
 } from "../action-types/websocket-own.js";
 
 const initialState = {
