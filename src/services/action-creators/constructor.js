@@ -8,9 +8,10 @@ import {
   CALC_TOTAL_COST,
 } from "../action-types/constructor";
 
-export const addIngredient = ({ ingredient }) => ({
+export const addIngredient = ({ ingredient, constructorId }) => ({
   type: ADD_INGREDIENT,
   ingredient,
+  constructorId,
 });
 
 export const removeIngredient = ({ id }) => ({
@@ -22,9 +23,10 @@ export const clearIngredients = () => ({
   type: CLEAR_INGREDIENTS,
 });
 
-export const addBun = ({ bun }) => ({
+export const addBun = ({ bun, constructorId }) => ({
   type: ADD_BUN,
   bun,
+  constructorId,
 });
 
 export const removeBun = () => ({

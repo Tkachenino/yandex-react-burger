@@ -12,7 +12,7 @@ import {
 } from "../action-types/profile";
 
 export const initState = {
-  user: { email: "", name: "", password: "" },
+  user: { email: "", name: "" },
   loading: false,
   isAuth: !!localStorage.getItem("refresh"),
   error: null,
@@ -31,7 +31,6 @@ export const profileReducer = (state = initState, action) => {
         user: {
           email: action.payload.email,
           name: action.payload.name,
-          // password: action.payload.password,
         },
         loading: false,
         isAuth: true,
@@ -55,7 +54,6 @@ export const profileReducer = (state = initState, action) => {
         user: {
           email: action.payload.email,
           name: action.payload.name,
-          // password: action.payload.password,
         },
         loading: false,
         isAuth: true,
@@ -80,7 +78,6 @@ export const profileReducer = (state = initState, action) => {
         user: {
           email: action.payload.email,
           name: action.payload.name,
-          // password: action.payload.password,
         },
         loading: false,
         isAuth: true,
