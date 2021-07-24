@@ -12,12 +12,19 @@ import Orders from "../../pages/orders";
 import Ingredient from "../../pages/ingredient";
 import Feed from "../../pages/feed";
 import FeedId from "../../pages/feed-id";
+import Order from "../../pages/order";
 
 import NotFoundPage from "../../pages/not-found-page";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AppHeader from "../app-header";
 import BurgerIngredients from "../burger-ingredients";
 import BurgerConstructor from "../burger-constructor";
+
+import dayjs from "dayjs";
+import "dayjs/locale/ru";
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime);
+dayjs.locale("ru");
 
 import "./app.module.css";
 
@@ -28,6 +35,9 @@ const App = () => {
         <AppHeader history={history} />
         <main>
           <Switch>
+            <Route exact={true} path="/profile/orders/:id">
+              <Order />
+            </Route>
             <Route exact={true} path="/feed/:id">
               <FeedId />
             </Route>

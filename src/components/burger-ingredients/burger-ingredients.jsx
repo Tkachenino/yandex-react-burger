@@ -9,11 +9,12 @@ import style from "./burger-ingredients.module.css";
 
 const BurgerIngredients = () => {
   const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(getIngredients());
-  }, [dispatch]);
-
   const { ingredients, error, loading } = useSelector((store) => store.ingredients);
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [ingredients, dispatch]);
 
   const [current, setCurrent] = useState("bun");
   const wrapperRef = useRef(null);

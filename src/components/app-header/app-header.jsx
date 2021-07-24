@@ -49,7 +49,7 @@ const AppHeader = () => {
           <p className="text text_type_main-default text_color_inactive  ml-2">Личный кабинет</p>
         </button>
 
-        <div className={style.logo}>
+        <div className={style.logo} onClick={handlerConstructor}>
           <Logo />
         </div>
       </nav>

@@ -1,60 +1,38 @@
 import { NavLink } from "react-router-dom";
 import OrderCard from "src/components/order-card";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { logout } from "src/services/effects";
+import { logout, getIngredients } from "src/services/effects";
+import {
+  WS_CONNECTION_START_OWN,
+  WS_CONNECTION_USER_CLOSE_OWN,
+} from "../../services/action-types/websocket-own";
 import style from "./orders.module.css";
 
-const fakeData = [
-  {
-    id: 123456,
-    name: "Death Star Starship Main бургер",
-    status: "Создан",
-    date: "01.02.1991",
-    ingredients: [
-      { id: "60d3b41abdacab0026a733c6", img: "https://code.s3.yandex.net/react/code/bun-02.png" },
-      { id: "60d3b41abdacab0026a733ca", img: "https://code.s3.yandex.net/react/code/meat-04.png" },
-      { id: "60d3b41abdacab0026a733d2", img: "https://code.s3.yandex.net/react/code/core.png" },
-    ],
-  },
-  {
-    id: 123451,
-    name: "Death Star Starship Main бургер",
-    status: "Готовится",
-    date: "01.02.1991",
-    ingredients: [
-      { id: "60d3b41abdacab0026a733c6", img: "https://code.s3.yandex.net/react/code/bun-02.png" },
-      { id: "60d3b41abdacab0026a733ca", img: "https://code.s3.yandex.net/react/code/meat-04.png" },
-      { id: "60d3b41abdacab0026a733d2", img: "https://code.s3.yandex.net/react/code/core.png" },
-    ],
-  },
-  {
-    id: 123453,
-    name: "Death Star Starship Main бургер",
-    status: "Выполнен",
-    date: "01.02.1991",
-    ingredients: [
-      { id: "60d3b41abdacab0026a733c6", img: "https://code.s3.yandex.net/react/code/bun-02.png" },
-      { id: "60d3b41abdacab0026a733ca", img: "https://code.s3.yandex.net/react/code/meat-04.png" },
-      { id: "60d3b41abdacab0026a733d2", img: "https://code.s3.yandex.net/react/code/core.png" },
-    ],
-  },
-  {
-    id: 123454,
-    name: "Death Star Starship Main бургер",
-    status: "Выполнен",
-    date: "01.02.1991",
-    ingredients: [
-      { id: "60d3b41abdacab0026a733c6", img: "https://code.s3.yandex.net/react/code/bun-02.png" },
-      { id: "60d3b41abdacab0026a733ca", img: "https://code.s3.yandex.net/react/code/meat-04.png" },
-      { id: "60d3b41abdacab0026a733d2", img: "https://code.s3.yandex.net/react/code/core.png" },
-    ],
-  },
-];
-
 const Orders = () => {
+  const { ingredients } = useSelector((store) => store.ingredients);
+  const {
+    wsConnected,
+    orders,
+    //  error, total, totalToday
+  } = useSelector((store) => store.wsOwn);
+
   const history = useHistory();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch({ type: WS_CONNECTION_START_OWN });
+    return () => {
+      dispatch({ type: WS_CONNECTION_USER_CLOSE_OWN });
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (!ingredients.length) {
+      dispatch(getIngredients());
+    }
+  }, [ingredients, dispatch]);
 
   const handlerLogout = () => {
     dispatch(logout(history));
@@ -99,9 +77,10 @@ const Orders = () => {
       </div>
 
       <div className={style.ordersList}>
-        {fakeData.map((i) => (
-          <OrderCard key={i.id} order={i} />
-        ))}
+        {wsConnected &&
+          !!ingredients.length &&
+          !!orders.length &&
+          orders.map((i) => <OrderCard key={i._id} order={i} ingredients={ingredients} />)}
       </div>
     </div>
   );

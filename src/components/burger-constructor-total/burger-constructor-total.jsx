@@ -4,9 +4,9 @@ import { useHistory } from "react-router-dom";
 import Modal from "../modal";
 import OrderDetails from "../order-details";
 import { CurrencyIcon, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { getOrder } from "../../services/effects";
+import { setOrder } from "../../services/effects";
 import style from "./burger-constructor-total.module.css";
-import { calcTotalCost } from "../../services/action-creators/constructor";
+import { calcTotalCost, clearIngredients } from "../../services/action-creators/constructor";
 import { clearOrderError } from "../../services/action-creators/order";
 
 const BurgerConstructorTotal = () => {
@@ -35,7 +35,7 @@ const BurgerConstructorTotal = () => {
     }
   }, [dispatch, orderError]);
 
-  const setOrder = () => {
+  const handlerCreateOrder = () => {
     if (!isAuth) {
       history.push("/login");
       return;
@@ -43,7 +43,7 @@ const BurgerConstructorTotal = () => {
     if (orderLoading) {
       return;
     }
-    dispatch(getOrder(setShowModal));
+    dispatch(setOrder(setShowModal));
   };
 
   return (
@@ -54,12 +54,17 @@ const BurgerConstructorTotal = () => {
           <CurrencyIcon type="primary" />
         </div>
 
-        <Button type="primary" size="large" onClick={setOrder}>
+        <Button type="primary" size="large" onClick={handlerCreateOrder}>
           {orderLoading ? "Идет запрос" : "Нажми на меня"}
         </Button>
 
         {showModal && (
-          <Modal onDestroyModal={() => setShowModal(false)}>
+          <Modal
+            onDestroyModal={() => {
+              setShowModal(false);
+              dispatch(clearIngredients());
+            }}
+          >
             <OrderDetails orderId={orderId} />
           </Modal>
         )}

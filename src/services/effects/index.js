@@ -1,7 +1,14 @@
 import Cookies from "js-cookie";
 import { URL_ADDRESS } from "../../utils/const";
 import { getItemError, getItemRequest, getItemSuccess } from "../action-creators/ingredients";
-import { setOrderError, setOrderRequest, setOrderSuccess } from "../action-creators/order";
+import {
+  setOrderError,
+  setOrderRequest,
+  setOrderSuccess,
+  getOrderError,
+  getOrderRequest,
+  getOrderSuccess,
+} from "../action-creators/order";
 import {
   getRegisterReguest,
   getRegisterSuccess,
@@ -26,7 +33,7 @@ const clearToken = () => {
   localStorage.removeItem("refresh");
 };
 
-const refreshToken = async (cb = null, ...params) => {
+export const refreshToken = async (cb = null, ...params) => {
   try {
     const resp = await fetch(`${URL_ADDRESS}/auth/token`, {
       method: "POST",
@@ -72,7 +79,10 @@ export const getIngredients = () => async (dispatch) => {
   }
 };
 
-export const getOrder = (setShowModal) => async (dispatch, store) => {
+export const setOrder = (setShowModal) => async (dispatch, store) => {
+  if (!Cookies.get("token")) {
+    await refreshToken();
+  }
   const { bun, constructorIngredient } = store().constructorIngredient;
   dispatch(setOrderRequest());
   try {
@@ -83,6 +93,7 @@ export const getOrder = (setShowModal) => async (dispatch, store) => {
       }),
       headers: {
         "Content-Type": "application/json",
+        authorization: Cookies.get("token"),
       },
     });
 
@@ -97,6 +108,31 @@ export const getOrder = (setShowModal) => async (dispatch, store) => {
     setShowModal(true);
   } catch (error) {
     dispatch(setOrderError({ error: error.message }));
+  }
+};
+
+export const getOrder = (id) => async (dispatch) => {
+  dispatch(getOrderRequest());
+  try {
+    const resp = await fetch(`${URL_ADDRESS}/orders/${id}`, {
+      method: "GET",
+
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    if (!resp.ok) {
+      throw new Error("Ответ сети не ok");
+    }
+    const answer = await resp.json();
+    if (!answer.success) {
+      throw new Error("Запрос завершился с отрицательным статусом");
+    }
+
+    dispatch(getOrderSuccess({ order: answer.orders[0] }));
+  } catch (error) {
+    dispatch(getOrderError({ error: error.message }));
   }
 };
 
