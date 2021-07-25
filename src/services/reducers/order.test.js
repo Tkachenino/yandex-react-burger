@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { orderReducer as reducer } from "./order";
 import * as types from "../action-types/order";
 

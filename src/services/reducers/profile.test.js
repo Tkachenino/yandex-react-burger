@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { profileReducer as reducer } from "./profile";
 import * as types from "../action-types/profile";
 

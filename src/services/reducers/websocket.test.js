@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { wsReducer as reducer } from "./websocket";
 import * as types from "../action-types/websocket";
 

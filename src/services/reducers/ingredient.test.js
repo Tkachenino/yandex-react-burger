@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { ingredientReducer as reducer } from "./ingredient";
 import * as types from "../action-types/ingredient";
 

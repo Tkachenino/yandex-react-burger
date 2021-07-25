@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { constructorReducer as reducer } from "./constructor";
 import * as types from "../action-types/constructor";
 

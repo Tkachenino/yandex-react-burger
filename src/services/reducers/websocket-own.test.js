@@ -1,4 +1,3 @@
-/* eslint-disable no-undef */
 import { wsOwnReducer as reducer } from "./websocket-own";
 import * as types from "../action-types/websocket-own";
 
