@@ -10,6 +10,7 @@ module.exports = {
     "prettier",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:cypress/recommended",
     // 'plugin:@typescript-eslint/recommended',
   ],
   // parser: '@typescript-eslint/parser',
@@ -24,6 +25,7 @@ module.exports = {
     "react",
     "prettier",
     "jest",
+    "cypress",
     //  '@typescript-eslint'
   ],
   rules: {
