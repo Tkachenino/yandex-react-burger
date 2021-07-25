@@ -40,6 +40,7 @@ export const profileReducer = (state = initState, action) => {
     case REGISTER_ERROR: {
       return {
         ...state,
+        loading: false,
         error: action.payload.error,
       };
     }
@@ -63,6 +64,7 @@ export const profileReducer = (state = initState, action) => {
     case AUTH_ERROR: {
       return {
         ...state,
+        loading: false,
         error: action.payload.error,
       };
     }
@@ -87,6 +89,7 @@ export const profileReducer = (state = initState, action) => {
     case PROFILE_ERROR: {
       return {
         ...state,
+        loading: false,
         error: action.payload.error,
       };
     }
