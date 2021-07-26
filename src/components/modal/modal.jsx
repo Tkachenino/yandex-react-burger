@@ -18,7 +18,7 @@ const Modal = ({ header = null, onDestroyModal, children }) => {
         {children}
       </div>
     </>,
-    document.querySelector(".App")
+    document.querySelector("#modal")
   );
 };
 
