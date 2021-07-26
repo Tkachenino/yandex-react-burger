@@ -78,6 +78,23 @@ describe("service is available", async function () {
     cy.get("@constructor").trigger("drop");
   });
 
+  it("should change ingredients position in constructor", () => {
+    cy.get("[class^=burger-constructor_constructor__]")
+      .find("[class^=burger-constructor_constructorList__]")
+      .find("[class^=burger-constructor-drag-ingredient_constructorItem__]")
+      .eq(2)
+      .as("lastItem");
+    cy.get("[class^=burger-constructor_constructor__]")
+      .find("[class^=burger-constructor_constructorList__]")
+      .find("[class^=burger-constructor-drag-ingredient_constructorItem__]")
+      .eq(1)
+      .as("middleItem");
+
+    cy.get("@lastItem").trigger("dragstart");
+
+    cy.get("@middleItem").trigger("dragenter").trigger("drop");
+  });
+
   it("should change bun", () => {
     cy.get("#bun")
       .find("[class^=burger-ingredients-list_ingredients_list__]")
