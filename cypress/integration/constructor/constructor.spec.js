@@ -11,6 +11,14 @@ describe("service is available", async function () {
       .as("firstBun");
     cy.get("[class^=burger-constructor_constructor__]").as("constructor");
     cy.get("@firstBun").should("exist");
+
+    cy.get("@firstBun")
+      .find("[class^=burger-ingredients-item_image]")
+      .should("be.visible")
+      .and(($img) => {
+        expect($img[0].naturalWidth).to.be.greaterThan(0);
+      });
+
     cy.get("@constructor").should("exist");
 
     cy.get("@firstBun").trigger("dragstart");
