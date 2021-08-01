@@ -15,7 +15,7 @@ const Profile = () => {
     if (!globalName && !globalEmail) {
       dispatch(getProfile());
     }
-  }, []);
+  }, [dispatch, globalEmail, globalName]);
 
   useEffect(() => {
     setName(globalName);

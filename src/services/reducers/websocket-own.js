@@ -3,7 +3,7 @@ import {
   WS_CONNECTION_ERROR_OWN,
   WS_CONNECTION_CLOSED_OWN,
   WS_GET_MESSAGE_OWN,
-} from "../action-types/websocket-own.js";
+} from "../action-types/websocket-own";
 
 const initialState = {
   wsConnected: false,

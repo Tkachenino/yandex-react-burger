@@ -9,15 +9,15 @@ import style from "./app-header.module.css";
 
 const AppHeader = () => {
   let history = useHistory();
-  const handlerConstructor = () => {
+  const handlerConstructor = (): void => {
     history.push("/");
   };
 
-  const handlerOrderList = () => {
+  const handlerOrderList = (): void => {
     history.push("/feed");
   };
 
-  const handlerProfile = () => {
+  const handlerProfile = (): void => {
     history.push("/profile");
   };
 
