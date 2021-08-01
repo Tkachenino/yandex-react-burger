@@ -5,6 +5,7 @@ import { useDrop } from "react-dnd";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorTotal from "../burger-constructor-total";
 import style from "./burger-constructor.module.css";
+import { nanoid } from "nanoid";
 
 const BurgerConstructor = () => {
   const dispatch = useDispatch();
@@ -14,9 +15,11 @@ const BurgerConstructor = () => {
     accept: "ingredient",
     drop(item) {
       if (item.type === "bun") {
-        dispatch(addBun({ bun: item }));
+        let constructorId = nanoid();
+        dispatch(addBun({ bun: item, constructorId }));
       } else {
-        dispatch(addIngredient({ ingredient: item }));
+        let constructorId = nanoid();
+        dispatch(addIngredient({ ingredient: item, constructorId }));
       }
     },
   });

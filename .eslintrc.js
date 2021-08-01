@@ -3,12 +3,14 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    "jest/globals": true,
   },
   extends: [
     "eslint:recommended",
     "prettier",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
+    "plugin:cypress/recommended",
     // 'plugin:@typescript-eslint/recommended',
   ],
   // parser: '@typescript-eslint/parser',
@@ -22,6 +24,8 @@ module.exports = {
   plugins: [
     "react",
     "prettier",
+    "jest",
+    "cypress",
     //  '@typescript-eslint'
   ],
   rules: {

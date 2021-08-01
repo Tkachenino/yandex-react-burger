@@ -1,4 +1,3 @@
-import { nanoid } from "@reduxjs/toolkit";
 import {
   ADD_INGREDIENT,
   REMOVE_INGREDIENT,
@@ -22,7 +21,7 @@ export const constructorReducer = (state = initState, action) => {
         ...state,
         constructorIngredient: [
           ...state.constructorIngredient,
-          { ...action.ingredient, constructorId: nanoid() },
+          { ...action.ingredient, constructorId: action.constructorId },
         ],
       };
     }
@@ -44,7 +43,7 @@ export const constructorReducer = (state = initState, action) => {
     case ADD_BUN: {
       return {
         ...state,
-        bun: { ...action.bun, constructorId: nanoid() },
+        bun: { ...action.bun, constructorId: action.constructorId },
       };
     }
     case REMOVE_BUN: {
