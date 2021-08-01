@@ -1,12 +1,23 @@
 import { GET_ITEM_REQUEST, GET_ITEM_SUCCESS, GET_ITEM_ERROR } from "../action-types/ingredients";
+import { TIngredient } from "../../data/types";
+import { TIngredientsActions } from "../action-creators/ingredients";
 
-export const initState = {
+type TIngredientsState = {
+  loading: boolean;
+  error: null | {};
+  ingredients: Array<TIngredient>;
+};
+
+export const initState: TIngredientsState = {
   loading: false,
   error: null,
   ingredients: [],
 };
 
-export const ingredientsReducer = (state = initState, action) => {
+export const ingredientsReducer = (
+  state = initState,
+  action: TIngredientsActions
+): TIngredientsState => {
   switch (action.type) {
     case GET_ITEM_REQUEST: {
       return {

@@ -7,18 +7,7 @@ import {
   GET_ORDER_ERROR,
   CLEAR_ORDER_ERROR,
 } from "../action-types/order";
-
-export type TOrder = {
-  _id: string;
-  ingredients: Array<string>;
-  owner: string;
-  status: string;
-  name: string;
-  createdAt: string;
-  updatedAt: string;
-  number: number;
-  __v: number;
-};
+import { TOrder } from "../../data/types";
 
 interface ISetOrderRequest {
   type: typeof SET_ORDER_REQUEST;
@@ -51,6 +40,15 @@ interface IGetOrderError {
 interface IClearOrderError {
   type: typeof CLEAR_ORDER_ERROR;
 }
+
+export type TOrderActions =
+  | ISetOrderRequest
+  | ISetOrderSuccess
+  | ISetOrderError
+  | IGetOrderRequest
+  | IGetOrderSuccess
+  | IGetOrderError
+  | IClearOrderError;
 
 export const setOrderRequest = (): ISetOrderRequest => ({
   type: SET_ORDER_REQUEST,

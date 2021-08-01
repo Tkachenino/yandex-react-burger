@@ -10,15 +10,24 @@ import {
   PROFILE_SUCCESS,
   PROFILE_ERROR,
 } from "../action-types/profile";
+import { TRegisterData } from "../../data/types";
+import { TProfileActions } from "../action-creators/profile";
 
-export const initState = {
+type TProfileStore = {
+  user: TRegisterData;
+  loading: boolean;
+  isAuth: boolean;
+  error: null | {};
+};
+
+export const initState: TProfileStore = {
   user: { email: "", name: "" },
   loading: false,
   isAuth: !!localStorage.getItem("refresh"),
   error: null,
 };
 
-export const profileReducer = (state = initState, action) => {
+export const profileReducer = (state = initState, action: TProfileActions): TProfileStore => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {

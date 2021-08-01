@@ -1,5 +1,5 @@
 import { GET_ITEM_REQUEST, GET_ITEM_SUCCESS, GET_ITEM_ERROR } from "../action-types/ingredients";
-import { TIngredient } from "./constructor";
+import { TIngredient } from "../../data/types";
 
 interface IGetItemRequest {
   type: typeof GET_ITEM_REQUEST;
@@ -14,6 +14,8 @@ interface IGetItemError {
   type: typeof GET_ITEM_ERROR;
   error: {};
 }
+
+export type TIngredientsActions = IGetItemRequest | IGtItemSuccess | IGetItemError;
 
 export const getItemRequest = (): IGetItemRequest => ({
   type: GET_ITEM_REQUEST,

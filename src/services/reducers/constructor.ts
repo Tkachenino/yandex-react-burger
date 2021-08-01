@@ -7,14 +7,25 @@ import {
   CLEAR_INGREDIENTS,
   CALC_TOTAL_COST,
 } from "../action-types/constructor";
+import { TConstructorActions } from "../action-creators/constructor";
+import { TUniqIngredient } from "../../data/types";
 
-export const initState = {
+type TConstructorState = {
+  constructorIngredient: Array<TUniqIngredient>;
+  bun: null | TUniqIngredient;
+  totalCost: number;
+};
+
+export const initState: TConstructorState = {
   constructorIngredient: [],
   bun: null,
   totalCost: 0,
 };
 
-export const constructorReducer = (state = initState, action) => {
+export const constructorReducer = (
+  state = initState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {

@@ -7,15 +7,24 @@ import {
   GET_ORDER_ERROR,
   CLEAR_ORDER_ERROR,
 } from "../action-types/order";
+import { TOrder } from "../../data/types";
+import { TOrderActions } from "../action-creators/order";
 
-export const initState = {
+type TOrderStore = {
+  orderId: null | number;
+  order: null | TOrder;
+  orderLoading: boolean;
+  orderError: null | {};
+};
+
+export const initState: TOrderStore = {
   orderId: null,
   order: null,
   orderLoading: false,
   orderError: null,
 };
 
-export const orderReducer = (state = initState, action) => {
+export const orderReducer = (state = initState, action: TOrderActions): TOrderStore => {
   switch (action.type) {
     case SET_ORDER_REQUEST: {
       return {

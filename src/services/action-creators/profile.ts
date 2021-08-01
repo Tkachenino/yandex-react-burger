@@ -10,15 +10,7 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
 } from "../action-types/profile";
-
-type TRegisterData = {
-  name: string;
-  email: string;
-};
-
-type IRegisterDataWithPassword = TRegisterData & {
-  password: string;
-};
+import { TRegisterData, IRegisterDataWithPassword } from "../../data/types";
 
 interface IGtRegisterReguest {
   type: typeof REGISTER_REQUEST;
@@ -65,6 +57,18 @@ interface IGetProfileError {
 interface IClearProfile {
   type: typeof CLEAR_PROFILE;
 }
+
+export type TProfileActions =
+  | IGtRegisterReguest
+  | IGetRegisterSuccess
+  | IGetRegisterError
+  | IGetAuthReguest
+  | IGetAuthSuccess
+  | IGetAuthError
+  | IGetProfileReguest
+  | IGetProfileSuccess
+  | IGetProfileError
+  | IClearProfile;
 
 export const getRegisterReguest = (): IGtRegisterReguest => ({
   type: REGISTER_REQUEST,

@@ -1,11 +1,21 @@
 import {
-  WS_CONNECTION_SUCCESS_OWN,
-  WS_CONNECTION_ERROR_OWN,
-  WS_CONNECTION_CLOSED_OWN,
-  WS_GET_MESSAGE_OWN,
-} from "../action-types/websocket-own";
+  WS_CONNECTION_SUCCESS,
+  WS_CONNECTION_ERROR,
+  WS_CONNECTION_CLOSED,
+  WS_GET_MESSAGE,
+} from "../action-types/websocket";
+import { TWsActions } from "../action-creators/websocket";
+import { TOrder } from "../../data/types";
 
-const initialState = {
+type TWsStore = {
+  wsConnected: boolean;
+  orders: Array<TOrder>;
+  error: null | {};
+  total: null | number;
+  totalToday: null | number;
+};
+
+const initialState: TWsStore = {
   wsConnected: false,
   orders: [],
   error: null,
@@ -14,11 +24,11 @@ const initialState = {
 };
 
 // Создадим редьюсер для WebSocket
-export const wsOwnReducer = (state = initialState, action) => {
+export const wsReducer = (state = initialState, action: TWsActions): TWsStore => {
   switch (action.type) {
     // Опишем обработку экшена с типом WS_CONNECTION_SUCCESS
     // Установим флаг wsConnected в состояние true
-    case WS_CONNECTION_SUCCESS_OWN:
+    case WS_CONNECTION_SUCCESS:
       return {
         ...state,
         error: null,
@@ -27,7 +37,7 @@ export const wsOwnReducer = (state = initialState, action) => {
 
     // Опишем обработку экшена с типом WS_CONNECTION_ERROR
     // Установим флаг wsConnected в состояние false и передадим ошибку из action.payload
-    case WS_CONNECTION_ERROR_OWN:
+    case WS_CONNECTION_ERROR:
       return {
         ...state,
         error: action.payload,
@@ -36,7 +46,7 @@ export const wsOwnReducer = (state = initialState, action) => {
 
     // Опишем обработку экшена с типом WS_CONNECTION_CLOSED, когда соединение закрывается
     // Установим флаг wsConnected в состояние false
-    case WS_CONNECTION_CLOSED_OWN:
+    case WS_CONNECTION_CLOSED:
       return {
         ...state,
         error: null,
@@ -46,7 +56,7 @@ export const wsOwnReducer = (state = initialState, action) => {
     // Опишем обработку экшена с типом WS_GET_MESSAGE
     // Обработка происходит, когда с сервера возвращаются данные
     // В messages передадим данные, которые пришли с сервера
-    case WS_GET_MESSAGE_OWN:
+    case WS_GET_MESSAGE:
       return {
         ...state,
         error: null,

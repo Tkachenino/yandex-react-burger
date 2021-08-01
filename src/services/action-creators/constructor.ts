@@ -7,21 +7,7 @@ import {
   REBASE_ITEMS,
   CALC_TOTAL_COST,
 } from "../action-types/constructor";
-
-export type TIngredient = {
-  _id: string;
-  name: string;
-  type: string;
-  proteins: number;
-  fat: number;
-  carbohydrates: number;
-  calories: number;
-  price: number;
-  image: string;
-  image_mobile: string;
-  image_large: string;
-  __v: number;
-};
+import { TIngredient } from "../../data/types";
 
 interface IAddIngredient {
   type: typeof ADD_INGREDIENT;
@@ -50,13 +36,22 @@ interface IRemoveBun {
 
 interface IRebaseItems {
   type: typeof REBASE_ITEMS;
-  dragIndex: string;
-  hoverIndex: string;
+  dragIndex: number;
+  hoverIndex: number;
 }
 
 interface ICalcTotalCost {
   type: typeof CALC_TOTAL_COST;
 }
+
+export type TConstructorActions =
+  | IAddIngredient
+  | IRemoveIngredient
+  | IClearIngredients
+  | IAddBun
+  | IRemoveBun
+  | IRebaseItems
+  | ICalcTotalCost;
 
 export const addIngredient = ({
   ingredient,
@@ -99,8 +94,8 @@ export const rebaseItems = ({
   dragIndex,
   hoverIndex,
 }: {
-  dragIndex: string;
-  hoverIndex: string;
+  dragIndex: number;
+  hoverIndex: number;
 }): IRebaseItems => ({
   type: REBASE_ITEMS,
   dragIndex,

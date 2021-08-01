@@ -1,5 +1,5 @@
 import { SET_DETAIL_INFO, DELETE_DETAIL_INFO } from "../action-types/ingredient";
-import { TIngredient } from "./constructor";
+import { TIngredient } from "../../data/types";
 
 export interface ISetDetailInfo {
   type: typeof SET_DETAIL_INFO;
@@ -9,6 +9,8 @@ export interface ISetDetailInfo {
 export interface IDeleteDetailInfo {
   type: typeof DELETE_DETAIL_INFO;
 }
+
+export type TIngredientActions = ISetDetailInfo | IDeleteDetailInfo;
 
 export const setDetailInfo = ({
   ingredientDetail,
