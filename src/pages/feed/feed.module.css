@@ -53,6 +53,7 @@
   max-height: calc(24px * 10);
   flex-direction: column;
   flex-wrap: wrap;
+  gap: 0 5px;
 }
 
 .listItem {
