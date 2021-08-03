@@ -16,11 +16,11 @@ import {
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE,
 } from "../services/action-types/websocket";
-import { AnyAction, MiddlewareAPI } from "redux";
+import { AnyAction, MiddlewareAPI, Middleware } from "redux";
 import { refreshToken } from "../services/effects";
 import Cookies from "js-cookie";
 
-export const socketMiddleware = (wsUrl: string) => {
+export const socketMiddleware = (wsUrl: string): Middleware => {
   return (store: MiddlewareAPI) => {
     let socket: WebSocket | null = null;
 
@@ -80,7 +80,7 @@ export const socketMiddleware = (wsUrl: string) => {
   };
 };
 
-export const socketMiddlewareOwn = (wsUrl: string) => {
+export const socketMiddlewareOwn = (wsUrl: string): Middleware => {
   return (store: MiddlewareAPI) => {
     let socket: WebSocket | null = null;
 
