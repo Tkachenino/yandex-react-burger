@@ -1,9 +1,11 @@
-import { useSelector } from "react-redux";
-import PropTypes from "prop-types";
+import { useSelector } from "../../data/hooks";
 import style from "./ingredient-details.module.css";
 
-const IngredientDetails = () => {
+const IngredientDetails: React.FC = () => {
   const { ingredientDetail } = useSelector((store) => store.ingredient);
+  if (ingredientDetail === null) {
+    return <></>;
+  }
   return (
     <div className={style.wrapper}>
       <h3 className={`${style.header} text text_type_main-medium mt-4 mb-8`}>
@@ -38,19 +40,6 @@ const IngredientDetails = () => {
       </div>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  item: PropTypes.shape({
-    image_large: PropTypes.string,
-    calories: PropTypes.number,
-    proteins: PropTypes.number,
-    fat: PropTypes.number,
-    carbohydrates: PropTypes.number,
-    image: PropTypes.string,
-    price: PropTypes.number,
-    name: PropTypes.string,
-  }),
 };
 
 export default IngredientDetails;

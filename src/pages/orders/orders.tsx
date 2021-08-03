@@ -1,22 +1,18 @@
 import { NavLink } from "react-router-dom";
-import OrderCard from "src/components/order-card";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import OrderCard from "../../components/order-card";
+import { useDispatch, useSelector } from "../../data/hooks";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
-import { logout, getIngredients } from "src/services/effects";
+import { logout, getIngredients } from "../../services/effects";
 import {
   WS_CONNECTION_START_OWN,
   WS_CONNECTION_USER_CLOSE_OWN,
 } from "../../services/action-types/websocket-own";
 import style from "./orders.module.css";
 
-const Orders = () => {
+const Orders: React.FC = () => {
   const { ingredients } = useSelector((store) => store.ingredients);
-  const {
-    wsConnected,
-    orders,
-    //  error, total, totalToday
-  } = useSelector((store) => store.wsOwn);
+  const { wsConnected, orders } = useSelector((store) => store.wsOwn);
 
   const history = useHistory();
   const dispatch = useDispatch();

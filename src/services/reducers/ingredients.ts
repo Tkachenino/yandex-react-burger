@@ -4,8 +4,8 @@ import { TIngredientsActions } from "../action-creators/ingredients";
 
 type TIngredientsState = {
   loading: boolean;
-  error: null | {};
-  ingredients: Array<TIngredient>;
+  error: null | string;
+  ingredients: ReadonlyArray<TIngredient>;
 };
 
 export const initState: TIngredientsState = {

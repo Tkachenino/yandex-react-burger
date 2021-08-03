@@ -1,7 +1,10 @@
 import style from "./order-details.module.css";
-import PropTypes from "prop-types";
 
-const OrderDetails = ({ orderId }) => {
+type TOrderDetailsProps = {
+  orderId: number | null;
+};
+
+const OrderDetails: React.FC<TOrderDetailsProps> = ({ orderId }: TOrderDetailsProps) => {
   return (
     <div className={style.wrapper}>
       <h3 className={`${style.header} text text_type_main-medium`}>идентификатор заказа</h3>
@@ -13,10 +16,6 @@ const OrderDetails = ({ orderId }) => {
       </p>
     </div>
   );
-};
-
-OrderDetails.propTypes = {
-  orderId: PropTypes.number,
 };
 
 export default OrderDetails;

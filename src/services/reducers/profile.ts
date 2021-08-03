@@ -17,7 +17,7 @@ type TProfileStore = {
   user: TRegisterData;
   loading: boolean;
   isAuth: boolean;
-  error: null | {};
+  error: null | unknown;
 };
 
 export const initState: TProfileStore = {

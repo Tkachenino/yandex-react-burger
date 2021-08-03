@@ -17,7 +17,7 @@ export type TUniqIngredient = TIngredient & { constructorId: string };
 
 export type TOrder = {
   _id: string;
-  ingredients: Array<string>;
+  ingredients: ReadonlyArray<string>;
   owner: string;
   status: string;
   name: string;

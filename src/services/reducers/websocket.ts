@@ -9,8 +9,8 @@ import { TOrder } from "../../data/types";
 
 type TWsStore = {
   wsConnected: boolean;
-  orders: Array<TOrder>;
-  error: null | {};
+  orders: ReadonlyArray<TOrder>;
+  error: null | string;
   total: null | number;
   totalToday: null | number;
 };
@@ -40,7 +40,7 @@ export const wsReducer = (state = initialState, action: TWsActions): TWsStore =>
     case WS_CONNECTION_ERROR:
       return {
         ...state,
-        error: action.payload,
+        error: action.payload.error,
         wsConnected: false,
       };
 
@@ -60,7 +60,7 @@ export const wsReducer = (state = initialState, action: TWsActions): TWsStore =>
       return {
         ...state,
         error: null,
-        orders: action.payload.orders,
+        orders: [...action.payload.orders],
         total: action.payload.total,
         totalToday: action.payload.totalToday,
       };

@@ -1,14 +1,24 @@
 import { useRef } from "react";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop, useDrag } from "react-dnd";
-import { useDispatch } from "react-redux";
+// import { useDispatch } from "react-redux";
+import { useDispatch } from "../../data/hooks";
 import { rebaseItems, removeIngredient } from "../../services/action-creators/constructor";
 import style from "./burger-constructor-drag-ingredient.module.css";
+import { TIngredient } from "../../data/types";
 
-import PropTypes from "prop-types";
+type TBurgerDnDIngredient = {
+  id: string;
+  item: TIngredient;
+  index: number;
+};
 
-const BurgerConstructorDragIngredient = ({ id, item, index }) => {
-  const ref = useRef(null);
+const BurgerConstructorDragIngredient: React.FC<TBurgerDnDIngredient> = ({
+  id,
+  item,
+  index,
+}: TBurgerDnDIngredient) => {
+  const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
 
   const [{ handlerId }, dropRef] = useDrop({
@@ -18,7 +28,8 @@ const BurgerConstructorDragIngredient = ({ id, item, index }) => {
         handlerId: monitor.getHandlerId(),
       };
     },
-    hover(item, monitor) {
+    hover(item: { index: number; id: string }, monitor) {
+      console.log(item);
       if (!ref.current) {
         return;
       }
@@ -29,9 +40,12 @@ const BurgerConstructorDragIngredient = ({ id, item, index }) => {
       if (dragIndex === hoverIndex) {
         return;
       }
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
+      const hoverBoundingRect = ref.current.getBoundingClientRect();
       const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      if (clientOffset === null) {
+        return;
+      }
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
 
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
@@ -72,13 +86,6 @@ const BurgerConstructorDragIngredient = ({ id, item, index }) => {
       />
     </li>
   );
-};
-
-BurgerConstructorDragIngredient.propTypes = {
-  item: PropTypes.object,
-  index: PropTypes.number,
-  rebaseItems: PropTypes.func,
-  id: PropTypes.string,
 };
 
 export default BurgerConstructorDragIngredient;

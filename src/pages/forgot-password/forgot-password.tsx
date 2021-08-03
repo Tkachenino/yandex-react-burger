@@ -5,14 +5,14 @@ import { useDispatch } from "react-redux";
 import { checkEmail } from "../../services/effects";
 import style from "./forgot-password.module.css";
 
-const ForgotPassword = () => {
+const ForgotPassword: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
   const emailRef = useRef(null);
   const [email, setEmail] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(checkEmail(email, history));
   };
@@ -31,7 +31,6 @@ const ForgotPassword = () => {
             name={"email"}
             error={false}
             ref={emailRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />

@@ -1,13 +1,13 @@
 import OrderDetail from "../../components/order-detail";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../data/hooks";
 import { useParams } from "react-router-dom";
 import { getOrder, getIngredients } from "../../services/effects";
 import style from "./order.module.css";
 
-const Order = () => {
+const Order: React.FC = () => {
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
   const { ingredients } = useSelector((store) => store.ingredients);
   const { order } = useSelector((store) => store.order);
 

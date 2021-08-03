@@ -1,16 +1,25 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useMemo } from "react";
 import dayjs from "dayjs";
-import PropTypes from "prop-types";
 import style from "./order-detail.module.css";
+import { TIngredient, TOrder } from "../../data/types";
 
-const statusDictionary = {
+type TOrderDetailProps = {
+  order: TOrder;
+  ingredients: ReadonlyArray<TIngredient>;
+};
+
+type TStatusDictionary = {
+  [key: string]: string;
+};
+
+const statusDictionary: TStatusDictionary = {
   done: "Выполнен",
   pending: "Готовиться",
   createв: "Создан",
 };
 
-const OrderDetail = ({ ingredients, order }) => {
+const OrderDetail: React.FC<TOrderDetailProps> = ({ ingredients, order }: TOrderDetailProps) => {
   const currentIngredients = useMemo(() => {
     if (order !== null) {
       return order.ingredients.map((i) => {
@@ -25,6 +34,9 @@ const OrderDetail = ({ ingredients, order }) => {
 
   const orderTotalCost = useMemo(() => {
     return currentIngredients.reduce((acc, item) => {
+      if (item === undefined) {
+        return acc;
+      }
       return (acc += item.price);
     }, 0);
   }, [currentIngredients]);
@@ -43,23 +55,29 @@ const OrderDetail = ({ ingredients, order }) => {
           </p>
           <h2 className="text text_type_main-medium">Состав:</h2>
           <div className={style.ingredientsList}>
-            {currentIngredients.map((ingredient, idx) => (
-              <div className={style.ingredientWrapper} key={idx}>
-                <div
-                  className={style.imgWrapper}
-                  style={{ zIndex: `${currentIngredients.length - idx}` }}
-                >
-                  <div className={style.img}>
-                    <img src={ingredient.image_mobile} width="64" />
+            {currentIngredients.map((ingredient, idx) => {
+              if (ingredient === undefined) {
+                return <></>;
+              } else {
+                return (
+                  <div className={style.ingredientWrapper} key={idx}>
+                    <div
+                      className={style.imgWrapper}
+                      style={{ zIndex: currentIngredients.length - idx }}
+                    >
+                      <div className={style.img}>
+                        <img src={ingredient.image_mobile} width="64" />
+                      </div>
+                    </div>
+                    <p className={`text text_type_main-default ${style.name}`}>{ingredient.name}</p>
+                    <div className={style.ingredientCost}>
+                      <p className="text text_type_digits-default">{ingredient.price}</p>
+                      <CurrencyIcon type="primary" />
+                    </div>
                   </div>
-                </div>
-                <p className={`text text_type_main-default ${style.name}`}>{ingredient.name}</p>
-                <div className={style.ingredientCost}>
-                  <p className="text text_type_digits-default">{ingredient.price}</p>
-                  <CurrencyIcon type="primary" />
-                </div>
-              </div>
-            ))}
+                );
+              }
+            })}
           </div>
           <div className={style.ingredientsFooter}>
             <p className="text text_type_main-default text_color_inactive">
@@ -76,25 +94,6 @@ const OrderDetail = ({ ingredients, order }) => {
       )}
     </div>
   );
-};
-
-OrderDetail.propTypes = {
-  order: PropTypes.shape({
-    number: PropTypes.number,
-    _id: PropTypes.string,
-    createdAt: PropTypes.string,
-    name: PropTypes.string,
-    status: PropTypes.string,
-    ingredients: PropTypes.array,
-  }),
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-    })
-  ),
 };
 
 export default OrderDetail;

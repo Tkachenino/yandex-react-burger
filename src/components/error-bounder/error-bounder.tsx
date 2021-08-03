@@ -1,7 +1,10 @@
 import style from "./error-bounder.module.css";
-import PropTypes from "prop-types";
 
-const ErrorBounder = ({ errorMessage }) => {
+type TErrorBounderProps = {
+  errorMessage: string;
+};
+
+const ErrorBounder: React.FC<TErrorBounderProps> = ({ errorMessage }: TErrorBounderProps) => {
   return (
     <div>
       <p className={`${style.instruction} text text_type_main-default`}>
@@ -13,10 +16,6 @@ const ErrorBounder = ({ errorMessage }) => {
       </p>
     </div>
   );
-};
-
-ErrorBounder.propTypes = {
-  errorMessage: PropTypes.string,
 };
 
 export default ErrorBounder;

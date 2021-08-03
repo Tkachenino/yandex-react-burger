@@ -17,7 +17,7 @@ import {
   WS_SEND_MESSAGE,
 } from "../services/action-types/websocket";
 
-import { refreshToken } from "src/services/effects";
+import { refreshToken } from "../services/effects";
 import Cookies from "js-cookie";
 
 export const socketMiddleware = (wsUrl) => {
@@ -88,7 +88,6 @@ export const socketMiddlewareOwn = (wsUrl) => {
 
       if (type === WS_CONNECTION_START_OWN) {
         // объект класса WebSocket
-        console.log(payload);
         if (payload?.wsUrl !== undefined) {
           socket = new WebSocket(payload.wsUrl);
         } else {

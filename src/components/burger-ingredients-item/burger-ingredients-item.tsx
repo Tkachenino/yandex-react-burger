@@ -1,14 +1,20 @@
 import { useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../data/hooks";
 import { useDrag } from "react-dnd";
 import Modal from "../modal";
 import IngredientDetails from "../ingredient-details";
 import { CurrencyIcon, Counter } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
 import style from "./burger-ingredients-item.module.css";
 import { setDetailInfo, deleteDetailInfo } from "../../services/action-creators/ingredient";
+import { TIngredient } from "../../data/types";
 
-const BurgerIngredientsItem = ({ data }) => {
+type TBurgerIngredientItemProps = {
+  data: TIngredient;
+};
+
+const BurgerIngredientsItem: React.FC<TBurgerIngredientItemProps> = ({
+  data,
+}: TBurgerIngredientItemProps) => {
   const dispatch = useDispatch();
   const { constructorIngredient, bun } = useSelector((state) => state.constructorIngredient);
 
@@ -32,7 +38,7 @@ const BurgerIngredientsItem = ({ data }) => {
       <div
         className={style.wrapper}
         onClick={() => {
-          window.history.replaceState(null, null, `/ingredients/${data._id}`);
+          window.history.replaceState(null, "", `/ingredients/${data._id}`);
           dispatch(setDetailInfo({ ingredientDetail: data }));
           setShowModal(true);
         }}
@@ -49,7 +55,7 @@ const BurgerIngredientsItem = ({ data }) => {
         <Modal
           header="Детали ингредиента"
           onDestroyModal={() => {
-            window.history.replaceState(null, null, "/");
+            window.history.replaceState(null, "", "/");
             setShowModal(false);
             dispatch(deleteDetailInfo());
           }}
@@ -59,16 +65,6 @@ const BurgerIngredientsItem = ({ data }) => {
       )}
     </>
   );
-};
-
-BurgerIngredientsItem.propTypes = {
-  data: PropTypes.shape({
-    image: PropTypes.string,
-    price: PropTypes.number,
-    name: PropTypes.string,
-    type: PropTypes.string,
-    _id: PropTypes.string,
-  }),
 };
 
 export default BurgerIngredientsItem;

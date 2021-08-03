@@ -28,11 +28,11 @@ dayjs.locale("ru");
 
 import "./app.module.css";
 
-const App = () => {
+const App: React.FC = () => {
   return (
     <div className="App">
       <Router>
-        <AppHeader history={history} />
+        <AppHeader />
         <main>
           <Switch>
             <Route exact={true} path="/profile/orders/:id">

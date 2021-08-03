@@ -1,8 +1,18 @@
 import { Redirect, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../data/hooks";
+import { ReactNode } from "react";
 
-// eslint-disable-next-line react/prop-types
-const RegisterRoute = ({ children, ...rest }) => {
+type TRegisterRouteProps = {
+  children: ReactNode;
+  exact: boolean;
+  path: string;
+  rest?: Array<Route>;
+};
+
+const RegisterRoute: React.FC<TRegisterRouteProps> = ({
+  children,
+  ...rest
+}: TRegisterRouteProps) => {
   const { isAuth } = useSelector((store) => store.profile);
 
   return (

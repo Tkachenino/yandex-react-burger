@@ -9,30 +9,30 @@ import {
 import { TOrder } from "../../data/types";
 
 interface IGetConnectionOwn {
-  type: typeof WS_CONNECTION_START_OWN;
+  readonly type: typeof WS_CONNECTION_START_OWN;
 }
 
 interface IGetConnectionSuccessOwn {
-  type: typeof WS_CONNECTION_SUCCESS_OWN;
+  readonly type: typeof WS_CONNECTION_SUCCESS_OWN;
 }
 
 interface IGetConnectionErrorOwn {
-  type: typeof WS_CONNECTION_ERROR_OWN;
-  payload: { error: {} };
+  readonly type: typeof WS_CONNECTION_ERROR_OWN;
+  payload: { error: unknown };
 }
 
 interface ICloseConnectionOwn {
-  type: typeof WS_CONNECTION_CLOSED_OWN;
+  readonly type: typeof WS_CONNECTION_CLOSED_OWN;
 }
 
 interface IUserCloseConnectionOwn {
-  type: typeof WS_CONNECTION_USER_CLOSE_OWN;
+  readonly type: typeof WS_CONNECTION_USER_CLOSE_OWN;
 }
 
 interface IGetMessageOwn {
-  type: typeof WS_GET_MESSAGE_OWN;
+  readonly type: typeof WS_GET_MESSAGE_OWN;
   payload: {
-    orders: Array<TOrder>;
+    orders: ReadonlyArray<TOrder>;
     total: number;
     totalToday: number;
   };
@@ -54,7 +54,7 @@ export const getConnectionSuccessOwn = (): IGetConnectionSuccessOwn => ({
   type: WS_CONNECTION_SUCCESS_OWN,
 });
 
-export const getConnectionErrorOwn = ({ error }: { error: {} }): IGetConnectionErrorOwn => ({
+export const getConnectionErrorOwn = ({ error }: { error: unknown }): IGetConnectionErrorOwn => ({
   type: WS_CONNECTION_ERROR_OWN,
   payload: { error },
 });
@@ -71,7 +71,7 @@ export const getMessageOwn = ({
   payload: { orders, total, totalToday },
 }: {
   payload: {
-    orders: Array<TOrder>;
+    orders: ReadonlyArray<TOrder>;
     total: number;
     totalToday: number;
   };

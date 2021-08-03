@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom";
 import { Logo, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
+import React, { useState, useRef } from "react";
 import { useHistory, useLocation, Redirect } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch } from "../../data/hooks";
 import { setPasswordReset } from "../../services/effects";
 import style from "./reset-password.module.css";
 
-const ResetPassword = () => {
+const ResetPassword: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -15,7 +15,7 @@ const ResetPassword = () => {
   const [token, setToken] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(setPasswordReset({ password, token }, history));
   };
@@ -35,7 +35,6 @@ const ResetPassword = () => {
             error={false}
             icon={"ShowIcon"}
             ref={passwordRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />

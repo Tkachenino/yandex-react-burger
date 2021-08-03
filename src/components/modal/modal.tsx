@@ -1,10 +1,17 @@
 import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../modal-overlay";
-import PropTypes from "prop-types";
 import style from "./modal.module.css";
+import { ReactNode } from "react";
 
-const Modal = ({ header = null, onDestroyModal, children }) => {
+type TModalProps = {
+  header?: null | string;
+  onDestroyModal: () => void;
+  children: ReactNode;
+};
+const modalRoot = document.querySelector("#modal") as HTMLElement;
+
+const Modal: React.FC<TModalProps> = ({ header = null, onDestroyModal, children }: TModalProps) => {
   return ReactDOM.createPortal(
     <>
       <ModalOverlay onDestroyModal={onDestroyModal} />
@@ -18,14 +25,8 @@ const Modal = ({ header = null, onDestroyModal, children }) => {
         {children}
       </div>
     </>,
-    document.querySelector("#modal")
+    modalRoot
   );
-};
-
-Modal.propTypes = {
-  onDestroyModal: PropTypes.func,
-  children: PropTypes.element,
-  header: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
 export default Modal;

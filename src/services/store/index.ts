@@ -10,7 +10,7 @@ import { ingredientsReducer } from "../reducers/ingredients";
 import { wsReducer } from "../reducers/websocket";
 import { wsOwnReducer } from "../reducers/websocket-own";
 
-let token = Cookies.get("token") || null;
+const token = Cookies.get("token") || null;
 const accessToken = token === null ? null : token.split(" ")[1];
 
 const reducer = combineReducers({
@@ -23,8 +23,12 @@ const reducer = combineReducers({
   wsOwn: wsOwnReducer,
 });
 
-const composeEnhancers =
-  (window["__REDUX_DEVTOOLS_EXTENSION_COMPOSE__"] as unknown as typeof compose) || compose;
+declare global {
+  interface Window {
+    __REDUX_DEVTOOLS_EXTENSION_COMPOSE__?: typeof compose;
+  }
+}
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 export const store = createStore(
   reducer,

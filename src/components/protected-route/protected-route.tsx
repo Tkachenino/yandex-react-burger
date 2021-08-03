@@ -1,8 +1,18 @@
+import { ReactNode } from "react";
 import { Redirect, Route } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useSelector } from "../../data/hooks";
 
-// eslint-disable-next-line react/prop-types
-const ProtectedRoute = ({ children, ...rest }) => {
+type TProtectedRouteProps = {
+  children: ReactNode;
+  exact: boolean;
+  path: string;
+  rest?: Array<Route>;
+};
+
+const ProtectedRoute: React.FC<TProtectedRouteProps> = ({
+  children,
+  ...rest
+}: TProtectedRouteProps) => {
   const { isAuth } = useSelector((store) => store.profile);
 
   return (

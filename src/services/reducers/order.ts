@@ -14,7 +14,7 @@ type TOrderStore = {
   orderId: null | number;
   order: null | TOrder;
   orderLoading: boolean;
-  orderError: null | {};
+  orderError: null | string;
 };
 
 export const initState: TOrderStore = {

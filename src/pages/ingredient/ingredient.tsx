@@ -1,17 +1,15 @@
-import { useMemo, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import React, { useMemo, useEffect } from "react";
+import { useSelector, useDispatch } from "../../data/hooks";
 import { useParams, useHistory } from "react-router-dom";
 import Loader from "../../components/loader";
 import ErrorBounder from "../../components/error-bounder";
-
 import { getIngredients } from "../../services/effects";
-
 import style from "./ingredient.module.css";
 
-const Ingredient = () => {
+const Ingredient: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { id } = useParams();
+  const { id }: { id: string } = useParams();
   const { ingredients, loading, error } = useSelector((store) => store.ingredients);
 
   useEffect(() => {

@@ -9,8 +9,8 @@ import { TOrder } from "../../data/types";
 
 type TWsOwnStore = {
   wsConnected: boolean;
-  orders: Array<TOrder>;
-  error: null | {};
+  orders: ReadonlyArray<TOrder>;
+  error: null | unknown;
   total: null | number;
   totalToday: null | number;
 };

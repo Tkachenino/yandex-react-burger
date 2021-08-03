@@ -11,9 +11,9 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
     "plugin:cypress/recommended",
-    // 'plugin:@typescript-eslint/recommended',
+    "plugin:@typescript-eslint/recommended",
   ],
-  // parser: '@typescript-eslint/parser',
+  parser: "@typescript-eslint/parser",
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -21,13 +21,7 @@ module.exports = {
     ecmaVersion: 12,
     sourceType: "module",
   },
-  plugins: [
-    "react",
-    "prettier",
-    "jest",
-    "cypress",
-    //  '@typescript-eslint'
-  ],
+  plugins: ["react", "prettier", "jest", "cypress", "@typescript-eslint"],
   rules: {
     "react/react-in-jsx-scope": "off",
     "react-hooks/rules-of-hooks": "error",

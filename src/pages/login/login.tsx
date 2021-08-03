@@ -3,21 +3,24 @@ import { Logo, Input, Button } from "@ya.praktikum/react-developer-burger-ui-com
 import { useState, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { login } from "src/services/effects";
+import { login } from "../../services/effects";
 import style from "./login.module.css";
 
-const Login = () => {
+type TPath = {
+  history: History<any>;
+};
+
+const Login: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const emailRef = useRef(null);
   const inputRef = useRef(null);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  console.log(history);
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const path = history.location?.state?.from?.pathname;
+    const path: TPath = history.location?.state?.from?.pathname;
     dispatch(login({ email, password }, history, path));
   };
 

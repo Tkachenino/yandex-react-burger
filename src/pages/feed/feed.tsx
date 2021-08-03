@@ -1,14 +1,14 @@
 import { useEffect, useMemo } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../data/hooks";
 import { getIngredients } from "../../services/effects";
-import OrderCard from "src/components/order-card";
+import OrderCard from "../../components/order-card";
 import {
   WS_CONNECTION_START,
   WS_CONNECTION_USER_CLOSE,
 } from "../../services/action-types/websocket";
 import style from "./feed.module.css";
 
-const Feed = () => {
+const Feed: React.FC = () => {
   const dispatch = useDispatch();
   const { wsConnected, orders, error, total, totalToday } = useSelector((store) => store.ws);
   const { ingredients } = useSelector((store) => store.ingredients);

@@ -13,49 +13,49 @@ import {
 import { TRegisterData, IRegisterDataWithPassword } from "../../data/types";
 
 interface IGtRegisterReguest {
-  type: typeof REGISTER_REQUEST;
+  readonly type: typeof REGISTER_REQUEST;
 }
 
 interface IGetRegisterSuccess {
-  type: typeof REGISTER_SUCCESS;
-  payload: IRegisterDataWithPassword;
+  readonly type: typeof REGISTER_SUCCESS;
+  payload: TRegisterData;
 }
 
 interface IGetRegisterError {
-  type: typeof REGISTER_ERROR;
-  payload: { error: {} };
+  readonly type: typeof REGISTER_ERROR;
+  payload: { error: unknown };
 }
 
 interface IGetAuthReguest {
-  type: typeof AUTH_REQUEST;
+  readonly type: typeof AUTH_REQUEST;
 }
 
 interface IGetAuthSuccess {
-  type: typeof AUTH_SUCCESS;
-  payload: IRegisterDataWithPassword;
+  readonly type: typeof AUTH_SUCCESS;
+  payload: TRegisterData;
 }
 
 interface IGetAuthError {
-  type: typeof AUTH_ERROR;
-  payload: { error: {} };
+  readonly type: typeof AUTH_ERROR;
+  payload: { error: unknown };
 }
 
 interface IGetProfileReguest {
-  type: typeof PROFILE_REQUEST;
+  readonly type: typeof PROFILE_REQUEST;
 }
 
 interface IGetProfileSuccess {
-  type: typeof PROFILE_SUCCESS;
+  readonly type: typeof PROFILE_SUCCESS;
   payload: TRegisterData;
 }
 
 interface IGetProfileError {
-  type: typeof PROFILE_ERROR;
-  payload: { error: {} };
+  readonly type: typeof PROFILE_ERROR;
+  payload: { error: unknown };
 }
 
 interface IClearProfile {
-  type: typeof CLEAR_PROFILE;
+  readonly type: typeof CLEAR_PROFILE;
 }
 
 export type TProfileActions =
@@ -74,16 +74,12 @@ export const getRegisterReguest = (): IGtRegisterReguest => ({
   type: REGISTER_REQUEST,
 });
 
-export const getRegisterSuccess = ({
-  name,
-  email,
-  password,
-}: IRegisterDataWithPassword): IGetRegisterSuccess => ({
+export const getRegisterSuccess = ({ name, email }: TRegisterData): IGetRegisterSuccess => ({
   type: REGISTER_SUCCESS,
-  payload: { name, email, password },
+  payload: { name, email },
 });
 
-export const getRegisterError = ({ error }: { error: {} }): IGetRegisterError => ({
+export const getRegisterError = ({ error }: { error: unknown }): IGetRegisterError => ({
   type: REGISTER_ERROR,
   payload: { error },
 });
@@ -92,16 +88,12 @@ export const getAuthReguest = (): IGetAuthReguest => ({
   type: AUTH_REQUEST,
 });
 
-export const getAuthSuccess = ({
-  name,
-  email,
-  password,
-}: IRegisterDataWithPassword): IGetAuthSuccess => ({
+export const getAuthSuccess = ({ name, email }: TRegisterData): IGetAuthSuccess => ({
   type: AUTH_SUCCESS,
-  payload: { name, email, password },
+  payload: { name, email },
 });
 
-export const getAuthError = ({ error }: { error: {} }): IGetAuthError => ({
+export const getAuthError = ({ error }: { error: unknown }): IGetAuthError => ({
   type: AUTH_ERROR,
   payload: { error },
 });
@@ -115,7 +107,7 @@ export const getProfileSuccess = ({ name, email }: TRegisterData): IGetProfileSu
   payload: { name, email },
 });
 
-export const getProfileError = ({ error }: { error: {} }): IGetProfileError => ({
+export const getProfileError = ({ error }: { error: unknown }): IGetProfileError => ({
   type: PROFILE_ERROR,
   payload: { error },
 });

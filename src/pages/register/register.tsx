@@ -1,11 +1,11 @@
 import { Link, useHistory } from "react-router-dom";
 import { Logo, Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
-import { useDispatch } from "react-redux";
+import React, { useState, useRef } from "react";
+import { useDispatch } from "../../data/hooks";
 import { createNewProfile } from "../../services/effects";
 import style from "./register.module.css";
 
-const Register = () => {
+const Register: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -16,7 +16,7 @@ const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const onSubmit = (e) => {
+  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(createNewProfile({ email, password, name }, history));
   };
@@ -35,7 +35,6 @@ const Register = () => {
             name={"name"}
             error={false}
             ref={nameRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />
@@ -47,7 +46,6 @@ const Register = () => {
             name={"email"}
             error={false}
             ref={emailRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />
@@ -60,7 +58,6 @@ const Register = () => {
             name={"password"}
             error={false}
             ref={passwordRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />

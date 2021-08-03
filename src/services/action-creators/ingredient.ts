@@ -2,12 +2,12 @@ import { SET_DETAIL_INFO, DELETE_DETAIL_INFO } from "../action-types/ingredient"
 import { TIngredient } from "../../data/types";
 
 export interface ISetDetailInfo {
-  type: typeof SET_DETAIL_INFO;
+  readonly type: typeof SET_DETAIL_INFO;
   ingredientDetail: TIngredient;
 }
 
 export interface IDeleteDetailInfo {
-  type: typeof DELETE_DETAIL_INFO;
+  readonly type: typeof DELETE_DETAIL_INFO;
 }
 
 export type TIngredientActions = ISetDetailInfo | IDeleteDetailInfo;

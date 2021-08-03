@@ -1,4 +1,4 @@
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../data/hooks";
 import { addIngredient, addBun } from "../../services/action-creators/constructor";
 import BurgerConstructorDragIngredient from "../burger-constructor-drag-ingredient";
 import { useDrop } from "react-dnd";
@@ -6,19 +6,20 @@ import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-comp
 import BurgerConstructorTotal from "../burger-constructor-total";
 import style from "./burger-constructor.module.css";
 import { nanoid } from "nanoid";
+import { TIngredient } from "../../data/types";
 
-const BurgerConstructor = () => {
+const BurgerConstructor: React.FC = () => {
   const dispatch = useDispatch();
   const { bun, constructorIngredient } = useSelector((store) => store.constructorIngredient);
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item: TIngredient) {
+      console.log(item);
+      const constructorId = nanoid();
       if (item.type === "bun") {
-        let constructorId = nanoid();
         dispatch(addBun({ bun: item, constructorId }));
       } else {
-        let constructorId = nanoid();
         dispatch(addIngredient({ ingredient: item, constructorId }));
       }
     },

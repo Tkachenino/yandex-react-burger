@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import { Input, Button } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useEffect, useRef } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useState, useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "../../data/hooks";
 import { useHistory } from "react-router-dom";
-import { getProfile, updateProfile, logout } from "src/services/effects";
+import { getProfile, updateProfile, logout } from "../../services/effects";
 import style from "./profile.module.css";
 
-const Profile = () => {
+const Profile: React.FC = () => {
   const { name: globalName, email: globalEmail } = useSelector((store) => store.profile.user);
   const history = useHistory();
   const dispatch = useDispatch();
@@ -15,7 +15,7 @@ const Profile = () => {
     if (!globalName && !globalEmail) {
       dispatch(getProfile());
     }
-  }, [dispatch, globalEmail, globalName]);
+  });
 
   useEffect(() => {
     setName(globalName);
@@ -40,7 +40,7 @@ const Profile = () => {
     dispatch(updateProfile({ name, email }));
   };
 
-  const handlerSubmit = (e) => {
+  const handlerSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     dispatch(updateProfile({ name, email }));
   };
@@ -92,7 +92,6 @@ const Profile = () => {
             error={false}
             ref={nameRef}
             icon={"EditIcon"}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />
@@ -105,7 +104,6 @@ const Profile = () => {
             error={false}
             ref={emailRef}
             icon={"EditIcon"}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />

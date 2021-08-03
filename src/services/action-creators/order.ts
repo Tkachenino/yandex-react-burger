@@ -10,35 +10,35 @@ import {
 import { TOrder } from "../../data/types";
 
 interface ISetOrderRequest {
-  type: typeof SET_ORDER_REQUEST;
+  readonly type: typeof SET_ORDER_REQUEST;
 }
 
 interface ISetOrderSuccess {
-  type: typeof SET_ORDER_SUCCESS;
+  readonly type: typeof SET_ORDER_SUCCESS;
   orderId: number;
 }
 
 interface ISetOrderError {
-  type: typeof SET_ORDER_ERROR;
-  error: {};
+  readonly type: typeof SET_ORDER_ERROR;
+  error: string;
 }
 
 interface IGetOrderRequest {
-  type: typeof GET_ORDER_REQUEST;
+  readonly type: typeof GET_ORDER_REQUEST;
 }
 
 interface IGetOrderSuccess {
-  type: typeof GET_ORDER_SUCCESS;
+  readonly type: typeof GET_ORDER_SUCCESS;
   order: TOrder;
 }
 
 interface IGetOrderError {
-  type: typeof GET_ORDER_ERROR;
-  error: {};
+  readonly type: typeof GET_ORDER_ERROR;
+  error: string;
 }
 
 interface IClearOrderError {
-  type: typeof CLEAR_ORDER_ERROR;
+  readonly type: typeof CLEAR_ORDER_ERROR;
 }
 
 export type TOrderActions =
@@ -59,7 +59,7 @@ export const setOrderSuccess = ({ orderId }: { orderId: number }): ISetOrderSucc
   orderId,
 });
 
-export const setOrderError = ({ error }: { error: {} }): ISetOrderError => ({
+export const setOrderError = ({ error }: { error: string }): ISetOrderError => ({
   type: SET_ORDER_ERROR,
   error,
 });
@@ -73,7 +73,7 @@ export const getOrderSuccess = ({ order }: { order: TOrder }): IGetOrderSuccess 
   order,
 });
 
-export const getOrderError = ({ error }: { error: {} }): IGetOrderError => ({
+export const getOrderError = ({ error }: { error: string }): IGetOrderError => ({
   type: GET_ORDER_ERROR,
   error,
 });

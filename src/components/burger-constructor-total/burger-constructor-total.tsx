@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "../../data/hooks";
 import { useHistory } from "react-router-dom";
 import Modal from "../modal";
 import OrderDetails from "../order-details";
@@ -9,7 +9,7 @@ import style from "./burger-constructor-total.module.css";
 import { calcTotalCost, clearIngredients } from "../../services/action-creators/constructor";
 import { clearOrderError } from "../../services/action-creators/order";
 
-const BurgerConstructorTotal = () => {
+const BurgerConstructorTotal: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
@@ -26,7 +26,7 @@ const BurgerConstructorTotal = () => {
 
   useEffect(() => {
     if (orderError) {
-      let timeOut = setTimeout(() => {
+      const timeOut = setTimeout(() => {
         dispatch(clearOrderError());
       }, 5000);
       return () => {

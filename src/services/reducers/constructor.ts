@@ -11,7 +11,7 @@ import { TConstructorActions } from "../action-creators/constructor";
 import { TUniqIngredient } from "../../data/types";
 
 type TConstructorState = {
-  constructorIngredient: Array<TUniqIngredient>;
+  constructorIngredient: ReadonlyArray<TUniqIngredient>;
   bun: null | TUniqIngredient;
   totalCost: number;
 };

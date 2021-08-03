@@ -2,17 +2,17 @@ import { GET_ITEM_REQUEST, GET_ITEM_SUCCESS, GET_ITEM_ERROR } from "../action-ty
 import { TIngredient } from "../../data/types";
 
 interface IGetItemRequest {
-  type: typeof GET_ITEM_REQUEST;
+  readonly type: typeof GET_ITEM_REQUEST;
 }
 
 interface IGtItemSuccess {
-  type: typeof GET_ITEM_SUCCESS;
-  ingredients: Array<TIngredient>;
+  readonly type: typeof GET_ITEM_SUCCESS;
+  ingredients: ReadonlyArray<TIngredient>;
 }
 
 interface IGetItemError {
-  type: typeof GET_ITEM_ERROR;
-  error: {};
+  readonly type: typeof GET_ITEM_ERROR;
+  error: string;
 }
 
 export type TIngredientsActions = IGetItemRequest | IGtItemSuccess | IGetItemError;
@@ -24,13 +24,13 @@ export const getItemRequest = (): IGetItemRequest => ({
 export const getItemSuccess = ({
   ingredients,
 }: {
-  ingredients: Array<TIngredient>;
+  ingredients: ReadonlyArray<TIngredient>;
 }): IGtItemSuccess => ({
   type: GET_ITEM_SUCCESS,
   ingredients,
 });
 
-export const getItemError = ({ error }: { error: {} }): IGetItemError => ({
+export const getItemError = ({ error }: { error: string }): IGetItemError => ({
   type: GET_ITEM_ERROR,
   error,
 });

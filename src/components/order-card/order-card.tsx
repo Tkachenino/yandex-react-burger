@@ -5,37 +5,51 @@ import OrderDetail from "../order-detail";
 import Modal from "../modal";
 import dayjs from "dayjs";
 import style from "./order-card.module.css";
-import PropTypes from "prop-types";
+import { TIngredient, TOrder } from "../../data/types";
 
-const statusDictionary = {
-  done: "Выполнен",
-  pending: "Готовиться",
-  createв: "Создан",
+type TOrderCardProps = {
+  order: TOrder;
+  ingredients: ReadonlyArray<TIngredient>;
 };
 
-const OrderCard = ({ order, ingredients }) => {
+type TStatusDictionary = {
+  [key: string]: string;
+};
+
+const statusDictionary: TStatusDictionary = {
+  done: "Выполнен",
+  pending: "Готовиться",
+  create: "Создан",
+};
+
+const OrderCard: React.FC<TOrderCardProps> = ({ order, ingredients }: TOrderCardProps) => {
   const location = useLocation();
 
   const [showModal, setShowModal] = useState(false);
 
   const openModal = () => {
-    window.history.replaceState(null, null, `${location.pathname}/${order.number}`);
+    window.history.replaceState(null, "", `${location.pathname}/${order.number}`);
     setShowModal(true);
   };
 
   const currentIngredients = useMemo(() => {
-    const infoArray = order.ingredients.map((i) => {
-      return ingredients.find((ingredient) => {
-        return ingredient._id === i;
+    const infoArray = order.ingredients
+      .filter((i) => i !== null)
+      .map((i) => {
+        return ingredients.find((ingredient) => {
+          return ingredient._id === i;
+        });
       });
-    });
 
-    let uniqInfoArray = [];
+    const uniqInfoArray: Array<TIngredient & { count: number }> = [];
     infoArray.forEach((infoItem) => {
-      if (uniqInfoArray.some((uniqItem) => uniqItem._id === infoItem._id)) {
-        const idx = uniqInfoArray.findIndex((i) => i._id === infoItem._id);
+      if (uniqInfoArray.some((uniqItem) => uniqItem._id === infoItem?._id)) {
+        const idx = uniqInfoArray.findIndex((i) => i._id === infoItem?._id);
         uniqInfoArray[idx] = { ...uniqInfoArray[idx], count: ++uniqInfoArray[idx].count };
       } else {
+        if (infoItem === undefined) {
+          return;
+        }
         uniqInfoArray.push({ ...infoItem, count: 1 });
       }
     });
@@ -70,7 +84,7 @@ const OrderCard = ({ order, ingredients }) => {
               <div
                 className={style.ingredientWrapper}
                 key={idx}
-                style={{ zIndex: `${currentIngredients.length - idx}` }}
+                style={{ zIndex: currentIngredients.length - idx }}
               >
                 <div className={style.ingredient}>
                   <img src={ingredient.image_mobile} width="64" />
@@ -94,7 +108,7 @@ const OrderCard = ({ order, ingredients }) => {
         <Modal
           header={`#${order.number}`}
           onDestroyModal={() => {
-            window.history.replaceState(null, null, `${location.pathname}`);
+            window.history.replaceState(null, "", `${location.pathname}`);
             setShowModal(false);
           }}
         >
@@ -103,25 +117,6 @@ const OrderCard = ({ order, ingredients }) => {
       )}
     </>
   );
-};
-
-OrderCard.propTypes = {
-  order: PropTypes.shape({
-    number: PropTypes.number,
-    _id: PropTypes.string,
-    createdAt: PropTypes.string,
-    name: PropTypes.string,
-    status: PropTypes.string,
-    ingredients: PropTypes.array,
-  }),
-  ingredients: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string,
-      image_mobile: PropTypes.string,
-      name: PropTypes.string,
-      price: PropTypes.number,
-    })
-  ),
 };
 
 export default OrderCard;

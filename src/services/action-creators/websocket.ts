@@ -9,30 +9,30 @@ import {
 import { TOrder } from "../../data/types";
 
 interface IGetConnection {
-  type: typeof WS_CONNECTION_START;
+  readonly type: typeof WS_CONNECTION_START;
 }
 
 interface IGetConnectionSuccess {
-  type: typeof WS_CONNECTION_SUCCESS;
+  readonly type: typeof WS_CONNECTION_SUCCESS;
 }
 
 interface IGetConnectionError {
-  type: typeof WS_CONNECTION_ERROR;
-  payload: { error: {} };
+  readonly type: typeof WS_CONNECTION_ERROR;
+  payload: { error: string };
 }
 
 interface ICloseConnection {
-  type: typeof WS_CONNECTION_CLOSED;
+  readonly type: typeof WS_CONNECTION_CLOSED;
 }
 
 interface IUserCloseConnection {
-  type: typeof WS_CONNECTION_USER_CLOSE;
+  readonly type: typeof WS_CONNECTION_USER_CLOSE;
 }
 
 interface IGetMessage {
-  type: typeof WS_GET_MESSAGE;
+  readonly type: typeof WS_GET_MESSAGE;
   payload: {
-    orders: Array<TOrder>;
+    orders: ReadonlyArray<TOrder>;
     total: number;
     totalToday: number;
   };
@@ -54,7 +54,7 @@ export const getConnectionSuccess = (): IGetConnectionSuccess => ({
   type: WS_CONNECTION_SUCCESS,
 });
 
-export const getConnectionError = ({ error }: { error: {} }): IGetConnectionError => ({
+export const getConnectionError = ({ error }: { error: string }): IGetConnectionError => ({
   type: WS_CONNECTION_ERROR,
   payload: { error },
 });
@@ -71,7 +71,7 @@ export const getMessage = ({
   payload: { orders, total, totalToday },
 }: {
   payload: {
-    orders: Array<TOrder>;
+    orders: ReadonlyArray<TOrder>;
     total: number;
     totalToday: number;
   };

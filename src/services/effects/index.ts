@@ -21,8 +21,16 @@ import {
   getProfileError,
   clearProfile,
 } from "../action-creators/profile";
+import { AppDispatch, AppThunk } from "../../data/store";
 
-const setToken = ({ accessToken, refreshToken }) => {
+type TAnswer = {
+  user: { email: string; name: string };
+  accessToken: string;
+  refreshToken: string;
+  success: boolean;
+};
+
+const setToken = ({ accessToken, refreshToken }: { accessToken: string; refreshToken: string }) => {
   const inTwentyMinutes = new Date(new Date().getTime() + 20 * 60 * 1000);
   Cookies.set("token", accessToken, { expires: inTwentyMinutes });
   localStorage.setItem("refresh", refreshToken);
@@ -33,7 +41,10 @@ const clearToken = () => {
   localStorage.removeItem("refresh");
 };
 
-export const refreshToken = async (cb = null, ...params) => {
+export const refreshToken = async (
+  cb?: AppThunk<void> | undefined,
+  params?: undefined | { email: string; name: string }
+): Promise<void> => {
   try {
     const resp = await fetch(`${URL_ADDRESS}/auth/token`, {
       method: "POST",
@@ -53,15 +64,16 @@ export const refreshToken = async (cb = null, ...params) => {
     }
 
     setToken({ accessToken: answer.accessToken, refreshToken: answer.refreshToken });
+
     if (cb) {
-      cb(...params);
+      cb(params);
     }
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getIngredients = () => async (dispatch) => {
+export const getIngredients: AppThunk = () => async (dispatch: AppDispatch) => {
   dispatch(getItemRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/ingredients`);
@@ -79,11 +91,17 @@ export const getIngredients = () => async (dispatch) => {
   }
 };
 
-export const setOrder = (setShowModal) => async (dispatch, store) => {
-  if (!Cookies.get("token")) {
-    await refreshToken();
+export const setOrder: AppThunk = (setShowModal) => async (dispatch, store) => {
+  const authToken: string | undefined = Cookies.get("token");
+
+  if (authToken === undefined) {
+    await refreshToken(setOrder, setShowModal);
+    return;
   }
   const { bun, constructorIngredient } = store().constructorIngredient;
+  if (bun === null) {
+    return;
+  }
   dispatch(setOrderRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/orders`, {
@@ -93,7 +111,7 @@ export const setOrder = (setShowModal) => async (dispatch, store) => {
       }),
       headers: {
         "Content-Type": "application/json",
-        authorization: Cookies.get("token"),
+        authorization: authToken,
       },
     });
 
@@ -111,7 +129,7 @@ export const setOrder = (setShowModal) => async (dispatch, store) => {
   }
 };
 
-export const getOrder = (id) => async (dispatch) => {
+export const getOrder: AppThunk = (id) => async (dispatch) => {
   dispatch(getOrderRequest());
   try {
     const resp = await fetch(`${URL_ADDRESS}/orders/${id}`, {
@@ -136,8 +154,8 @@ export const getOrder = (id) => async (dispatch) => {
   }
 };
 
-export const createNewProfile =
-  ({ email, password, name }, history) =>
+export const createNewProfile: AppThunk =
+  ({ email, password, name }: { email: string; password: string; name: string }, history) =>
   async (dispatch) => {
     dispatch(getRegisterReguest());
     try {
@@ -155,7 +173,7 @@ export const createNewProfile =
       if (!resp.ok) {
         throw new Error("Ответ сети не ok");
       }
-      const answer = await resp.json();
+      const answer: TAnswer = await resp.json();
       if (!answer.success) {
         throw new Error("Не удачный запрос от сервера");
       }
@@ -168,9 +186,12 @@ export const createNewProfile =
     }
   };
 
-export const getProfile = () => async (dispatch) => {
-  if (!Cookies.get("token")) {
-    await refreshToken();
+export const getProfile: AppThunk = () => async (dispatch) => {
+  const authToken: string | undefined = Cookies.get("token");
+
+  if (authToken === undefined) {
+    await refreshToken(getProfile);
+    return;
   }
   dispatch(getProfileReguest());
   try {
@@ -178,7 +199,7 @@ export const getProfile = () => async (dispatch) => {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
-        authorization: Cookies.get("token"),
+        authorization: authToken,
       },
     });
     if (!resp.ok) {
@@ -202,11 +223,14 @@ export const getProfile = () => async (dispatch) => {
   }
 };
 
-export const updateProfile =
+export const updateProfile: AppThunk =
   ({ email, name }) =>
   async (dispatch) => {
-    if (!Cookies.get("token")) {
-      await refreshToken();
+    const authToken: string | undefined = Cookies.get("token");
+
+    if (authToken === undefined) {
+      await refreshToken(updateProfile, { email, name });
+      return;
     }
     dispatch(getProfileReguest());
     try {
@@ -218,7 +242,7 @@ export const updateProfile =
         }),
         headers: {
           "Content-Type": "application/json",
-          authorization: Cookies.get("token"),
+          authorization: authToken,
         },
       });
       if (!resp.ok) {
@@ -242,7 +266,7 @@ export const updateProfile =
     }
   };
 
-export const login =
+export const login: AppThunk =
   ({ email, password }, history, path) =>
   async (dispatch) => {
     dispatch(getAuthReguest());
@@ -278,7 +302,7 @@ export const login =
     }
   };
 
-export const logout = (history) => async (dispatch) => {
+export const logout: AppThunk = (history) => async (dispatch) => {
   try {
     const resp = await fetch(`${URL_ADDRESS}/auth/logout`, {
       method: "POST",
@@ -306,7 +330,7 @@ export const logout = (history) => async (dispatch) => {
   }
 };
 
-export const checkEmail = (email, history) => async () => {
+export const checkEmail: AppThunk = (email, history) => async () => {
   try {
     const resp = await fetch(`${URL_ADDRESS}/password-reset`, {
       method: "POST",
@@ -334,7 +358,7 @@ export const checkEmail = (email, history) => async () => {
   }
 };
 
-export const setPasswordReset =
+export const setPasswordReset: AppThunk =
   ({ password, token }, history) =>
   async () => {
     try {

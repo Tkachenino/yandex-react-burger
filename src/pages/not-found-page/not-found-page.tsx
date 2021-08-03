@@ -1,8 +1,9 @@
+import React from "react";
 import { Link } from "react-router-dom";
 import Image from "../../images/blackhole.png";
 import style from "./not-found-page.module.css";
 
-const NotFoundPage = () => {
+const NotFoundPage: React.FC = () => {
   return (
     <div className={style.wrapper}>
       <img className={style.image} src={Image} width="300" />

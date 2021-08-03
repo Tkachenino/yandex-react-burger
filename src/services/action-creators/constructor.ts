@@ -10,38 +10,38 @@ import {
 import { TIngredient } from "../../data/types";
 
 interface IAddIngredient {
-  type: typeof ADD_INGREDIENT;
+  readonly type: typeof ADD_INGREDIENT;
   ingredient: TIngredient;
   constructorId: string;
 }
 
 interface IRemoveIngredient {
-  type: typeof REMOVE_INGREDIENT;
+  readonly type: typeof REMOVE_INGREDIENT;
   id: string;
 }
 
 interface IClearIngredients {
-  type: typeof CLEAR_INGREDIENTS;
+  readonly type: typeof CLEAR_INGREDIENTS;
 }
 
 interface IAddBun {
-  type: typeof ADD_BUN;
+  readonly type: typeof ADD_BUN;
   bun: TIngredient;
   constructorId: string;
 }
 
 interface IRemoveBun {
-  type: typeof REMOVE_BUN;
+  readonly type: typeof REMOVE_BUN;
 }
 
 interface IRebaseItems {
-  type: typeof REBASE_ITEMS;
+  readonly type: typeof REBASE_ITEMS;
   dragIndex: number;
   hoverIndex: number;
 }
 
 interface ICalcTotalCost {
-  type: typeof CALC_TOTAL_COST;
+  readonly type: typeof CALC_TOTAL_COST;
 }
 
 export type TConstructorActions =

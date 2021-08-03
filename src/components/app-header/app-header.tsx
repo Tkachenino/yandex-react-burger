@@ -7,8 +7,8 @@ import {
 import { useHistory } from "react-router-dom";
 import style from "./app-header.module.css";
 
-const AppHeader = () => {
-  let history = useHistory();
+const AppHeader: React.FC = () => {
+  const history = useHistory();
   const handlerConstructor = (): void => {
     history.push("/");
   };
