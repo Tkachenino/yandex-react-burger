@@ -6,17 +6,17 @@ import { rebaseItems, removeIngredient } from "../../services/action-creators/co
 import style from "./burger-constructor-drag-ingredient.module.css";
 import { TIngredient } from "../../data/types";
 
-type TBurgerDnDIngredient = {
+type TBurgerDnDIngredientProps = {
   id: string;
   item: TIngredient;
   index: number;
 };
 
-const BurgerConstructorDragIngredient: React.FC<TBurgerDnDIngredient> = ({
+const BurgerConstructorDragIngredient: React.FC<TBurgerDnDIngredientProps> = ({
   id,
   item,
   index,
-}: TBurgerDnDIngredient) => {
+}: TBurgerDnDIngredientProps) => {
   const ref = useRef<HTMLLIElement>(null);
   const dispatch = useDispatch();
 
