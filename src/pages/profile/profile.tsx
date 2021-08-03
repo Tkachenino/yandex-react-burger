@@ -22,10 +22,10 @@ const Profile: React.FC = () => {
     setEmail(globalEmail);
   }, [globalName, globalEmail]);
 
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
-  const [name, setName] = useState(globalName);
-  const [email, setEmail] = useState(globalEmail);
+  const nameRef = useRef<HTMLInputElement>(null);
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [name, setName] = useState<string>(globalName);
+  const [email, setEmail] = useState<string>(globalEmail);
 
   const handlerLogout = () => {
     dispatch(logout(history));

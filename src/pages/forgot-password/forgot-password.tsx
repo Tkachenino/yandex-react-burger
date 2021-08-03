@@ -9,8 +9,8 @@ const ForgotPassword: React.FC = () => {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const emailRef = useRef(null);
-  const [email, setEmail] = useState("");
+  const emailRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

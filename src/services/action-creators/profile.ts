@@ -10,7 +10,7 @@ import {
   PROFILE_ERROR,
   CLEAR_PROFILE,
 } from "../action-types/profile";
-import { TRegisterData, IRegisterDataWithPassword } from "../../data/types";
+import { TRegisterData } from "../../data/types";
 
 interface IGtRegisterReguest {
   readonly type: typeof REGISTER_REQUEST;

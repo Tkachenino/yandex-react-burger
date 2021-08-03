@@ -5,13 +5,25 @@ import IngredientDetails from "../ingredient-details";
 import BurgerIngredientsItem from "../burger-ingredients-item";
 import { setDetailInfo, deleteDetailInfo } from "../../services/action-creators/ingredient";
 import style from "./burger-ingredients-list.module.css";
-import PropTypes from "prop-types";
+import { TIngredient } from "../../data/types";
 
-const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
+type TBurgerIngredientsListProps = {
+  type: string;
+  name: string;
+  items: ReadonlyArray<TIngredient>;
+  propsRef: React.RefObject<HTMLDivElement>;
+};
+
+const BurgerIngredientsList: React.FC<TBurgerIngredientsListProps> = ({
+  items,
+  type,
+  name,
+  propsRef,
+}: TBurgerIngredientsListProps) => {
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-  const openModal = (ingredientDetail) => {
+  const openModal = (ingredientDetail: TIngredient): void => {
     dispatch(setDetailInfo({ ingredientDetail }));
     setShowModal(true);
   };
@@ -39,19 +51,6 @@ const BurgerIngredientsList = ({ items, type, name, propsRef = null }) => {
       )}
     </div>
   );
-};
-
-BurgerIngredientsList.propTypes = {
-  items: PropTypes.arrayOf(
-    PropTypes.shape({
-      image: PropTypes.string,
-      price: PropTypes.number,
-      name: PropTypes.string,
-    })
-  ),
-  type: PropTypes.string,
-  name: PropTypes.string,
-  propsRef: PropTypes.object,
 };
 
 export default BurgerIngredientsList;

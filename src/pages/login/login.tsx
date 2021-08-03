@@ -6,21 +6,23 @@ import { useDispatch } from "react-redux";
 import { login } from "../../services/effects";
 import style from "./login.module.css";
 
-type TPath = {
-  history: History<any>;
-};
+interface IHistory extends History {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  from: any;
+}
 
 const Login: React.FC = () => {
-  const history = useHistory();
+  const history = useHistory<IHistory>();
   const dispatch = useDispatch();
-  const emailRef = useRef(null);
-  const inputRef = useRef(null);
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const emailRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const path: TPath = history.location?.state?.from?.pathname;
+
+    const path: IHistory = history.location?.state?.from?.pathname;
     dispatch(login({ email, password }, history, path));
   };
 
@@ -39,7 +41,6 @@ const Login: React.FC = () => {
             name={"email"}
             error={false}
             ref={emailRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />
@@ -52,7 +53,6 @@ const Login: React.FC = () => {
             name={"name"}
             error={false}
             ref={inputRef}
-            // onIconClick={onIconClick}
             errorText={"Ошибка"}
             size={"default"}
           />

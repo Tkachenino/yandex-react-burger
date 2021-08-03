@@ -1,7 +1,6 @@
 import { useRef } from "react";
 import { ConstructorElement, DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrop, useDrag } from "react-dnd";
-// import { useDispatch } from "react-redux";
 import { useDispatch } from "../../data/hooks";
 import { rebaseItems, removeIngredient } from "../../services/action-creators/constructor";
 import style from "./burger-constructor-drag-ingredient.module.css";

@@ -10,6 +10,7 @@ import { TIngredient } from "../../data/types";
 
 type TBurgerIngredientItemProps = {
   data: TIngredient;
+  openModal: () => void;
 };
 
 const BurgerIngredientsItem: React.FC<TBurgerIngredientItemProps> = ({
@@ -27,7 +28,7 @@ const BurgerIngredientsItem: React.FC<TBurgerIngredientItemProps> = ({
     return 0;
   }, [bun, constructorIngredient, data._id, data.type]);
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const [, ref] = useDrag({
     type: "ingredient",
     item: data,

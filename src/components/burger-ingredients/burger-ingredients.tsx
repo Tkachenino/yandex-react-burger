@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-// import { useDispatch, useSelector } from "react-redux";
 import { useDispatch, useSelector } from "../../data/hooks";
 import { getIngredients } from "../../services/effects";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
@@ -17,11 +16,11 @@ const BurgerIngredients: React.FC = () => {
     }
   }, [ingredients, dispatch]);
 
-  const [current, setCurrent] = useState("bun");
+  const [current, setCurrent] = useState<string>("bun");
   const wrapperRef = useRef<HTMLDivElement>(null);
-  const bunRef = React.createRef<HTMLButtonElement>();
-  const sauceRef = React.createRef<HTMLButtonElement>();
-  const mainRef = React.createRef<HTMLButtonElement>();
+  const bunRef = useRef<HTMLDivElement>(null);
+  const sauceRef = useRef<HTMLDivElement>(null);
+  const mainRef = useRef<HTMLDivElement>(null);
 
   const hadnleTab = (value: "bun" | "sauce" | "main") => () => {
     setCurrent(value);
@@ -79,13 +78,28 @@ const BurgerIngredients: React.FC = () => {
           )}
           <div ref={wrapperRef} className={style.ingredients_list} onScroll={handlerScrollBar}>
             {ingredients.some((i) => i.type === "bun") && (
-              <BurgerIngredientsList ref={bunRef} items={ingredients} type="bun" name="Булки" />
+              <BurgerIngredientsList
+                propsRef={bunRef}
+                items={ingredients}
+                type="bun"
+                name="Булки"
+              />
             )}
             {ingredients.some((i) => i.type === "sauce") && (
-              <BurgerIngredientsList ref={sauceRef} items={ingredients} type="sauce" name="Соусы" />
+              <BurgerIngredientsList
+                propsRef={sauceRef}
+                items={ingredients}
+                type="sauce"
+                name="Соусы"
+              />
             )}
             {ingredients.some((i) => i.type === "main") && (
-              <BurgerIngredientsList ref={mainRef} items={ingredients} type="main" name="Начинки" />
+              <BurgerIngredientsList
+                propsRef={mainRef}
+                items={ingredients}
+                type="main"
+                name="Начинки"
+              />
             )}
           </div>
         </>

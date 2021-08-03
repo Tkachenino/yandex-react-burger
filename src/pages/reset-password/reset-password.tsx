@@ -6,14 +6,18 @@ import { useDispatch } from "../../data/hooks";
 import { setPasswordReset } from "../../services/effects";
 import style from "./reset-password.module.css";
 
+interface ILocation extends Location {
+  reset: string;
+}
+
 const ResetPassword: React.FC = () => {
-  const location = useLocation();
+  const location = useLocation<ILocation>();
   const dispatch = useDispatch();
   const history = useHistory();
-  const passwordRef = useRef(null);
-  const tokenRef = useRef(null);
-  const [token, setToken] = useState("");
-  const [password, setPassword] = useState("");
+  const passwordRef = useRef<HTMLInputElement>(null);
+  const tokenRef = useRef<HTMLInputElement>(null);
+  const [token, setToken] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
 
   const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

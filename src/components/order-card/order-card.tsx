@@ -25,7 +25,7 @@ const statusDictionary: TStatusDictionary = {
 const OrderCard: React.FC<TOrderCardProps> = ({ order, ingredients }: TOrderCardProps) => {
   const location = useLocation();
 
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
 
   const openModal = () => {
     window.history.replaceState(null, "", `${location.pathname}/${order.number}`);

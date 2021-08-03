@@ -12,7 +12,7 @@ import { clearOrderError } from "../../services/action-creators/order";
 const BurgerConstructorTotal: React.FC = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-  const [showModal, setShowModal] = useState(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
   const { constructorIngredient, bun, totalCost, orderId, orderLoading, orderError, isAuth } =
     useSelector((store) => ({
       ...store.order,
