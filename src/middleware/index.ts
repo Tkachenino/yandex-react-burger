@@ -16,15 +16,15 @@ import {
   WS_GET_MESSAGE,
   WS_SEND_MESSAGE,
 } from "../services/action-types/websocket";
-
+import { AnyAction, MiddlewareAPI } from "redux";
 import { refreshToken } from "../services/effects";
 import Cookies from "js-cookie";
 
-export const socketMiddleware = (wsUrl) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddleware = (wsUrl: string) => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
 
-    return (next) => (action) => {
+    return (next: (a: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -35,7 +35,9 @@ export const socketMiddleware = (wsUrl) => {
 
       if (type === WS_CONNECTION_USER_CLOSE) {
         // объект класса WebSocket
-        socket.close(1000, "Юзер покинул страницу");
+        if (socket) {
+          socket.close(1000, "Юзер покинул страницу");
+        }
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
@@ -78,11 +80,11 @@ export const socketMiddleware = (wsUrl) => {
   };
 };
 
-export const socketMiddlewareOwn = (wsUrl) => {
-  return (store) => {
-    let socket = null;
+export const socketMiddlewareOwn = (wsUrl: string) => {
+  return (store: MiddlewareAPI) => {
+    let socket: WebSocket | null = null;
 
-    return (next) => (action) => {
+    return (next: (a: AnyAction) => void) => (action: AnyAction) => {
       const { dispatch } = store;
       const { type, payload } = action;
 
@@ -97,8 +99,9 @@ export const socketMiddlewareOwn = (wsUrl) => {
 
       if (type === WS_CONNECTION_USER_CLOSE_OWN) {
         // объект класса WebSocket
-
-        socket.close(1000, "Юзер покинул страницу");
+        if (socket) {
+          socket.close(1000, "Юзер покинул страницу");
+        }
       }
       if (socket) {
         // функция, которая вызывается при открытии сокета
@@ -118,7 +121,11 @@ export const socketMiddlewareOwn = (wsUrl) => {
 
           if (messeges.message && messeges.message === "Invalid or missing token") {
             refreshToken().then(() => {
-              let accessToken = Cookies.get("token").split(" ")[1];
+              const token: string | undefined = Cookies.get("token");
+              if (token === undefined) {
+                return;
+              }
+              const accessToken = token.split(" ")[1];
               const wsUrl = `wss://norma.nomoreparties.space/orders?token=${accessToken}`;
               dispatch({ type: WS_CONNECTION_START_OWN, payload: { wsUrl } });
             });

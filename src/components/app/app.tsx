@@ -25,11 +25,11 @@ import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 dayjs.locale("ru");
 
-import "./app.module.css";
+import style from "./app.module.css";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
+    <div className={style.app}>
       <Router>
         <AppHeader />
         <main>
